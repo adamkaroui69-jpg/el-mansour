@@ -18,6 +18,8 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\publish\LatoFont\Lato-Thin.ttf
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\publish\LatoFont\Lato-ThinItalic.ttf
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\publish\LatoFont\OFL.txt
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\publish\Assets\logo.png
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\publish\Assets\logo.ico
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\publish\appsettings.json
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\publish\ElMansourSyndicManager.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\publish\ElMansourSyndicManager.deps.json

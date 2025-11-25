@@ -58,7 +58,7 @@ namespace ElMansourSyndicManager.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/ElMansourSyndicManager;V1.0.18.0;component/views/settingsview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/ElMansourSyndicManager;V1.0.20.0;component/views/settingsview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\SettingsView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
