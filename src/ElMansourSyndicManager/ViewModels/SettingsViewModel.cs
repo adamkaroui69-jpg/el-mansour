@@ -126,10 +126,15 @@ public class SettingsViewModel : ViewModelBase
         IsCheckingForUpdates = true;
         UpdateStatus = "Vérification des mises à jour...";
 
+        var releasesUrl = "https://github.com/adamkaroui69-jpg/el-mansour/releases";
+
         try
         {
             using var httpClient = new HttpClient();
             httpClient.Timeout = TimeSpan.FromSeconds(10);
+            
+            // GitHub requires a User-Agent header
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "ElMansourSyndicManager");
 
             // Download update.xml from GitHub releases
             var updateXmlUrl = "https://github.com/adamkaroui69-jpg/el-mansour/releases/latest/download/update.xml";
@@ -142,7 +147,8 @@ public class SettingsViewModel : ViewModelBase
 
             if (versionElement == null || urlElement == null)
             {
-                UpdateStatus = "Erreur lors de la lecture des informations de mise à jour.";
+                UpdateStatus = "Format de mise à jour invalide.";
+                OpenReleasesPageFallback(releasesUrl);
                 return;
             }
 
@@ -186,28 +192,50 @@ public class SettingsViewModel : ViewModelBase
                     MessageBoxImage.Information);
             }
         }
-        catch (HttpRequestException ex)
-        {
-            UpdateStatus = "Erreur de connexion au serveur de mise à jour.";
-            MessageBox.Show(
-                $"Impossible de vérifier les mises à jour.\n\nErreur : {ex.Message}\n\n" +
-                "Vérifiez votre connexion Internet et réessayez.",
-                "Erreur",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
-        }
         catch (Exception ex)
         {
-            UpdateStatus = "Erreur lors de la vérification des mises à jour.";
-            MessageBox.Show(
-                $"Une erreur s'est produite lors de la vérification des mises à jour.\n\nErreur : {ex.Message}",
-                "Erreur",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
+            UpdateStatus = "Impossible de vérifier automatiquement.";
+            
+            // Fallback: Propose to open the releases page manually
+            var result = MessageBox.Show(
+                $"Impossible de vérifier les mises à jour automatiquement (Erreur: {ex.Message}).\n\n" +
+                "Cela arrive souvent si le dépôt est privé.\n\n" +
+                "Voulez-vous ouvrir la page des téléchargements pour vérifier manuellement ?",
+                "Vérification manuelle",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = releasesUrl,
+                    UseShellExecute = true
+                });
+            }
         }
         finally
         {
             IsCheckingForUpdates = false;
+        }
+    }
+
+    private void OpenReleasesPageFallback(string url)
+    {
+        var result = MessageBox.Show(
+            "Impossible de lire les informations de mise à jour.\n" +
+            "Voulez-vous ouvrir la page des téléchargements ?",
+            "Erreur",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question);
+
+        if (result == MessageBoxResult.Yes)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true
+            });
         }
     }
 }
