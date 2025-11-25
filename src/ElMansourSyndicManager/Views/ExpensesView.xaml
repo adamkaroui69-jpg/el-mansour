@@ -1,0 +1,130 @@
+<UserControl x:Class="ElMansourSyndicManager.Views.ExpensesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:viewModels="clr-namespace:ElMansourSyndicManager.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="900"
+             d:DataContext="{d:DesignInstance viewModels:ExpensesViewModel}">
+    
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <!-- Main Content -->
+            <StackPanel Margin="24">
+                <!-- Header -->
+                <Grid Margin="0,0,0,32">
+                    <StackPanel>
+                        <TextBlock Text="Gestion des Dépenses" FontSize="28" FontWeight="Bold" Foreground="#333"/>
+                        <TextBlock Text="Suivi des coûts et factures" FontSize="16" Foreground="#777" Margin="0,4,0,0"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button Command="{Binding LoadCommand}" 
+                                Style="{StaticResource MaterialDesignOutlinedButton}" 
+                                Content="Actualiser" 
+                                Margin="0,0,12,0"
+                                Height="36"/>
+                        <Button Command="{Binding CreateCommand}" 
+                                Style="{StaticResource MaterialDesignRaisedButton}" 
+                                Content="Nouvelle Dépense"
+                                Height="36"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- DataGrid Card -->
+                <materialDesign:Card UniformCornerRadius="12" Background="White">
+                    <StackPanel>
+                        <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
+                            <TextBlock Text="Liste des Dépenses" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
+                        </Border>
+                        
+                        <DataGrid ItemsSource="{Binding Expenses}" SelectedItem="{Binding SelectedExpense}" 
+                                  AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
+                                  HeadersVisibility="Column"
+                                  BorderThickness="0"
+                                  Background="White"
+                                  RowBackground="White"
+                                  AlternatingRowBackground="#F9FAFB"
+                                  GridLinesVisibility="Horizontal"
+                                  HorizontalGridLinesBrush="#E5E7EB"
+                                  Padding="0,8"
+                                  SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Date" Binding="{Binding ExpenseDate, StringFormat={}{0:dd/MM/yyyy}}" Width="120"/>
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+                                <DataGridTextColumn Header="Catégorie" Binding="{Binding Category}" Width="150"/>
+                                <DataGridTextColumn Header="Montant" Binding="{Binding Amount, StringFormat={}{0:N0} TND}" Width="120" FontWeight="Bold"/>
+                                <DataGridTextColumn Header="Enregistré par" Binding="{Binding RecordedBy}" Width="150"/>
+                                <DataGridTemplateColumn Header="Actions" Width="Auto">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                <Button Command="{Binding DataContext.UpdateCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" 
+                                                        CommandParameter="{Binding}"
+                                                        Style="{StaticResource MaterialDesignIconButton}" 
+                                                        ToolTip="Modifier">
+                                                    <materialDesign:PackIcon Kind="Pencil"/>
+                                                </Button>
+                                                <Button Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" 
+                                                        CommandParameter="{Binding}"
+                                                        Style="{StaticResource MaterialDesignIconButton}" 
+                                                        ToolTip="Supprimer (Admin uniquement)"
+                                                        Foreground="Red"
+                                                        Visibility="{Binding DataContext.IsAdmin, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                    <materialDesign:PackIcon Kind="Delete"/>
+                                                </Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Modifier" Command="{Binding UpdateCommand}"/>
+                                    <Separator/>
+                                    <MenuItem Header="Supprimer" Command="{Binding DeleteCommand}" Foreground="Red"/>
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                        </DataGrid>
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+
+            <!-- Loading Overlay -->
+            <Grid Background="#80000000" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Value="0" IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- Form Overlay -->
+            <Grid Background="#B0000000" Visibility="{Binding IsFormVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <materialDesign:Card Width="500" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="24" UniformCornerRadius="12">
+                    <StackPanel>
+                        <TextBlock Text="{Binding FormTitle}" FontSize="22" FontWeight="SemiBold" Foreground="#333" Margin="0,0,0,24"/>
+
+                        <TextBox Text="{Binding FormDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Description" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,16"/>
+                        
+                        <ComboBox ItemsSource="{Binding Categories}" SelectedItem="{Binding FormCategory, Mode=TwoWay}" materialDesign:HintAssist.Hint="Catégorie" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="0,0,0,16"/>
+                        
+                        <TextBox Text="{Binding FormAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Montant (TND)" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,16"/>
+                        
+                        <DatePicker SelectedDate="{Binding FormExpenseDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Date" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="0,0,0,16"/>
+
+                        <TextBox Text="{Binding FormNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Notes" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,16" TextWrapping="Wrap" Height="80"/>
+
+                        <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" TextWrapping="Wrap" Margin="0,0,0,16"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                            <Button Command="{Binding CancelCommand}" Style="{StaticResource MaterialDesignFlatButton}" Content="Annuler" Margin="0,0,12,0"/>
+                            <Button Command="{Binding SaveCommand}" Style="{StaticResource MaterialDesignRaisedButton}" Content="Enregistrer"/>
+                        </StackPanel>
+                    </StackPanel>
+                </materialDesign:Card>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

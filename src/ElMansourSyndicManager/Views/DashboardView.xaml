@@ -1,0 +1,194 @@
+<UserControl x:Class="ElMansourSyndicManager.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1200">
+    
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="24">
+            <!-- Header -->
+            <Grid Margin="0,0,0,32">
+                <StackPanel>
+                    <TextBlock Text="Vue d'ensemble" FontSize="28" FontWeight="Bold" Foreground="#333"/>
+                    <TextBlock Text="Statistiques et activités récentes" FontSize="16" Foreground="#777" Margin="0,4,0,0"/>
+                </StackPanel>
+                <Button Command="{Binding RefreshCommand}"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                        Background="White"
+                        BorderBrush="#E0E0E0"
+                        Foreground="#667eea"
+                        ToolTip="Actualiser">
+                    <materialDesign:PackIcon Kind="Refresh"/>
+                </Button>
+            </Grid>
+
+            <!-- KPI Cards -->
+            <Grid Margin="0,0,0,32">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Card 1: Collected -->
+                <materialDesign:Card Grid.Column="0" Margin="0,0,12,0" UniformCornerRadius="12" Padding="20" Background="White">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Width="50" Height="50" CornerRadius="25" Background="#E8F5E9">
+                            <materialDesign:PackIcon Kind="CashPlus" Width="24" Height="24" Foreground="#4CAF50" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="Total Collecté" FontSize="13" Foreground="#777"/>
+                            <TextBlock Text="{Binding TotalCollected, StringFormat='{}{0:N0} TND'}" FontSize="20" FontWeight="Bold" Foreground="#333" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+
+                <!-- Card 2: Spent -->
+                <materialDesign:Card Grid.Column="1" Margin="12,0" UniformCornerRadius="12" Padding="20" Background="White">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Width="50" Height="50" CornerRadius="25" Background="#FFEBEE">
+                            <materialDesign:PackIcon Kind="CashMinus" Width="24" Height="24" Foreground="#F44336" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="Dépenses" FontSize="13" Foreground="#777"/>
+                            <TextBlock Text="{Binding TotalSpent, StringFormat='{}{0:N0} TND'}" FontSize="20" FontWeight="Bold" Foreground="#333" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+
+                <!-- Card 3: Balance -->
+                <materialDesign:Card Grid.Column="2" Margin="12,0" UniformCornerRadius="12" Padding="20" Background="White">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Width="50" Height="50" CornerRadius="25" Background="#E3F2FD">
+                            <materialDesign:PackIcon Kind="ScaleBalance" Width="24" Height="24" Foreground="#2196F3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="Solde" FontSize="13" Foreground="#777"/>
+                            <TextBlock Text="{Binding Balance, StringFormat='{}{0:N0} TND'}" FontSize="20" FontWeight="Bold" Foreground="#333" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+
+                <!-- Card 4: Unpaid -->
+                <materialDesign:Card Grid.Column="3" Margin="12,0,0,0" UniformCornerRadius="12" Padding="20" Background="White">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Width="50" Height="50" CornerRadius="25" Background="#FFF3E0">
+                            <materialDesign:PackIcon Kind="AlertCircleOutline" Width="24" Height="24" Foreground="#FF9800" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="Impayés" FontSize="13" Foreground="#777"/>
+                            <TextBlock Text="{Binding UnpaidHousesCount}" FontSize="20" FontWeight="Bold" Foreground="#333" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+            </Grid>
+
+            <!-- Content Grid -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Column -->
+                <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                    <!-- Unpaid List -->
+                    <materialDesign:Card UniformCornerRadius="12" Margin="0,0,0,24" Background="White">
+                        <StackPanel>
+                            <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
+                                <TextBlock Text="Retards de Paiement" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
+                            </Border>
+                            <DataGrid ItemsSource="{Binding UnpaidHouses}"
+                                      AutoGenerateColumns="False"
+                                      HeadersVisibility="Column"
+                                      IsReadOnly="True"
+                                      BorderThickness="0"
+                                      Background="White"
+                                      Padding="0,8">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Maison" Binding="{Binding HouseCode}" Width="80"/>
+                                    <DataGridTextColumn Header="Propriétaire" Binding="{Binding OwnerName}" Width="*"/>
+                                    <DataGridTextColumn Header="Montant" Binding="{Binding MonthlyAmount, StringFormat='{}{0:N0} TND'}" Width="100" FontWeight="Bold"/>
+                                    <DataGridTextColumn Header="Jours" Binding="{Binding DaysOverdue}" Width="80"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <!-- Recent Payments -->
+                    <materialDesign:Card UniformCornerRadius="12" Background="White">
+                        <StackPanel>
+                            <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
+                                <TextBlock Text="Paiements Récents" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
+                            </Border>
+                            <DataGrid ItemsSource="{Binding RecentPayments}"
+                                      AutoGenerateColumns="False"
+                                      HeadersVisibility="Column"
+                                      IsReadOnly="True"
+                                      BorderThickness="0"
+                                      Background="White"
+                                      Padding="0,8">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Maison" Binding="{Binding HouseCode}" Width="80"/>
+                                    <DataGridTextColumn Header="Date" Binding="{Binding PaymentDate, StringFormat='{}{0:dd/MM/yyyy}'}" Width="120"/>
+                                    <DataGridTextColumn Header="Montant" Binding="{Binding Amount, StringFormat='{}{0:N0} TND'}" Width="*" FontWeight="Bold"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </StackPanel>
+
+                <!-- Right Column -->
+                <StackPanel Grid.Column="1">
+                    <materialDesign:Card UniformCornerRadius="12" Background="White">
+                        <StackPanel>
+                            <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
+                                <TextBlock Text="Dépenses Récentes" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
+                            </Border>
+                            <ItemsControl ItemsSource="{Binding RecentExpenses}" Padding="0,8">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="#F5F5F5" BorderThickness="0,0,0,1" Padding="16,12">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Grid.Column="0">
+                                                    <TextBlock Text="{Binding Description}" FontWeight="Medium"/>
+                                                    <TextBlock Text="{Binding Category}" FontSize="12" Foreground="#999"/>
+                                                </StackPanel>
+                                                <TextBlock Grid.Column="1" Text="{Binding Amount, StringFormat='{}{0:N0} TND'}" FontWeight="Bold"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

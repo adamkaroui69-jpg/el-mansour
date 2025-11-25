@@ -1,0 +1,6 @@
+<item>
+    <version>1.0.1.0</version>
+    <url>https://votre-domaine.com/setup.exe</url>
+    <changelog>https://votre-domaine.com/changelog.html</changelog>
+    <mandatory>false</mandatory>
+</item>

@@ -1,0 +1,870 @@
+{
+  "Id": "6d17b0f2-61cd-47d6-9252-dc704757ee20",
+  "Month": "2025-05-01T00:00:00",
+  "TotalCollected": 0,
+  "TotalSpent": 0,
+  "Balance": 0,
+  "PaidHousesCount": 0,
+  "UnpaidHousesCount": 85,
+  "TotalHousesCount": 85,
+  "CollectionRate": 0,
+  "AveragePaymentDelay": 0,
+  "Payments": [],
+  "Expenses": [],
+  "UnpaidHouses": [
+    {
+      "HouseCode": "D05",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Admin System",
+      "OwnerPhone": "0000000000",
+      "MonthlyAmount": 0,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A01",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A01",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A02",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A02",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A03",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A03",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A04",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A04",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A05",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A05",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A06",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A06",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A07",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A07",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A08",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A08",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A09",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A09",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A10",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A10",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A11",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A11",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A12",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A12",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A13",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A13",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A14",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A14",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A15",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A15",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "A16",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire A16",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C01",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C01",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C02",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C02",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C03",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C03",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C04",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C04",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C05",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C05",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C06",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C06",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C07",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C07",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C08",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C08",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C09",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C09",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C10",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C10",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C11",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C11",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C12",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C12",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C13",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C13",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C14",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C14",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C15",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C15",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "C16",
+      "Building": "C",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire C16",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "D01",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire D01",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "D02",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire D02",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "D03",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire D03",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "D04",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire D04",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "D06",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire D06",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "D07",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire D07",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "D08",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire D08",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "D09",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire D09",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "D10",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire D10",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "D11",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire D11",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "D12",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire D12",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "D13",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire D13",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "D14",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire D14",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "D15",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire D15",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "D16",
+      "Building": "D",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire D16",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E01",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E01",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E02",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E02",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E03",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E03",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E04",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E04",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E05",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E05",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E06",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E06",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E07",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E07",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E08",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E08",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E09",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E09",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E10",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E10",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E11",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E11",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E12",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E12",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E13",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E13",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E14",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E14",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E15",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E15",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "E16",
+      "Building": "E",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire E16",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B01",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B01",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B02",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B02",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B03",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B03",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B04",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B04",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B05",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B05",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B06",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B06",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B07",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B07",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B08",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B08",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B09",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B09",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B10",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B10",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B11",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B11",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B12",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B12",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B13",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B13",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B14",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B14",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B15",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B15",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B16",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Propri\u00E9taire B16",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B17",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Bureau de Syndicat",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "B18",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Maison de Concierge",
+      "OwnerPhone": "",
+      "MonthlyAmount": 100,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "M01",
+      "Building": "A",
+      "Floor": 0,
+      "OwnerName": "Magasin M01 (Bloc A)",
+      "OwnerPhone": "",
+      "MonthlyAmount": 150,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "M02",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Magasin M02 (Bloc B)",
+      "OwnerPhone": "",
+      "MonthlyAmount": 150,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    },
+    {
+      "HouseCode": "M03",
+      "Building": "B",
+      "Floor": 0,
+      "OwnerName": "Magasin M03 (Bloc B)",
+      "OwnerPhone": "",
+      "MonthlyAmount": 150,
+      "Month": "2025-05",
+      "DaysOverdue": 206
+    }
+  ],
+  "BuildingBreakdown": {},
+  "ExpenseCategoryBreakdown": {},
+  "GeneratedAt": "2025-11-23T10:38:14.0028173Z",
+  "GeneratedBy": "27d2fc07-86de-4305-b2b0-725b9f676720"
+}

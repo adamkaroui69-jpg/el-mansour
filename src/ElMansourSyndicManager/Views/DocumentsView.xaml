@@ -1,0 +1,168 @@
+<UserControl x:Class="ElMansourSyndicManager.Views.DocumentsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:viewModels="clr-namespace:ElMansourSyndicManager.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="900">
+    
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <!-- Main Content -->
+            <StackPanel Margin="24">
+                <!-- Header -->
+                <Grid Margin="0,0,0,32">
+                    <StackPanel>
+                        <TextBlock Text="Gestion des Documents" FontSize="28" FontWeight="Bold" Foreground="#333"/>
+                        <TextBlock Text="Archives et fichiers partagés" FontSize="16" Foreground="#777" Margin="0,4,0,0"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button Command="{Binding LoadCommand}" 
+                                Style="{StaticResource MaterialDesignOutlinedButton}" 
+                                Content="Actualiser" 
+                                Margin="0,0,12,0"
+                                Height="36"/>
+                        <Button Command="{Binding UploadCommand}" 
+                                Style="{StaticResource MaterialDesignRaisedButton}" 
+                                Content="Ajouter"
+                                Height="36"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Search Bar -->
+                <materialDesign:Card UniformCornerRadius="12" Background="White" Margin="0,0,0,16" Padding="20">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" 
+                                 materialDesign:HintAssist.Hint="Rechercher..." 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                 Width="300" 
+                                 Margin="0,0,16,0">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <Button Command="{Binding SearchCommand}" 
+                                Style="{StaticResource MaterialDesignOutlinedButton}" 
+                                Content="Rechercher" 
+                                Margin="0,0,16,0"
+                                Height="36"/>
+                        <ComboBox ItemsSource="{Binding FilterCategories}" 
+                                  SelectedItem="{Binding SelectedCategoryFilter}" 
+                                  materialDesign:HintAssist.Hint="Catégorie" 
+                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                  Width="150"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <!-- DataGrid Card -->
+                <materialDesign:Card UniformCornerRadius="12" Background="White">
+                    <StackPanel>
+                        <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
+                            <TextBlock Text="Liste des Documents" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
+                        </Border>
+                        
+                        <DataGrid ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}" 
+                                  AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
+                                  HeadersVisibility="Column"
+                                  BorderThickness="0"
+                                  Background="White"
+                                  RowBackground="White"
+                                  AlternatingRowBackground="#F9FAFB"
+                                  GridLinesVisibility="Horizontal"
+                                  HorizontalGridLinesBrush="#E5E7EB"
+                                  Padding="0,8"
+                                  SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Nom du fichier" Binding="{Binding FileName}" Width="*"/>
+                                <DataGridTextColumn Header="Catégorie" Binding="{Binding Category}" Width="120"/>
+                                <DataGridTextColumn Header="Taille" Binding="{Binding FileSize, StringFormat={}{0:N0} octets}" Width="120"/>
+                                <DataGridTextColumn Header="Ajouté par" Binding="{Binding UploadedBy}" Width="120"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding CreatedAt, StringFormat={}{0:dd/MM/yyyy}}" Width="120"/>
+                                
+                                <DataGridTemplateColumn Header="Actions" Width="150">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Button Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                        CommandParameter="{Binding}"
+                                                        Style="{StaticResource MaterialDesignIconButton}"
+                                                        ToolTip="Ouvrir"
+                                                        Margin="4,0">
+                                                    <materialDesign:PackIcon Kind="Eye" Width="20" Height="20"/>
+                                                </Button>
+                                                <Button Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                        CommandParameter="{Binding}"
+                                                        ToolTip="Supprimer"
+                                                        Foreground="Red"
+                                                        Margin="4,0">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignIconButton}">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding DataContext.IsAdmin, RelativeSource={RelativeSource AncestorType=DataGrid}}" Value="True">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                    <materialDesign:PackIcon Kind="Delete" Width="20" Height="20"/>
+                                                </Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Ouvrir" Command="{Binding OpenCommand}"/>
+                                    <Separator/>
+                                    <MenuItem Header="Supprimer" Command="{Binding DeleteCommand}" Foreground="Red"/>
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                        </DataGrid>
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+
+            <!-- Loading Overlay -->
+            <Grid Background="#80000000" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Value="0" IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- Upload Form Overlay -->
+            <Grid Background="#B0000000" Visibility="{Binding IsUploadFormVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <materialDesign:Card Width="500" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="24" UniformCornerRadius="12">
+                    <StackPanel>
+                        <TextBlock Text="Ajouter un Document" FontSize="22" FontWeight="SemiBold" Foreground="#333" Margin="0,0,0,24"/>
+
+                        <Grid Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Text="{Binding UploadFilePath, Mode=TwoWay}" materialDesign:HintAssist.Hint="Chemin du fichier" Style="{StaticResource MaterialDesignFloatingHintTextBox}" IsReadOnly="True"/>
+                            <Button Grid.Column="1" Command="{Binding BrowseFileCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" Content="..." Margin="10,0,0,0"/>
+                        </Grid>
+                        
+                        <ComboBox ItemsSource="{Binding Categories}" SelectedItem="{Binding UploadCategory, Mode=TwoWay}" materialDesign:HintAssist.Hint="Catégorie" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="0,0,0,16"/>
+                        
+                        <TextBox Text="{Binding UploadDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Description" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,16" TextWrapping="Wrap" Height="80"/>
+
+                        <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" TextWrapping="Wrap" Margin="0,0,0,16"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                            <Button Command="{Binding CancelUploadCommand}" Style="{StaticResource MaterialDesignFlatButton}" Content="Annuler" Margin="0,0,12,0"/>
+                            <Button Command="{Binding SaveUploadCommand}" Style="{StaticResource MaterialDesignRaisedButton}" Content="Ajouter"/>
+                        </StackPanel>
+                    </StackPanel>
+                </materialDesign:Card>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,101 @@
+name: Build and Deploy El Mansour Syndic Manager
+
+on:
+  push:
+    branches: [ main, release/* ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  PROJECT_PATH: 'src/ElMansourSyndicManager/ElMansourSyndicManager.csproj'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+      
+    - name: Run tests
+      run: dotnet test --configuration Release --no-build --verbosity normal
+      continue-on-error: true
+      
+    - name: Publish application
+      run: dotnet publish ${{ env.PROJECT_PATH }} --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
+      
+    - name: Create MSIX package
+      run: |
+        cd deployment/MSIX
+        powershell -ExecutionPolicy Bypass -File build-msix.ps1 -Configuration Release -Version ${{ github.run_number }}
+      continue-on-error: true
+      
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: application
+        path: |
+          src/ElMansourSyndicManager/bin/Release/net8.0-windows/win-x64/publish/
+          deployment/Output/*.msix
+        retention-days: 30
+
+  deploy-cloud:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Supabase CLI
+      run: |
+        npm install -g supabase
+        supabase --version
+        
+    - name: Deploy Supabase schema
+      run: |
+        supabase db push --project-ref ${{ secrets.SUPABASE_PROJECT_ID }}
+      env:
+        SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        
+    - name: Deploy Edge Functions
+      run: |
+        cd deployment/cloud
+        powershell -ExecutionPolicy Bypass -File deploy-edge-functions.ps1 -SupabaseProjectId ${{ secrets.SUPABASE_PROJECT_ID }} -SupabaseAccessToken ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      continue-on-error: true
+
+  release:
+    runs-on: windows-latest
+    needs: [build]
+    if: startsWith(github.ref, 'refs/heads/release/')
+    
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: application
+        
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          deployment/Output/*.msix
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

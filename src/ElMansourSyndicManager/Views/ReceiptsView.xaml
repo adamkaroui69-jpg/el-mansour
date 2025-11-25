@@ -1,0 +1,257 @@
+<UserControl x:Class="ElMansourSyndicManager.Views.ReceiptsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="1200">
+    
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="Gestion des Reçus"
+                          FontSize="28"
+                          FontWeight="Bold"
+                          Foreground="#333"/>
+                <TextBlock Text="Consultez et téléchargez les reçus de paiement"
+                          FontSize="14"
+                          Foreground="#777"
+                          Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <Button Grid.Column="1"
+                   Command="{Binding RefreshCommand}"
+                   Style="{StaticResource MaterialDesignOutlinedButton}"
+                   BorderBrush="#E0E0E0"
+                   Foreground="#667eea"
+                   Height="40">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Refresh" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <TextBlock Text="Actualiser"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <!-- Search Card -->
+        <materialDesign:Card Grid.Row="1" 
+                              Padding="20" 
+                              Margin="0,0,0,24" 
+                              UniformCornerRadius="12" 
+                              Background="White"
+                              materialDesign:ShadowAssist.ShadowDepth="Depth1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <materialDesign:PackIcon Kind="Magnify" 
+                                       Foreground="#777" 
+                                       Width="24" Height="24" 
+                                       VerticalAlignment="Center" 
+                                       Margin="0,0,16,0"/>
+
+                <TextBox Grid.Column="1"
+                        Text="{Binding SelectedHouseCode, UpdateSourceTrigger=PropertyChanged}"
+                        materialDesign:HintAssist.Hint="Rechercher par code maison (ex: D05)"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        FontSize="14"
+                        BorderBrush="#E0E0E0"
+                        VerticalAlignment="Center"
+                        Margin="0,0,24,0"/>
+
+                <Button Grid.Column="2" 
+                       Command="{Binding RefreshCommand}"
+                       Style="{StaticResource MaterialDesignRaisedButton}"
+                       Background="#667eea"
+                       BorderBrush="#667eea"
+                       Height="40">
+                    <TextBlock Text="Rechercher"/>
+                </Button>
+            </Grid>
+        </materialDesign:Card>
+
+        <!-- Receipts List Card -->
+        <materialDesign:Card Grid.Row="2" 
+                              Padding="0" 
+                              UniformCornerRadius="12" 
+                              Background="White"
+                              materialDesign:ShadowAssist.ShadowDepth="Depth1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Table Header -->
+                <Border Grid.Row="0" 
+                        BorderBrush="#F0F0F0" 
+                        BorderThickness="0,0,0,1" 
+                        Padding="20">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="History" Foreground="#667eea" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                            <TextBlock Text="Historique des Reçus" FontWeight="SemiBold" FontSize="16" Foreground="#333"/>
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding Receipts.Count, StringFormat='{}{0} reçus trouvés'}" 
+                                     Foreground="#999" 
+                                     VerticalAlignment="Center" 
+                                     FontSize="13"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- DataGrid -->
+                <DataGrid Grid.Row="1"
+                         ItemsSource="{Binding Receipts}"
+                         SelectedItem="{Binding SelectedReceipt}"
+                         AutoGenerateColumns="False"
+                         HeadersVisibility="Column"
+                         CanUserAddRows="False"
+                         IsReadOnly="True"
+                         BorderThickness="0"
+                         Background="White"
+                         Padding="0"
+                         RowHeight="50">
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="Foreground" Value="#555"/>
+                            <Setter Property="Padding" Value="16,12"/>
+                        </Style>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                            <Setter Property="Padding" Value="16,0"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                        </Style>
+                    </DataGrid.Resources>
+                    
+                    <DataGrid.Columns>
+                        <!-- Date -->
+                        <DataGridTemplateColumn Header="Date de Génération" Width="200">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="CalendarClock" Foreground="#777" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding GeneratedAt, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!-- Nom du Fichier -->
+                        <DataGridTemplateColumn Header="Fichier" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="FilePdfBox" Foreground="#F44336" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding FileName}" FontWeight="Medium" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!-- Taille -->
+                        <DataGridTextColumn Header="Taille" 
+                                          Binding="{Binding FileSize, Converter={StaticResource FileSizeConverter}}" 
+                                          Width="120"
+                                          Foreground="#777"/>
+
+                        <!-- Actions -->
+                        <DataGridTemplateColumn Header="Actions" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button Command="{Binding DataContext.ViewReceiptCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                               CommandParameter="{Binding}"
+                                               Style="{StaticResource MaterialDesignIconButton}"
+                                               ToolTip="Voir"
+                                               Foreground="#2196F3"
+                                               Width="32" Height="32">
+                                            <materialDesign:PackIcon Kind="Eye"/>
+                                        </Button>
+                                        
+                                        <Button Command="{Binding DataContext.PrintReceiptCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                               CommandParameter="{Binding}"
+                                               Style="{StaticResource MaterialDesignIconButton}"
+                                               ToolTip="Imprimer"
+                                               Foreground="#666"
+                                               Width="32" Height="32"
+                                               Margin="4,0,0,0">
+                                            <materialDesign:PackIcon Kind="Printer"/>
+                                        </Button>
+
+                                        <Button Command="{Binding DataContext.DownloadReceiptCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                               CommandParameter="{Binding}"
+                                               Style="{StaticResource MaterialDesignIconButton}"
+                                               ToolTip="Télécharger"
+                                               Foreground="#4CAF50"
+                                               Width="32" Height="32"
+                                               Margin="4,0,0,0">
+                                            <materialDesign:PackIcon Kind="Download"/>
+                                        </Button>
+
+                                        <Button Command="{Binding DataContext.EmailReceiptCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                               CommandParameter="{Binding}"
+                                               Style="{StaticResource MaterialDesignIconButton}"
+                                               ToolTip="Envoyer par email"
+                                               Foreground="#FF9800"
+                                               Width="32" Height="32"
+                                               Margin="4,0,0,0">
+                                            <materialDesign:PackIcon Kind="Email"/>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Empty State -->
+                <StackPanel Grid.Row="1" 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Center"
+                           Visibility="{Binding Receipts.Count, Converter={StaticResource CountToVisibilityConverter}}">
+                    <materialDesign:PackIcon Kind="FileDocumentOutline" 
+                                           Width="64" Height="64" 
+                                           Foreground="#E0E0E0" 
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,0,16"/>
+                    <TextBlock Text="Aucun reçu trouvé" 
+                             FontSize="18" 
+                             FontWeight="SemiBold" 
+                             Foreground="#999"
+                             HorizontalAlignment="Center"/>
+                    <TextBlock Text="Sélectionnez un code maison pour voir l'historique" 
+                             FontSize="14" 
+                             Foreground="#BBB"
+                             HorizontalAlignment="Center"
+                             Margin="0,4,0,0"/>
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
+
+        <!-- Loading Indicator -->
+        <ProgressBar Grid.Row="2"
+                    IsIndeterminate="True"
+                    Height="4"
+                    Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    VerticalAlignment="Top"
+                    Foreground="#667eea"/>
+    </Grid>
+</UserControl>

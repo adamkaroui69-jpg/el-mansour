@@ -1,0 +1,240 @@
+
+[23/11/2025 20:57:01] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 20:57:01] Calling GetUnpaidHousesAsync...
+[23/11/2025 20:57:01] GetUnpaidHousesAsync returned 80 items.
+[23/11/2025 20:57:01] Calling GetPaymentsByMonthAsync...
+[23/11/2025 20:57:01] GetPaymentsByMonthAsync returned 5 items.
+[23/11/2025 20:57:01] Calling GetAllExpensesAsync for recent expenses...
+[23/11/2025 20:57:01] GetAllExpensesAsync returned 1 items.
+[23/11/2025 20:57:01] Calling GetPaymentStatisticsAsync...
+[23/11/2025 20:57:01] GetPaymentStatisticsAsync returned. TotalCollected: 500
+[23/11/2025 20:57:01] Calling GetAllExpensesAsync...
+[23/11/2025 20:57:01] TotalSpent calculated: 10,0
+[23/11/2025 20:57:01] DashboardViewModel.LoadDataAsync completed successfully.
+
+[23/11/2025 20:57:01] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 20:57:01] Calling GetUnpaidHousesAsync...
+[23/11/2025 20:57:01] GetUnpaidHousesAsync returned 80 items.
+[23/11/2025 20:57:01] Calling GetPaymentsByMonthAsync...
+[23/11/2025 20:57:01] GetPaymentsByMonthAsync returned 5 items.
+[23/11/2025 20:57:01] Calling GetAllExpensesAsync for recent expenses...
+[23/11/2025 20:57:01] GetAllExpensesAsync returned 1 items.
+[23/11/2025 20:57:01] Calling GetPaymentStatisticsAsync...
+[23/11/2025 20:57:01] GetPaymentStatisticsAsync returned. TotalCollected: 500
+[23/11/2025 20:57:01] Calling GetAllExpensesAsync...
+[23/11/2025 20:57:01] TotalSpent calculated: 10,0
+[23/11/2025 20:57:01] DashboardViewModel.LoadDataAsync completed successfully.
+
+[23/11/2025 20:57:02] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 20:57:02] Calling GetUnpaidHousesAsync...
+[23/11/2025 20:57:02] GetUnpaidHousesAsync returned 80 items.
+[23/11/2025 20:57:02] Calling GetPaymentsByMonthAsync...
+[23/11/2025 20:57:02] GetPaymentsByMonthAsync returned 5 items.
+[23/11/2025 20:57:02] Calling GetAllExpensesAsync for recent expenses...
+[23/11/2025 20:57:02] GetAllExpensesAsync returned 1 items.
+[23/11/2025 20:57:02] Calling GetPaymentStatisticsAsync...
+[23/11/2025 20:57:02] GetPaymentStatisticsAsync returned. TotalCollected: 500
+[23/11/2025 20:57:02] Calling GetAllExpensesAsync...
+[23/11/2025 20:57:02] TotalSpent calculated: 10,0
+[23/11/2025 20:57:02] DashboardViewModel.LoadDataAsync completed successfully.
+
+[23/11/2025 20:57:35] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 20:57:35] Calling GetUnpaidHousesAsync...
+[23/11/2025 20:57:35] GetUnpaidHousesAsync returned 80 items.
+[23/11/2025 20:57:35] Calling GetPaymentsByMonthAsync...
+[23/11/2025 20:57:35] GetPaymentsByMonthAsync returned 5 items.
+[23/11/2025 20:57:35] Calling GetAllExpensesAsync for recent expenses...
+[23/11/2025 20:57:35] GetAllExpensesAsync returned 1 items.
+[23/11/2025 20:57:35] Calling GetPaymentStatisticsAsync...
+[23/11/2025 20:57:35] GetPaymentStatisticsAsync returned. TotalCollected: 500
+[23/11/2025 20:57:35] Calling GetAllExpensesAsync...
+[23/11/2025 20:57:35] TotalSpent calculated: 10,0
+[23/11/2025 20:57:35] DashboardViewModel.LoadDataAsync completed successfully.
+
+[23/11/2025 20:57:35] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 20:57:35] Calling GetUnpaidHousesAsync...
+[23/11/2025 20:57:35] GetUnpaidHousesAsync returned 80 items.
+[23/11/2025 20:57:35] Calling GetPaymentsByMonthAsync...
+[23/11/2025 20:57:35] GetPaymentsByMonthAsync returned 5 items.
+[23/11/2025 20:57:35] Calling GetAllExpensesAsync for recent expenses...
+[23/11/2025 20:57:35] GetAllExpensesAsync returned 1 items.
+[23/11/2025 20:57:35] Calling GetPaymentStatisticsAsync...
+[23/11/2025 20:57:35] GetPaymentStatisticsAsync returned. TotalCollected: 500
+[23/11/2025 20:57:35] Calling GetAllExpensesAsync...
+[23/11/2025 20:57:35] TotalSpent calculated: 10,0
+[23/11/2025 20:57:35] DashboardViewModel.LoadDataAsync completed successfully.
+
+[23/11/2025 20:57:37] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 20:57:37] Calling GetUnpaidHousesAsync...
+[23/11/2025 20:57:37] GetUnpaidHousesAsync returned 80 items.
+[23/11/2025 20:57:37] Calling GetPaymentsByMonthAsync...
+[23/11/2025 20:57:37] GetPaymentsByMonthAsync returned 5 items.
+[23/11/2025 20:57:37] Calling GetAllExpensesAsync for recent expenses...
+[23/11/2025 20:57:37] GetAllExpensesAsync returned 1 items.
+[23/11/2025 20:57:37] Calling GetPaymentStatisticsAsync...
+[23/11/2025 20:57:37] GetPaymentStatisticsAsync returned. TotalCollected: 500
+[23/11/2025 20:57:37] Calling GetAllExpensesAsync...
+[23/11/2025 20:57:37] TotalSpent calculated: 10,0
+[23/11/2025 20:57:37] DashboardViewModel.LoadDataAsync completed successfully.
+
+[23/11/2025 20:59:36] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 20:59:36] Calling GetUnpaidHousesAsync...
+[23/11/2025 20:59:36] GetUnpaidHousesAsync returned 84 items.
+[23/11/2025 20:59:36] Calling GetPaymentsByMonthAsync...
+[23/11/2025 20:59:36] GetPaymentsByMonthAsync returned 1 items.
+[23/11/2025 20:59:36] Calling GetAllExpensesAsync for recent expenses...
+[23/11/2025 20:59:36] GetAllExpensesAsync returned 1 items.
+[23/11/2025 20:59:36] Calling GetPaymentStatisticsAsync...
+[23/11/2025 20:59:36] GetPaymentStatisticsAsync returned. TotalCollected: 100
+[23/11/2025 20:59:36] Calling GetAllExpensesAsync...
+[23/11/2025 20:59:36] TotalSpent calculated: 10,0
+[23/11/2025 20:59:36] DashboardViewModel.LoadDataAsync completed successfully.
+
+[23/11/2025 20:59:37] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 20:59:37] Calling GetUnpaidHousesAsync...
+[23/11/2025 20:59:37] GetUnpaidHousesAsync returned 84 items.
+[23/11/2025 20:59:37] Calling GetPaymentsByMonthAsync...
+[23/11/2025 20:59:37] GetPaymentsByMonthAsync returned 1 items.
+[23/11/2025 20:59:37] Calling GetAllExpensesAsync for recent expenses...
+[23/11/2025 20:59:37] GetAllExpensesAsync returned 1 items.
+[23/11/2025 20:59:37] Calling GetPaymentStatisticsAsync...
+[23/11/2025 20:59:37] GetPaymentStatisticsAsync returned. TotalCollected: 100
+[23/11/2025 20:59:37] Calling GetAllExpensesAsync...
+[23/11/2025 20:59:37] TotalSpent calculated: 10,0
+[23/11/2025 20:59:37] DashboardViewModel.LoadDataAsync completed successfully.
+
+[23/11/2025 21:05:14] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 21:05:14] Calling GetUnpaidHousesAsync...
+
+[23/11/2025 21:05:14] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 21:05:14] Calling GetUnpaidHousesAsync...
+[23/11/2025 21:05:14] ERROR in DashboardViewModel.LoadDataAsync: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at ElMansourSyndicManager.Infrastructure.Data.Repositories.HouseRepository.GetAllActiveAsync(CancellationToken cancellationToken) in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Data\Repositories\HouseRepository.cs:line 27
+   at ElMansourSyndicManager.Infrastructure.Services.PaymentService.GetUnpaidHousesAsync(String month, CancellationToken cancellationToken) in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\PaymentService.cs:line 152
+   at ElMansourSyndicManager.ViewModels.DashboardViewModel.LoadDataAsync() in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\ViewModels\DashboardViewModel.cs:line 107
+
+[23/11/2025 21:05:14] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 21:05:14] Calling GetUnpaidHousesAsync...
+[23/11/2025 21:05:14] ERROR in DashboardViewModel.LoadDataAsync: There is already an open DataReader associated with this Connection which must be closed first.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__209_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at ElMansourSyndicManager.Infrastructure.Data.Repositories.HouseRepository.GetAllActiveAsync(CancellationToken cancellationToken) in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Data\Repositories\HouseRepository.cs:line 27
+   at ElMansourSyndicManager.Infrastructure.Services.PaymentService.GetUnpaidHousesAsync(String month, CancellationToken cancellationToken) in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\PaymentService.cs:line 152
+   at ElMansourSyndicManager.ViewModels.DashboardViewModel.LoadDataAsync() in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\ViewModels\DashboardViewModel.cs:line 107
+[23/11/2025 21:05:15] GetUnpaidHousesAsync returned 85 items.
+[23/11/2025 21:05:15] Calling GetPaymentsByMonthAsync...
+[23/11/2025 21:05:15] GetPaymentsByMonthAsync returned 0 items.
+[23/11/2025 21:05:15] Calling GetAllExpensesAsync for recent expenses...
+[23/11/2025 21:05:15] GetAllExpensesAsync returned 0 items.
+[23/11/2025 21:05:15] Calling GetPaymentStatisticsAsync...
+[23/11/2025 21:05:15] GetPaymentStatisticsAsync returned. TotalCollected: 0
+[23/11/2025 21:05:15] Calling GetAllExpensesAsync...
+[23/11/2025 21:05:15] TotalSpent calculated: 0
+[23/11/2025 21:05:15] DashboardViewModel.LoadDataAsync completed successfully.
+
+[23/11/2025 21:05:19] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 21:05:19] Calling GetUnpaidHousesAsync...
+
+[23/11/2025 21:05:19] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 21:05:19] Calling GetUnpaidHousesAsync...
+[23/11/2025 21:05:19] ERROR in DashboardViewModel.LoadDataAsync: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at ElMansourSyndicManager.Infrastructure.Data.Repositories.HouseRepository.GetAllActiveAsync(CancellationToken cancellationToken) in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Data\Repositories\HouseRepository.cs:line 27
+   at ElMansourSyndicManager.Infrastructure.Services.PaymentService.GetUnpaidHousesAsync(String month, CancellationToken cancellationToken) in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\PaymentService.cs:line 152
+   at ElMansourSyndicManager.ViewModels.DashboardViewModel.LoadDataAsync() in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\ViewModels\DashboardViewModel.cs:line 107
+[23/11/2025 21:05:20] GetUnpaidHousesAsync returned 85 items.
+[23/11/2025 21:05:20] Calling GetPaymentsByMonthAsync...
+[23/11/2025 21:05:20] GetPaymentsByMonthAsync returned 0 items.
+[23/11/2025 21:05:20] Calling GetAllExpensesAsync for recent expenses...
+[23/11/2025 21:05:20] GetAllExpensesAsync returned 0 items.
+[23/11/2025 21:05:20] Calling GetPaymentStatisticsAsync...
+[23/11/2025 21:05:21] GetPaymentStatisticsAsync returned. TotalCollected: 0
+[23/11/2025 21:05:21] Calling GetAllExpensesAsync...
+[23/11/2025 21:05:21] TotalSpent calculated: 0
+[23/11/2025 21:05:21] DashboardViewModel.LoadDataAsync completed successfully.
+
+[23/11/2025 21:19:09] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 21:19:09] Calling GetUnpaidHousesAsync...
+
+[23/11/2025 21:19:09] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 21:19:09] Calling GetUnpaidHousesAsync...
+[23/11/2025 21:19:09] ERROR in DashboardViewModel.LoadDataAsync: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at ElMansourSyndicManager.Infrastructure.Data.Repositories.HouseRepository.GetAllActiveAsync(CancellationToken cancellationToken) in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Data\Repositories\HouseRepository.cs:line 27
+   at ElMansourSyndicManager.Infrastructure.Services.PaymentService.GetUnpaidHousesAsync(String month, CancellationToken cancellationToken) in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\PaymentService.cs:line 152
+   at ElMansourSyndicManager.ViewModels.DashboardViewModel.LoadDataAsync() in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\ViewModels\DashboardViewModel.cs:line 107
+
+[23/11/2025 21:19:09] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 21:19:09] Calling GetUnpaidHousesAsync...
+[23/11/2025 21:19:09] ERROR in DashboardViewModel.LoadDataAsync: There is already an open DataReader associated with this Connection which must be closed first.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__209_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at ElMansourSyndicManager.Infrastructure.Data.Repositories.HouseRepository.GetAllActiveAsync(CancellationToken cancellationToken) in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Data\Repositories\HouseRepository.cs:line 27
+   at ElMansourSyndicManager.Infrastructure.Services.PaymentService.GetUnpaidHousesAsync(String month, CancellationToken cancellationToken) in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\PaymentService.cs:line 152
+   at ElMansourSyndicManager.ViewModels.DashboardViewModel.LoadDataAsync() in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\ViewModels\DashboardViewModel.cs:line 107
+[23/11/2025 21:19:09] GetUnpaidHousesAsync returned 84 items.
+[23/11/2025 21:19:09] Calling GetPaymentsByMonthAsync...
+[23/11/2025 21:19:10] GetPaymentsByMonthAsync returned 1 items.
+[23/11/2025 21:19:10] Calling GetAllExpensesAsync for recent expenses...
+[23/11/2025 21:19:10] GetAllExpensesAsync returned 0 items.
+[23/11/2025 21:19:10] Calling GetPaymentStatisticsAsync...
+[23/11/2025 21:19:10] GetPaymentStatisticsAsync returned. TotalCollected: 100,00
+[23/11/2025 21:19:10] Calling GetAllExpensesAsync...
+[23/11/2025 21:19:10] TotalSpent calculated: 0
+[23/11/2025 21:19:10] DashboardViewModel.LoadDataAsync completed successfully.
+
+[23/11/2025 21:19:13] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 21:19:13] Calling GetUnpaidHousesAsync...
+
+[23/11/2025 21:19:13] DashboardViewModel.LoadDataAsync started.
+[23/11/2025 21:19:13] Calling GetUnpaidHousesAsync...
+[23/11/2025 21:19:13] ERROR in DashboardViewModel.LoadDataAsync: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at ElMansourSyndicManager.Infrastructure.Data.Repositories.HouseRepository.GetAllActiveAsync(CancellationToken cancellationToken) in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Data\Repositories\HouseRepository.cs:line 27
+   at ElMansourSyndicManager.Infrastructure.Services.PaymentService.GetUnpaidHousesAsync(String month, CancellationToken cancellationToken) in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\PaymentService.cs:line 152
+   at ElMansourSyndicManager.ViewModels.DashboardViewModel.LoadDataAsync() in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\ViewModels\DashboardViewModel.cs:line 107
+[23/11/2025 21:19:13] GetUnpaidHousesAsync returned 84 items.
+[23/11/2025 21:19:13] Calling GetPaymentsByMonthAsync...
+[23/11/2025 21:19:13] GetPaymentsByMonthAsync returned 1 items.
+[23/11/2025 21:19:13] Calling GetAllExpensesAsync for recent expenses...
+[23/11/2025 21:19:14] GetAllExpensesAsync returned 0 items.
+[23/11/2025 21:19:14] Calling GetPaymentStatisticsAsync...
+[23/11/2025 21:19:14] GetPaymentStatisticsAsync returned. TotalCollected: 100,00
+[23/11/2025 21:19:14] Calling GetAllExpensesAsync...
+[23/11/2025 21:19:14] TotalSpent calculated: 0
+[23/11/2025 21:19:14] DashboardViewModel.LoadDataAsync completed successfully.

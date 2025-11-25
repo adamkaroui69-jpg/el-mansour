@@ -1,0 +1,19 @@
+{
+  "Id": "fb1b1223-0153-4857-8d64-2450022c0c19",
+  "Month": "2025-12-01T00:00:00",
+  "TotalCollected": 0,
+  "TotalSpent": 0,
+  "Balance": 0,
+  "PaidHousesCount": 0,
+  "UnpaidHousesCount": 0,
+  "TotalHousesCount": 85,
+  "CollectionRate": 0,
+  "AveragePaymentDelay": 0,
+  "Payments": [],
+  "Expenses": [],
+  "UnpaidHouses": [],
+  "BuildingBreakdown": {},
+  "ExpenseCategoryBreakdown": {},
+  "GeneratedAt": "2025-11-23T10:38:14.0412198Z",
+  "GeneratedBy": "27d2fc07-86de-4305-b2b0-725b9f676720"
+}

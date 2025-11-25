@@ -1,0 +1,91 @@
+<UserControl x:Class="ElMansourSyndicManager.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:viewModels="clr-namespace:ElMansourSyndicManager.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="900"
+             d:DataContext="{d:DesignInstance viewModels:SettingsViewModel}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="24">
+            <!-- Header -->
+            <Grid Margin="0,0,0,32">
+                <StackPanel>
+                    <TextBlock Text="Paramètres" FontSize="28" FontWeight="Bold" Foreground="#333"/>
+                    <TextBlock Text="Configuration de l'application" FontSize="16" Foreground="#777" Margin="0,4,0,0"/>
+                </StackPanel>
+                <Button Command="{Binding SaveCommand}" 
+                        Style="{StaticResource MaterialDesignRaisedButton}" 
+                        Content="Enregistrer"
+                        HorizontalAlignment="Right"
+                        Height="36"/>
+            </Grid>
+
+            <!-- Appearance Settings -->
+            <materialDesign:Card UniformCornerRadius="12" Background="White" Margin="0,0,0,16">
+                <StackPanel>
+                    <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
+                        <TextBlock Text="Apparence" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
+                    </Border>
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Thème" FontSize="14" Foreground="#777" Margin="0,0,0,8"/>
+                        <ComboBox ItemsSource="{Binding Themes}" 
+                                  SelectedItem="{Binding SelectedTheme}" 
+                                  materialDesign:HintAssist.Hint="Sélectionner un thème" 
+                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                  Margin="0,0,0,16"/>
+                        
+                        <TextBlock Text="Langue" FontSize="14" Foreground="#777" Margin="0,0,0,8"/>
+                        <ComboBox ItemsSource="{Binding Languages}" 
+                                  SelectedItem="{Binding SelectedLanguage}" 
+                                  materialDesign:HintAssist.Hint="Sélectionner une langue" 
+                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}"/>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <!-- Notifications Settings -->
+            <materialDesign:Card UniformCornerRadius="12" Background="White" Margin="0,0,0,16">
+                <StackPanel>
+                    <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
+                        <TextBlock Text="Notifications" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
+                    </Border>
+                    <StackPanel Margin="20">
+                        <CheckBox IsChecked="{Binding NotificationsEnabled}" 
+                                  Content="Activer les notifications" 
+                                  Margin="0,0,0,16"/>
+                        <CheckBox IsChecked="{Binding EnableEmailNotifications}" 
+                                  Content="Notifications par email" 
+                                  Margin="0,0,0,16"/>
+                        <CheckBox IsChecked="{Binding EnablePaymentReminders}" 
+                                  Content="Rappels de paiement"/>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <!-- Backup Settings -->
+            <materialDesign:Card UniformCornerRadius="12" Background="White">
+                <StackPanel>
+                    <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
+                        <TextBlock Text="Sauvegarde Cloud" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
+                    </Border>
+                    <StackPanel Margin="20">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                            <materialDesign:PackIcon Kind="CloudCheck" Width="24" Height="24" Foreground="#4CAF50" Margin="0,0,12,0"/>
+                            <TextBlock Text="Vos données sont synchronisées et sauvegardées automatiquement sur le Cloud (Somee.com)." 
+                                     TextWrapping="Wrap" 
+                                     VerticalAlignment="Center"
+                                     FontSize="14"/>
+                        </StackPanel>
+                        <TextBlock Text="Pour restaurer une sauvegarde, veuillez accéder à votre panneau de contrôle Somee." 
+                                 Foreground="#777" 
+                                 FontStyle="Italic"/>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

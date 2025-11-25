@@ -1,0 +1,20 @@
+﻿  Identification des projets ├á restaurer...
+  Tous les projets sont ├á jour pour la restauration.
+  ElMansourSyndicManager.Core -> C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Core\bin\Debug\net8.0\ElMansourSyndicManager.Core.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\AuditService.cs(40,28): warning CS8601: Existence possible d'une assignation de r├®f├®rence null. [C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\ElMansourSyndicManager.Infrastructure.csproj]
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\DocumentService.cs(89,55): error CS1503: Argument 1┬á: conversion impossible de 'System.Guid' en 'ElMansourSyndicManager.Core.Domain.Entities.Document' [C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\ElMansourSyndicManager.Infrastructure.csproj]
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\AuthenticationService.cs(191,66): warning CS8602: D├®r├®f├®rencement d'une ├®ventuelle r├®f├®rence null. [C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\ElMansourSyndicManager.Infrastructure.csproj]
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\ExpenseService.cs(92,54): error CS1503: Argument 1┬á: conversion impossible de 'System.Guid' en 'ElMansourSyndicManager.Core.Domain.Entities.Expense' [C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\ElMansourSyndicManager.Infrastructure.csproj]
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\ReportingService.cs(473,27): warning CS8629: Le type valeur Nullable peut avoir une valeur null. [C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\ElMansourSyndicManager.Infrastructure.csproj]
+
+├ëCHEC de la build.
+
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\AuditService.cs(40,28): warning CS8601: Existence possible d'une assignation de r├®f├®rence null. [C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\ElMansourSyndicManager.Infrastructure.csproj]
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\AuthenticationService.cs(191,66): warning CS8602: D├®r├®f├®rencement d'une ├®ventuelle r├®f├®rence null. [C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\ElMansourSyndicManager.Infrastructure.csproj]
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\ReportingService.cs(473,27): warning CS8629: Le type valeur Nullable peut avoir une valeur null. [C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\ElMansourSyndicManager.Infrastructure.csproj]
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\DocumentService.cs(89,55): error CS1503: Argument 1┬á: conversion impossible de 'System.Guid' en 'ElMansourSyndicManager.Core.Domain.Entities.Document' [C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\ElMansourSyndicManager.Infrastructure.csproj]
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\ExpenseService.cs(92,54): error CS1503: Argument 1┬á: conversion impossible de 'System.Guid' en 'ElMansourSyndicManager.Core.Domain.Entities.Expense' [C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\ElMansourSyndicManager.Infrastructure.csproj]
+    3 Avertissement(s)
+    2 Erreur(s)
+
+Temps ├®coul├® 00:00:01.87

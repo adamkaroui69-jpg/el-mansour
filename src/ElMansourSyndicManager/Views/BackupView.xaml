@@ -1,0 +1,187 @@
+<UserControl x:Class="ElMansourSyndicManager.Views.BackupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:ElMansourSyndicManager.Converters"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0"
+                      Text="Gestion des Sauvegardes"
+                      FontSize="28"
+                      FontWeight="SemiBold"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+<Button Command="{Binding RefreshCommand}"
+                       Style="{StaticResource MaterialDesignFlatButton}"
+                       Margin="0,0,8,0">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Refresh" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock Text="Actualiser"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+<Button Command="{Binding RunBackupCommand}"
+                       Style="{StaticResource MaterialDesignRaisedButton}"
+                       IsEnabled="{Binding IsBackingUp, Converter={StaticResource InverseBooleanConverter}}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="BackupRestore" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock Text="Créer"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- Status Message and Actions -->
+        <StackPanel Grid.Row="1" Margin="0,0,0,16">
+            <!-- Status Message -->
+<materialDesign:Card Padding="16"
+                  Margin="0,0,0,8"
+                  Visibility="{Binding StatusMessage, Converter={StaticResource StringToVisibilityConverter}}">
+                <TextBlock Text="{Binding StatusMessage}"
+                          FontSize="14"
+                          Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+</materialDesign:Card>
+
+            <!-- Backup Actions -->
+<materialDesign:Card Padding="16"
+                  Visibility="{Binding StatusMessage, Converter={StaticResource InverseStringToVisibilityConverter}}">
+            <StackPanel>
+                <TextBlock Text="Actions de Sauvegarde"
+                          FontSize="16"
+                          FontWeight="SemiBold"
+                          Margin="0,0,0,12"/>
+                <StackPanel Orientation="Horizontal">
+<Button Command="{Binding RestoreBackupCommand}"
+                           Style="{StaticResource MaterialDesignRaisedButton}"
+                           Margin="0,0,8,0">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Restore" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <TextBlock Text="Restaurer"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                    <TextBlock Text="Garder les dernières:"
+                              VerticalAlignment="Center"
+                              Margin="16,0,8,0"/>
+                    <TextBox Text="{Binding KeepLastNBackups, UpdateSourceTrigger=PropertyChanged}"
+                            Width="60"
+                            Margin="0,0,8,0"/>
+<Button Command="{Binding DeleteOldBackupsCommand}"
+                           Style="{StaticResource MaterialDesignRaisedButton}"
+                           IsEnabled="{Binding IsBackingUp, Converter={StaticResource InverseBooleanConverter}}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="DeleteSweep" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <TextBlock Text="Supprimer"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            </materialDesign:Card>
+        </StackPanel>
+
+        <!-- Backups List -->
+<materialDesign:Card Grid.Row="2" Padding="16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                          Text="Historique des Sauvegardes"
+                          FontSize="18"
+                          FontWeight="SemiBold"
+                          Margin="0,0,0,16"/>
+
+                <DataGrid Grid.Row="1"
+                         ItemsSource="{Binding Backups}"
+                         SelectedItem="{Binding SelectedBackup}"
+                         AutoGenerateColumns="False"
+                         HeadersVisibility="Column"
+                         IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Date" 
+                                          Binding="{Binding CreatedAt, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" 
+                                          Width="*"/>
+                        <DataGridTextColumn Header="Type" 
+                                          Binding="{Binding BackupType}" 
+                                          Width="*"/>
+                        <DataGridTextColumn Header="Taille" 
+                                          Binding="{Binding FileSize, Converter={StaticResource FileSizeConverter}}" 
+                                          Width="*"/>
+                        <DataGridCheckBoxColumn Header="Automatique" 
+                                               Binding="{Binding IsAutomatic}" 
+                                               Width="*"/>
+                        <DataGridTextColumn Header="Statut" 
+                                          Binding="{Binding Status}" 
+                                          Width="*"/>
+                        <DataGridTemplateColumn Header="Actions" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Command="{Binding DataContext.DownloadBackupCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                               CommandParameter="{Binding}"
+                                               Style="{StaticResource MaterialDesignIconButton}"
+                                               ToolTip="Télécharger"
+                                               Margin="2">
+                                            <materialDesign:PackIcon Kind="Download"/>
+                                        </Button>
+                                        <Button Command="{Binding DataContext.DeleteBackupCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                               CommandParameter="{Binding}"
+                                               Style="{StaticResource MaterialDesignIconButton}"
+                                               ToolTip="Supprimer"
+                                               Margin="2">
+                                            <materialDesign:PackIcon Kind="Delete"/>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Empty State -->
+                <TextBlock Grid.Row="1"
+                          Text="Aucune sauvegarde disponible"
+                          FontSize="16"
+                          Foreground="{DynamicResource MaterialDesignBodyLight}"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Visibility="{Binding Backups.Count, Converter={StaticResource CountToVisibilityConverter}}"/>
+            </Grid>
+        </materialDesign:Card>
+
+        <!-- Loading Indicator -->
+        <ProgressBar Grid.Row="2"
+                    IsIndeterminate="True"
+                    Height="4"
+                    Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    VerticalAlignment="Top"/>
+
+        <!-- Backup Progress -->
+        <ProgressBar Grid.Row="2"
+                    IsIndeterminate="True"
+                    Height="4"
+                    Visibility="{Binding IsBackingUp, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    VerticalAlignment="Top"/>
+    </Grid>
+</UserControl>
