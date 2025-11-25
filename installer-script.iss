@@ -37,7 +37,7 @@ PrivilegesRequiredOverridesAllowed=dialog
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 ; Désinstallation
-UninstallDisplayIcon={app}\Assets\logo.png
+UninstallDisplayIcon={app}\Assets\logo.ico
 UninstallDisplayName={#MyAppName}
 ; Informations de version
 VersionInfoVersion={#MyAppVersion}
@@ -71,12 +71,12 @@ Name: "{app}\data\logs"; Permissions: users-full
 
 [Icons]
 ; Raccourci dans le menu Démarrer
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\Assets\logo.png"; Comment: "Lancer {#MyAppName}"
+Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\Assets\logo.ico"; Comment: "Lancer {#MyAppName}"
 Name: "{group}\Désinstaller {#MyAppName}"; Filename: "{uninstallexe}"; Comment: "Désinstaller {#MyAppName}"
 ; Raccourci sur le bureau (si l'utilisateur le choisit)
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\Assets\logo.png"; Tasks: desktopicon; Comment: "Lancer {#MyAppName}"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\Assets\logo.ico"; Tasks: desktopicon; Comment: "Lancer {#MyAppName}"
 ; Raccourci barre de lancement rapide (si l'utilisateur le choisit)
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\Assets\logo.png"; Tasks: quicklaunchicon
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\Assets\logo.ico"; Tasks: quicklaunchicon
 
 [Registry]
 ; Enregistrer l'application dans le registre
