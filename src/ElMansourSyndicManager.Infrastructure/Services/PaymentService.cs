@@ -291,9 +291,11 @@ public class PaymentService : IPaymentService
         DateTime to, 
         CancellationToken cancellationToken = default)
     {
+        // Use a universal temporary path for logging
+        var logPath = Path.Combine(Path.GetTempPath(), "elmansour_debug_log.txt");
+        
         try 
         {
-            var logPath = @"c:\Users\adamk\Desktop\raisidance application\debug_log.txt";
             File.AppendAllText(logPath, $"\n[{DateTime.Now}] GetPaymentStatisticsAsync called. Range: {from} to {to}\n");
 
             // Use GetAllAsync to avoid potential EF Core date comparison issues and ensure we get everything
@@ -388,8 +390,12 @@ public class PaymentService : IPaymentService
         }
         catch (Exception ex)
         {
-            var logPath = @"c:\Users\adamk\Desktop\raisidance application\debug_log.txt";
-            File.AppendAllText(logPath, $"[{DateTime.Now}] ERROR in GetPaymentStatisticsAsync: {ex.Message}\n{ex.StackTrace}\n");
+            // logPath is already defined in the method scope
+            try 
+            {
+                File.AppendAllText(logPath, $"[{DateTime.Now}] ERROR in GetPaymentStatisticsAsync: {ex.Message}\n{ex.StackTrace}\n");
+            }
+            catch { /* Ignore logging errors */ }
             throw;
         }
     }

@@ -5265,3 +5265,17 @@ Payment: Id=fa2f9040-5e1b-4888-b666-09469bf20d75, Status='Paid', Amount=100,00, 
 Payment: Id=fa2f9040-5e1b-4888-b666-09469bf20d75, Status='Paid', Amount=100,00, Date=23/11/2025 21:05:32, Created=23/11/2025 20:05:28
 [23/11/2025 21:19:14] Payments after date filter: 1
 [23/11/2025 21:19:14] Paid payments count: 1. Sum: 100,00
+
+[25/11/2025 21:39:02] GetPaymentStatisticsAsync called. Range: 01/01/0001 00:00:00 to 31/12/9999 23:59:59
+[25/11/2025 21:39:02] Total payments in DB (GetAllAsync): 1
+Payment: Id=fa2f9040-5e1b-4888-b666-09469bf20d75, Status='Paid', Amount=100,00, Date=23/11/2025 21:05:32, Created=23/11/2025 20:05:28
+[25/11/2025 21:39:02] Total payments to process: 1
+[25/11/2025 21:39:02] Paid payments count: 1. Sum: 100,00
+  PAID: Id=fa2f9040-5e1b-4888-b666-09469bf20d75, Status='Paid', Amount=100,00
+
+[25/11/2025 21:39:11] GetPaymentStatisticsAsync called. Range: 01/01/0001 00:00:00 to 31/12/9999 23:59:59
+[25/11/2025 21:39:11] Total payments in DB (GetAllAsync): 1
+Payment: Id=fa2f9040-5e1b-4888-b666-09469bf20d75, Status='Paid', Amount=100,00, Date=23/11/2025 21:05:32, Created=23/11/2025 20:05:28
+[25/11/2025 21:39:11] Total payments to process: 1
+[25/11/2025 21:39:11] Paid payments count: 1. Sum: 100,00
+  PAID: Id=fa2f9040-5e1b-4888-b666-09469bf20d75, Status='Paid', Amount=100,00
