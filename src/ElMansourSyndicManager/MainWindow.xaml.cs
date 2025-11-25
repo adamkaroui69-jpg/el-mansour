@@ -33,8 +33,8 @@ public partial class MainWindow : Window
         AutoUpdater.DownloadPath = System.IO.Path.GetTempPath();
         
         // Démarrer la vérification de mise à jour
-        // L'URL pointe vers le fichier update.xml sur GitHub
-        AutoUpdater.Start("https://raw.githubusercontent.com/adamkaroui69-jpg/el-mansour/main/update.xml");
+        // L'URL pointe vers le fichier update.xml dans la dernière release GitHub
+        AutoUpdater.Start("https://github.com/adamkaroui69-jpg/el-mansour/releases/latest/download/update.xml");
     }
 
     private void AutoUpdater_ApplicationExitEvent()

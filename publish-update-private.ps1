@@ -101,17 +101,6 @@ if (Test-Path $installerPath) {
 
 Write-Host "Creation de la release GitHub $tagName..." -ForegroundColor Cyan
 
-# Créer la release avec le fichier
-gh release create $tagName $newInstallerPath `
-    --title "Version $newVersion" `
-    --notes "Mise a jour automatique - Version $newVersion`n`n$CommitMessage" `
-    --repo $repoPath
-
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "Erreur lors de la creation de la release." -ForegroundColor Red
-    exit 1
-}
-
 # 7. Récupérer l'URL de téléchargement de la release
 $releaseUrl = "https://github.com/$repoPath/releases/download/$tagName/ElMansourSyndicManager-Setup-v$newVersion.exe"
 
@@ -133,10 +122,23 @@ $xmlContent = @"
 Set-Content $updateXmlPath $xmlContent
 Write-Host "Fichier update.xml mis a jour" -ForegroundColor Green
 
-# 9. Mise à jour du code pour pointer vers le bon update.xml
+# Créer la release avec les fichiers (installer + update.xml)
+gh release create $tagName $newInstallerPath $updateXmlPath `
+    --title "Version $newVersion" `
+    --notes "Mise a jour automatique - Version $newVersion`n`n$CommitMessage" `
+    --repo $repoPath
+
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Erreur lors de la creation de la release." -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "Fichier update.xml ajoute a la release" -ForegroundColor Green
+
+# 9. Mise à jour du code pour pointer vers le bon update.xml (dans la release)
 $mainCsPath = "src/ElMansourSyndicManager/MainWindow.xaml.cs"
 $mainCsContent = Get-Content $mainCsPath -Raw
-$githubUpdateUrl = "https://raw.githubusercontent.com/$repoPath/$branch/update.xml"
+$githubUpdateUrl = "https://github.com/$repoPath/releases/latest/download/update.xml"
 
 if (-not ($mainCsContent -match [regex]::Escape($githubUpdateUrl))) {
     Write-Host "Mise a jour de MainWindow.xaml.cs..." -ForegroundColor Cyan
