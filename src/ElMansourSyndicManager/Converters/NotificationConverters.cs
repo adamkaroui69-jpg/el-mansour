@@ -138,3 +138,25 @@ public class InverseBooleanToVisibilityConverter : IValueConverter
     }
 }
 
+/// <summary>
+/// Converts boolean IsRead to background color
+/// </summary>
+public class NotificationBackgroundConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is bool isRead && !isRead)
+        {
+            // Light blue background for unread notifications
+            return new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#E3F2FD"));
+        }
+        // Transparent/White for read notifications
+        return System.Windows.Media.Brushes.White;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+

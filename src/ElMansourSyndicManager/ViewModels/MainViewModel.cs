@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
+using AutoUpdaterDotNET;
+using ElMansourSyndicManager.Models;
 
 namespace ElMansourSyndicManager.ViewModels;
 
@@ -62,6 +64,7 @@ public class MainViewModel : ViewModelBase
         SelectedNavigationItem = NavigationItems.FirstOrDefault();
 
         LogoutCommand = new RelayCommand(Logout);
+        MarkAllAsReadCommand = new RelayCommand(MarkAllAsRead);
         
         // Load current user
         LoadCurrentUser();
@@ -95,6 +98,14 @@ public class MainViewModel : ViewModelBase
 
     public ICommand LogoutCommand { get; }
 
+    public ObservableCollection<Notification> Notifications { get; } = new ObservableCollection<Notification>();
+
+    public bool HasNotifications => Notifications.Any(n => !n.IsRead);
+
+    public int NotificationCount => Notifications.Count(n => !n.IsRead);
+
+    public ICommand MarkAllAsReadCommand { get; }
+
     private async void LoadCurrentUser()
     {
         CurrentUser = await _authService.GetCurrentUserAsync();
@@ -107,6 +118,66 @@ public class MainViewModel : ViewModelBase
                 NavigationItems.Remove(item);
             }
         }
+        
+        // Initialize notifications
+        InitializeNotifications();
+    }
+
+    private void InitializeNotifications()
+    {
+        // Subscribe to AutoUpdater events
+        AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
+        
+        // Add welcome notification
+        AddNotification(new Notification
+        {
+            Title = "Bienvenue",
+            Message = $"Bienvenue dans El Mansour Syndic Manager, {CurrentUser?.Username} !",
+            Icon = "HandWave",
+            TypeColor = "#4CAF50"
+        });
+    }
+
+    private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
+    {
+        if (args.Error == null)
+        {
+            if (args.IsUpdateAvailable)
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    AddNotification(new Notification
+                    {
+                        Title = "Mise à jour disponible",
+                        Message = $"Une nouvelle version ({args.CurrentVersion}) est disponible. Cliquez pour mettre à jour.",
+                        Icon = "CloudDownload",
+                        TypeColor = "#2196F3"
+                    });
+                });
+            }
+        }
+    }
+
+    public void AddNotification(Notification notification)
+    {
+        Notifications.Insert(0, notification);
+        OnPropertyChanged(nameof(HasNotifications));
+        OnPropertyChanged(nameof(NotificationCount));
+    }
+
+    private void MarkAllAsRead()
+    {
+        foreach (var notification in Notifications)
+        {
+            notification.IsRead = true;
+        }
+        // Refresh list to update UI
+        var temp = Notifications.ToList();
+        Notifications.Clear();
+        foreach (var item in temp) Notifications.Add(item);
+        
+        OnPropertyChanged(nameof(HasNotifications));
+        OnPropertyChanged(nameof(NotificationCount));
     }
 
     private async void NavigateTo(Type viewModelType)
