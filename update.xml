@@ -1,6 +1,6 @@
 <item>
-    <version>1.0.3.0</version>
-    <url>https://raw.githubusercontent.com/adamkaroui69-jpg/el-mansour/main/installer-output/setup.exe</url>
-    <changelog>https://raw.githubusercontent.com/adamkaroui69-jpg/el-mansour/main/CHANGELOG.md</changelog>
+    <version>1.0.4.0</version>
+    <url>https://github.com/adamkaroui69-jpg/el-mansour/releases/download/v1.0.4/ElMansourSyndicManager-Setup-v1.0.4.exe</url>
+    <changelog>https://github.com/adamkaroui69-jpg/el-mansour/releases/tag/v1.0.4</changelog>
     <mandatory>false</mandatory>
 </item>

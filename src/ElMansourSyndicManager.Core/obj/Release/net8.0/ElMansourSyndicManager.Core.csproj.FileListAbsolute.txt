@@ -9,3 +9,4 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Core\ob
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Core\obj\Release\net8.0\refint\ElMansourSyndicManager.Core.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Core\obj\Release\net8.0\ElMansourSyndicManager.Core.pdb
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Core\obj\Release\net8.0\ref\ElMansourSyndicManager.Core.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Core\obj\Release\net8.0\ElMansourSyndicManager.Core.sourcelink.json

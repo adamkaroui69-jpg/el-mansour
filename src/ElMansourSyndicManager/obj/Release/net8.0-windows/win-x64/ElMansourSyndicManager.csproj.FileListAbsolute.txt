@@ -616,3 +616,4 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\zh-TW\AutoUpdater.NET.resources.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\zh\AutoUpdater.NET.resources.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\WebView2Loader.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\win-x64\ElMansourSyndicManager.sourcelink.json
