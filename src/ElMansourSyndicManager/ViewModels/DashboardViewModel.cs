@@ -64,6 +64,13 @@ public class DashboardViewModel : ViewModelBase, IInitializable
         set => SetProperty(ref _balance, value);
     }
 
+    private decimal _totalDue;
+    public decimal TotalDue
+    {
+        get => _totalDue;
+        set => SetProperty(ref _totalDue, value);
+    }
+
     public int UnpaidHousesCount
     {
         get => _unpaidHousesCount;
@@ -121,12 +128,17 @@ public class DashboardViewModel : ViewModelBase, IInitializable
                 return int.TryParse(numberPart, out var num) ? num : 0;
             });
             
+            
             UnpaidHouses.Clear();
             foreach (var house in sortedUnpaidHouses)
             {
                 UnpaidHouses.Add(house);
             }
             UnpaidHousesCount = unpaidHouses.Count;
+            
+            // Calculate Total Due (sum of all unpaid amounts)
+            TotalDue = unpaidHouses.Sum(h => h.MonthlyAmount);
+            File.AppendAllText(logPath, $"[{DateTime.Now}] Total Due calculated: {TotalDue} TND from {unpaidHouses.Count} unpaid houses.\n");
 
             // Load recent payments du mois en cours
             File.AppendAllText(logPath, $"[{DateTime.Now}] Calling GetPaymentsByMonthAsync...\n");
