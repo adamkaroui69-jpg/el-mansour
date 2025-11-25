@@ -2,6 +2,10 @@ using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Windows.Input;
 using ElMansourSyndicManager.ViewModels.Base;
+using System.Net.Http;
+using System.Xml.Linq;
+using System.Diagnostics;
+using System.Windows;
 
 namespace ElMansourSyndicManager.ViewModels;
 
@@ -12,6 +16,8 @@ public class SettingsViewModel : ViewModelBase
     private bool _notificationsEnabled = true;
     private bool _autoBackupEnabled = true;
     private string _backupFrequency = "Quotidien";
+    private bool _isCheckingForUpdates;
+    private string _updateStatus = "";
 
     public string AppVersion
     {
@@ -22,6 +28,17 @@ public class SettingsViewModel : ViewModelBase
         }
     }
 
+    public bool IsCheckingForUpdates
+    {
+        get => _isCheckingForUpdates;
+        set => SetProperty(ref _isCheckingForUpdates, value);
+    }
+
+    public string UpdateStatus
+    {
+        get => _updateStatus;
+        set => SetProperty(ref _updateStatus, value);
+    }
 
     public string SelectedTheme
     {
@@ -74,6 +91,7 @@ public class SettingsViewModel : ViewModelBase
 
     public ICommand SaveCommand { get; }
     public ICommand BackupNowCommand { get; }
+    public ICommand CheckForUpdatesCommand { get; }
 
     public SettingsViewModel()
     {
@@ -88,6 +106,7 @@ public class SettingsViewModel : ViewModelBase
 
         SaveCommand = new RelayCommand(SaveSettings);
         BackupNowCommand = new RelayCommand(BackupNow);
+        CheckForUpdatesCommand = new RelayCommand(async () => await CheckForUpdatesAsync());
     }
 
     private void SaveSettings()
@@ -100,5 +119,95 @@ public class SettingsViewModel : ViewModelBase
     private void BackupNow()
     {
         System.Windows.MessageBox.Show("Sauvegarde effectuée avec succès.", "Succès", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+    }
+
+    private async Task CheckForUpdatesAsync()
+    {
+        IsCheckingForUpdates = true;
+        UpdateStatus = "Vérification des mises à jour...";
+
+        try
+        {
+            using var httpClient = new HttpClient();
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
+
+            // Download update.xml from GitHub releases
+            var updateXmlUrl = "https://github.com/adamkaroui69-jpg/el-mansour/releases/latest/download/update.xml";
+            var xmlContent = await httpClient.GetStringAsync(updateXmlUrl);
+
+            // Parse XML
+            var doc = XDocument.Parse(xmlContent);
+            var versionElement = doc.Root?.Element("version");
+            var urlElement = doc.Root?.Element("url");
+
+            if (versionElement == null || urlElement == null)
+            {
+                UpdateStatus = "Erreur lors de la lecture des informations de mise à jour.";
+                return;
+            }
+
+            var latestVersion = versionElement.Value;
+            var downloadUrl = urlElement.Value;
+
+            // Compare versions
+            var currentVersion = new Version(AppVersion);
+            var remoteVersion = new Version(latestVersion.TrimEnd('0', '.'));
+
+            if (remoteVersion > currentVersion)
+            {
+                UpdateStatus = $"Nouvelle version disponible : {latestVersion}";
+                
+                var result = MessageBox.Show(
+                    $"Une nouvelle version ({latestVersion}) est disponible !\n\n" +
+                    $"Version actuelle : {AppVersion}\n" +
+                    $"Nouvelle version : {latestVersion}\n\n" +
+                    "Voulez-vous télécharger la mise à jour maintenant ?",
+                    "Mise à jour disponible",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Information);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    // Open download URL in browser
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = downloadUrl,
+                        UseShellExecute = true
+                    });
+                }
+            }
+            else
+            {
+                UpdateStatus = "Vous utilisez la dernière version.";
+                MessageBox.Show(
+                    $"Vous utilisez déjà la dernière version ({AppVersion}).",
+                    "Aucune mise à jour",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            UpdateStatus = "Erreur de connexion au serveur de mise à jour.";
+            MessageBox.Show(
+                $"Impossible de vérifier les mises à jour.\n\nErreur : {ex.Message}\n\n" +
+                "Vérifiez votre connexion Internet et réessayez.",
+                "Erreur",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+        catch (Exception ex)
+        {
+            UpdateStatus = "Erreur lors de la vérification des mises à jour.";
+            MessageBox.Show(
+                $"Une erreur s'est produite lors de la vérification des mises à jour.\n\nErreur : {ex.Message}",
+                "Erreur",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+        finally
+        {
+            IsCheckingForUpdates = false;
+        }
     }
 }

@@ -5,9 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:viewModels="clr-namespace:ElMansourSyndicManager.ViewModels"
+             xmlns:converters="clr-namespace:ElMansourSyndicManager.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="900"
              d:DataContext="{d:DesignInstance viewModels:SettingsViewModel}">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+    </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="24">
@@ -117,6 +124,37 @@
                                  FontSize="13"
                                  TextWrapping="Wrap"
                                  Margin="36,0,0,8"/>
+                        
+                        <!-- Check for Updates Button -->
+                        <StackPanel Margin="36,12,0,8">
+                            <Button Command="{Binding CheckForUpdatesCommand}"
+                                    Style="{StaticResource MaterialDesignRaisedButton}"
+                                    Background="#667eea"
+                                    BorderBrush="#667eea"
+                                    Foreground="White"
+                                    Height="36"
+                                    Padding="16,0"
+                                    HorizontalAlignment="Left"
+                                    IsEnabled="{Binding IsCheckingForUpdates, Converter={StaticResource InverseBooleanConverter}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Update" 
+                                                           Width="18" 
+                                                           Height="18" 
+                                                           VerticalAlignment="Center"
+                                                           Margin="0,0,8,0"/>
+                                    <TextBlock Text="Vérifier les mises à jour" 
+                                             VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            
+                            <!-- Update Status -->
+                            <TextBlock Text="{Binding UpdateStatus}" 
+                                     Foreground="#666" 
+                                     FontSize="12"
+                                     Margin="0,8,0,0"
+                                     Visibility="{Binding UpdateStatus, Converter={StaticResource StringToVisibilityConverter}}"/>
+                        </StackPanel>
+                        
                         <TextBlock Text="© 2024 El Mansour. Tous droits réservés." 
                                  Foreground="#999" 
                                  FontSize="12"
