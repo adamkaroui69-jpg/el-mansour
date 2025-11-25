@@ -57,7 +57,7 @@ namespace ElMansourSyndicManager.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/ElMansourSyndicManager;V1.0.7.0;component/views/auditview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/ElMansourSyndicManager;V1.0.8.0;component/views/auditview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\Views\AuditView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
