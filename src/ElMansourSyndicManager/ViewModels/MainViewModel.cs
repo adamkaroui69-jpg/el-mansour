@@ -20,6 +20,7 @@ public class MainViewModel : ViewModelBase
 {
     private readonly IAuthenticationService _authService;
     private readonly INavigationService _navigationService;
+    private readonly INotificationService _notificationService;
     private readonly IServiceProvider _serviceProvider;
     private object _currentView;
     private UserDto? _currentUser;
@@ -28,11 +29,13 @@ public class MainViewModel : ViewModelBase
     public MainViewModel(
         IAuthenticationService authService,
         INavigationService navigationService,
+        INotificationService notificationService,
         IServiceProvider serviceProvider,
         DashboardViewModel dashboardViewModel)
     {
         _authService = authService;
         _navigationService = navigationService;
+        _notificationService = notificationService;
         _serviceProvider = serviceProvider;
         
         // Initialize with dashboard
@@ -68,6 +71,77 @@ public class MainViewModel : ViewModelBase
         
         // Load current user
         LoadCurrentUser();
+    }
+
+    // ... (Properties)
+
+    private async void InitializeNotifications()
+    {
+        // Subscribe to AutoUpdater events
+        AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
+        
+        // Add welcome notification
+        AddNotification(new Notification
+        {
+            Title = "Bienvenue",
+            Message = $"Bienvenue dans El Mansour Syndic Manager, {CurrentUser?.Username} !",
+            Icon = "HandWave",
+            TypeColor = "#4CAF50"
+        });
+
+        // Load notifications from database
+        try
+        {
+            // Generate notifications for unpaid houses first
+            var currentMonth = DateTime.Now.ToString("yyyy-MM");
+            await _notificationService.GenerateUnpaidHouseNotificationsAsync(currentMonth);
+
+            var notifications = await _notificationService.GetUserNotificationsAsync(CurrentUser?.Id.ToString());
+            
+            foreach (var notifDto in notifications)
+            {
+                // Check if already added (to avoid duplicates with welcome message)
+                if (!Notifications.Any(n => n.Title == notifDto.Title && n.Message == notifDto.Message))
+                {
+                    AddNotification(new Notification
+                    {
+                        Title = notifDto.Title,
+                        Message = notifDto.Message,
+                        Icon = GetIconForType(notifDto.Type),
+                        TypeColor = GetColorForType(notifDto.Type),
+                        IsRead = notifDto.IsRead
+                    });
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error loading notifications: {ex.Message}");
+        }
+    }
+
+    private string GetIconForType(string type)
+    {
+        return type switch
+        {
+            "UnpaidHouse" => "AlertCircle",
+            "PaymentDue" => "CashRemove",
+            "MaintenanceDue" => "Tools",
+            "Info" => "Information",
+            _ => "Bell"
+        };
+    }
+
+    private string GetColorForType(string type)
+    {
+        return type switch
+        {
+            "UnpaidHouse" => "#F44336", // Red
+            "PaymentDue" => "#FF9800", // Orange
+            "MaintenanceDue" => "#2196F3", // Blue
+            "Info" => "#4CAF50", // Green
+            _ => "#757575" // Grey
+        };
     }
 
     public ObservableCollection<NavigationItem> NavigationItems { get; }
@@ -123,20 +197,6 @@ public class MainViewModel : ViewModelBase
         InitializeNotifications();
     }
 
-    private void InitializeNotifications()
-    {
-        // Subscribe to AutoUpdater events
-        AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
-        
-        // Add welcome notification
-        AddNotification(new Notification
-        {
-            Title = "Bienvenue",
-            Message = $"Bienvenue dans El Mansour Syndic Manager, {CurrentUser?.Username} !",
-            Icon = "HandWave",
-            TypeColor = "#4CAF50"
-        });
-    }
 
     private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
     {
