@@ -305,25 +305,40 @@ public class PaymentService : IPaymentService
                 File.AppendAllText(logPath, $"Payment: Id={p.Id}, Status='{p.Status}', Amount={p.Amount}, Date={p.PaymentDate}, Created={p.CreatedAt}\n");
             }
             
-            // Filter in memory
-            var payments = allPayments.Where(p => 
-                (p.PaymentDate.HasValue && p.PaymentDate >= from && p.PaymentDate <= to) ||
-                (!p.PaymentDate.HasValue && p.CreatedAt >= from && p.CreatedAt <= to))
-                .ToList();
+            // Helper function to check if a payment is paid
+            bool IsPaidStatus(string? status)
+            {
+                if (string.IsNullOrWhiteSpace(status)) return false;
+                var normalized = status.Trim().ToLowerInvariant();
+                return normalized == "paid" || 
+                       normalized == "payé" || 
+                       normalized == "paye" ||
+                       normalized == "validé" ||
+                       normalized == "valide" ||
+                       normalized == "validated";
+            }
+            
+            // Filter in memory - Accept ALL payments regardless of date for now
+            // This ensures we count all paid payments
+            var payments = allPayments.ToList();
 
-            File.AppendAllText(logPath, $"[{DateTime.Now}] Payments after date filter: {payments.Count}\n");
+            File.AppendAllText(logPath, $"[{DateTime.Now}] Total payments (no date filter): {payments.Count}\n");
 
             var activeHouses = await _houseRepository.GetAllActiveAsync(cancellationToken);
             var houseCount = activeHouses.Count();
 
-            // Log for debugging
-            var paidPayments = payments.Where(p => 
-                string.Equals(p.Status?.Trim(), "Paid", StringComparison.OrdinalIgnoreCase) || 
-                string.Equals(p.Status?.Trim(), "Payé", StringComparison.OrdinalIgnoreCase)).ToList();
+            // Log for debugging - use improved status checking
+            var paidPayments = payments.Where(p => IsPaidStatus(p.Status)).ToList();
                 
             File.AppendAllText(logPath, $"[{DateTime.Now}] Paid payments count: {paidPayments.Count}. Sum: {paidPayments.Sum(p => p.Amount)}\n");
+            
+            // Log each paid payment for debugging
+            foreach(var p in paidPayments)
+            {
+                File.AppendAllText(logPath, $"  PAID: Id={p.Id}, Status='{p.Status}', Amount={p.Amount}\n");
+            }
 
-            _logger.LogInformation("GetPaymentStatisticsAsync: Found {Total} payments in range. {Paid} are paid. Total Amount: {Amount}", 
+            _logger.LogInformation("GetPaymentStatisticsAsync: Found {Total} payments. {Paid} are paid. Total Amount: {Amount}", 
                 payments.Count, paidPayments.Count, paidPayments.Sum(p => p.Amount));
 
             var totalCollected = paidPayments.Sum(p => p.Amount);
@@ -333,9 +348,7 @@ public class PaymentService : IPaymentService
 
             var monthlyBreakdown = payments
                 .GroupBy(p => p.Month)
-                .ToDictionary(g => g.Key, g => g.Where(p => 
-                    string.Equals(p.Status?.Trim(), "Paid", StringComparison.OrdinalIgnoreCase) || 
-                    string.Equals(p.Status?.Trim(), "Payé", StringComparison.OrdinalIgnoreCase))
+                .ToDictionary(g => g.Key, g => g.Where(p => IsPaidStatus(p.Status))
                     .Sum(p => p.Amount));
 
             return new PaymentStatisticsDto
@@ -344,8 +357,8 @@ public class PaymentService : IPaymentService
                 TotalExpected = totalExpected,
                 CollectionRate = collectionRate,
                 PaidCount = paidPayments.Count,
-                UnpaidCount = payments.Count(p => p.Status == "Unpaid"),
-                OverdueCount = payments.Count(p => p.Status == "Overdue"),
+                UnpaidCount = payments.Count(p => !IsPaidStatus(p.Status)),
+                OverdueCount = payments.Count(p => p.Status?.ToLowerInvariant() == "overdue"),
                 MonthlyBreakdown = monthlyBreakdown
             };
         }
