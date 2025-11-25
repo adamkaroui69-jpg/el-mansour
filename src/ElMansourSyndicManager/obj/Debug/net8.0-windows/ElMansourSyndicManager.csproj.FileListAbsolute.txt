@@ -193,3 +193,4 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Deb
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\runtimes\win-arm64\native\WebView2Loader.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\runtimes\win-x64\native\WebView2Loader.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\runtimes\win-x86\native\WebView2Loader.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Debug\net8.0-windows\ElMansourSyndicManager.sourcelink.json

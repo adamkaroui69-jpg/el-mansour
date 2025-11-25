@@ -32,3 +32,4 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrast
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\obj\Debug\net8.0\refint\ElMansourSyndicManager.Infrastructure.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\obj\Debug\net8.0\ElMansourSyndicManager.Infrastructure.pdb
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\obj\Debug\net8.0\ref\ElMansourSyndicManager.Infrastructure.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\obj\Debug\net8.0\ElMansourSyndicManager.Infrastructure.sourcelink.json

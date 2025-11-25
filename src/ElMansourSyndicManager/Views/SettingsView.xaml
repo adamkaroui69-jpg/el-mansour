@@ -86,6 +86,45 @@
                     </StackPanel>
                 </StackPanel>
             </materialDesign:Card>
+
+            <!-- About Section -->
+            <materialDesign:Card UniformCornerRadius="12" Background="White" Margin="0,16,0,0">
+                <StackPanel>
+                    <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
+                        <TextBlock Text="À propos" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
+                    </Border>
+                    <StackPanel Margin="20">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                            <materialDesign:PackIcon Kind="Information" Width="24" Height="24" Foreground="#2196F3" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                            <StackPanel>
+                                <TextBlock Text="El Mansour Syndic Manager" 
+                                         FontSize="16" 
+                                         FontWeight="SemiBold"
+                                         Foreground="#333"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                    <TextBlock Text="Version : " 
+                                             FontSize="14" 
+                                             Foreground="#777"/>
+                                    <TextBlock Text="{Binding AppVersion}" 
+                                             FontSize="14" 
+                                             FontWeight="SemiBold"
+                                             Foreground="#2196F3"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Text="Application de gestion de syndic pour la résidence El Mansour" 
+                                 Foreground="#777" 
+                                 FontSize="13"
+                                 TextWrapping="Wrap"
+                                 Margin="36,0,0,8"/>
+                        <TextBlock Text="© 2024 El Mansour. Tous droits réservés." 
+                                 Foreground="#999" 
+                                 FontSize="12"
+                                 FontStyle="Italic"
+                                 Margin="36,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

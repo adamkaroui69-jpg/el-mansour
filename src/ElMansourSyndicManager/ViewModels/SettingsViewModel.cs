@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Windows.Input;
 using ElMansourSyndicManager.ViewModels.Base;
 
@@ -12,6 +13,14 @@ public class SettingsViewModel : ViewModelBase
     private bool _autoBackupEnabled = true;
     private string _backupFrequency = "Quotidien";
 
+    public string AppVersion
+    {
+        get
+        {
+            var version = Assembly.GetExecutingAssembly().GetName().Version;
+            return version != null ? $"{version.Major}.{version.Minor}.{version.Build}" : "1.0.0";
+        }
+    }
 
 
     public string SelectedTheme
