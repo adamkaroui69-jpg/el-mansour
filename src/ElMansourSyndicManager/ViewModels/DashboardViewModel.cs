@@ -186,6 +186,28 @@ public class DashboardViewModel : ViewModelBase, IInitializable
             {
                 File.AppendAllText(logPath, $"[{DateTime.Now}] Calling GetAllExpensesAsync...\n");
                 var expenses = await _expenseService.GetAllExpensesAsync();
+                
+                // FALLBACK for Expenses: If GetAll returns 0, try fetching by month
+                if (!expenses.Any())
+                {
+                     File.AppendAllText(logPath, $"[{DateTime.Now}] GetAllExpensesAsync returned 0. Trying fallback (GetExpensesByMonthAsync)...\n");
+                     var fallbackExpenses = new List<ExpenseDto>();
+                     var current = DateTime.Now;
+                     // Check last 24 months + next 1 month
+                     for (int i = -1; i < 24; i++)
+                     {
+                         var d = current.AddMonths(-i);
+                         var monthExpenses = await _expenseService.GetExpensesByMonthAsync(d.Year, d.Month);
+                         if (monthExpenses.Any())
+                         {
+                             fallbackExpenses.AddRange(monthExpenses);
+                             File.AppendAllText(logPath, $"  Found {monthExpenses.Count()} expenses in {d:yyyy-MM}\n");
+                         }
+                     }
+                     expenses = fallbackExpenses;
+                     File.AppendAllText(logPath, $"[{DateTime.Now}] Fallback found total {expenses.Count()} expenses.\n");
+                }
+
                 TotalSpent = expenses.Sum(e => e.Amount);
                 File.AppendAllText(logPath, $"[{DateTime.Now}] TotalSpent calculated: {TotalSpent}\n");
             }

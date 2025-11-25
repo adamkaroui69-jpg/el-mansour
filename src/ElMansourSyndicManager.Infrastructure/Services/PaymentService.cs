@@ -298,7 +298,31 @@ public class PaymentService : IPaymentService
 
             // Use GetAllAsync to avoid potential EF Core date comparison issues and ensure we get everything
             var allPayments = await _paymentRepository.GetAllAsync(cancellationToken);
-            File.AppendAllText(logPath, $"[{DateTime.Now}] Total payments in DB: {allPayments.Count()}\n");
+            File.AppendAllText(logPath, $"[{DateTime.Now}] Total payments in DB (GetAllAsync): {allPayments.Count()}\n");
+
+            // FALLBACK STRATEGY: If GetAllAsync returns 0, try fetching by month for the last 2 years
+            // This handles cases where GetAllAsync might be failing silently or behaving unexpectedly
+            if (!allPayments.Any())
+            {
+                File.AppendAllText(logPath, $"[{DateTime.Now}] GetAllAsync returned 0 payments. Trying fallback strategy (GetByMonthAsync)...\n");
+                
+                var fallbackPayments = new List<Payment>();
+                var current = DateTime.Now;
+                // Check last 24 months + next 1 month
+                for (int i = -1; i < 24; i++)
+                {
+                    var month = current.AddMonths(-i).ToString("yyyy-MM");
+                    var monthPayments = await _paymentRepository.GetByMonthAsync(month, cancellationToken);
+                    if (monthPayments.Any())
+                    {
+                        fallbackPayments.AddRange(monthPayments);
+                        File.AppendAllText(logPath, $"  Found {monthPayments.Count} payments in {month}\n");
+                    }
+                }
+                
+                allPayments = fallbackPayments;
+                File.AppendAllText(logPath, $"[{DateTime.Now}] Fallback strategy found total {allPayments.Count()} payments.\n");
+            }
 
             foreach(var p in allPayments)
             {
@@ -322,7 +346,7 @@ public class PaymentService : IPaymentService
             // This ensures we count all paid payments
             var payments = allPayments.ToList();
 
-            File.AppendAllText(logPath, $"[{DateTime.Now}] Total payments (no date filter): {payments.Count}\n");
+            File.AppendAllText(logPath, $"[{DateTime.Now}] Total payments to process: {payments.Count}\n");
 
             var activeHouses = await _houseRepository.GetAllActiveAsync(cancellationToken);
             var houseCount = activeHouses.Count();

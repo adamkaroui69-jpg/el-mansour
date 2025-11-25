@@ -56,7 +56,7 @@ namespace ElMansourSyndicManager.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/ElMansourSyndicManager;V1.0.15.0;component/views/paymentsview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/ElMansourSyndicManager;V1.0.16.0;component/views/paymentsview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\Views\PaymentsView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
