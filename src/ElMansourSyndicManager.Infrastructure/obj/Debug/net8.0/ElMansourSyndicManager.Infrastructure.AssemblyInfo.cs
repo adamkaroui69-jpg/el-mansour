@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ElMansourSyndicManager.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eb905ad8e36af66d53ac4eacf41c6797ddde6743")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9512250db603c97abddf9d9950c436b5bddf853e")]
 [assembly: System.Reflection.AssemblyProductAttribute("ElMansourSyndicManager.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ElMansourSyndicManager.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

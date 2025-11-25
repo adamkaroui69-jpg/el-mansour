@@ -17,10 +17,30 @@ public partial class MainWindow : Window
         DataContext = _viewModel;
 
         // Configuration du système de mise à jour automatique
-        // TODO: Remplacez l'URL ci-dessous par l'URL réelle de votre fichier update.xml
-        // Exemple: https://mon-site.com/updates/update.xml
-        // Ou un chemin réseau: \\SERVER\Updates\update.xml
+        ConfigureAutoUpdater();
+    }
+
+    private void ConfigureAutoUpdater()
+    {
+        // Configuration pour rendre les mises à jour obligatoires
+        AutoUpdater.Mandatory = true;
+        AutoUpdater.UpdateMode = Mode.Forced;
+        
+        // Fermer l'application si l'utilisateur refuse la mise à jour
+        AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
+        
+        // Personnalisation des messages (optionnel)
+        AutoUpdater.DownloadPath = System.IO.Path.GetTempPath();
+        
+        // Démarrer la vérification de mise à jour
+        // L'URL pointe vers le fichier update.xml sur GitHub
         AutoUpdater.Start("https://raw.githubusercontent.com/adamkaroui69-jpg/el-mansour/main/update.xml");
+    }
+
+    private void AutoUpdater_ApplicationExitEvent()
+    {
+        // Fermer l'application si l'utilisateur refuse la mise à jour obligatoire
+        Application.Current.Shutdown();
     }
 }
 

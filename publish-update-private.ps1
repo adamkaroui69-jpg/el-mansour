@@ -126,7 +126,7 @@ $xmlContent = @"
     <version>$newVersion.0</version>
     <url>$releaseUrl</url>
     <changelog>$changelogUrl</changelog>
-    <mandatory>false</mandatory>
+    <mandatory>true</mandatory>
 </item>
 "@
 
