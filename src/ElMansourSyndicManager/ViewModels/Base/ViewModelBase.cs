@@ -1,5 +1,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Windows;
+using Microsoft.Extensions.Logging;
 
 namespace ElMansourSyndicManager.ViewModels.Base;
 
@@ -29,5 +32,21 @@ public abstract class ViewModelBase : INotifyPropertyChanged
     protected virtual void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
     {
         OnPropertyChanged(propertyName);
+    }
+
+    /// <summary>
+    /// Executes an async action safely with error handling
+    /// </summary>
+    protected async Task ExecuteSafelyAsync(Func<Task> action, string errorMessage = "Une erreur est survenue", ILogger? logger = null)
+    {
+        try
+        {
+            await action();
+        }
+        catch (Exception ex)
+        {
+            logger?.LogError(ex, errorMessage);
+            MessageBox.Show($"{errorMessage}\n\nDétails: {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 }

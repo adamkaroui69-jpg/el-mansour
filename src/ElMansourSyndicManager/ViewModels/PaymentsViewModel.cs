@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using Microsoft.Extensions.Logging;
 
 namespace ElMansourSyndicManager.ViewModels;
 
@@ -21,6 +22,7 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
     private readonly IReceiptService _receiptService;
     private readonly IHouseRepository _houseRepository;
     private readonly IAuthenticationService _authService;
+    private readonly ILogger<PaymentsViewModel> _logger;
     private PaymentDto? _selectedPayment;
     private string _selectedMonth = DateTime.Now.ToString("yyyy-MM");
     private bool _isLoading;
@@ -31,12 +33,14 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
         IPaymentService paymentService,
         IReceiptService receiptService,
         IHouseRepository houseRepository,
-        IAuthenticationService authService)
+        IAuthenticationService authService,
+        ILogger<PaymentsViewModel> logger)
     {
         _paymentService = paymentService;
         _receiptService = receiptService;
         _houseRepository = houseRepository;
         _authService = authService;
+        _logger = logger;
 
         Payments = new ObservableCollection<PaymentDto>();
         Houses = new ObservableCollection<HouseDto>();
@@ -151,30 +155,28 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
 
     private async Task LoadPaymentsAsync()
     {
-        try
+        await ExecuteSafelyAsync(async () =>
         {
             IsLoading = true;
-            var payments = await _paymentService.GetPaymentsByMonthAsync(SelectedMonth);
-            Payments.Clear();
-            foreach (var payment in payments)
+            try
             {
-                Payments.Add(payment);
+                var payments = await _paymentService.GetPaymentsByMonthAsync(SelectedMonth);
+                Payments.Clear();
+                foreach (var payment in payments)
+                {
+                    Payments.Add(payment);
+                }
             }
-        }
-        catch (Exception ex)
-        {
-            // Handle error
-            System.Diagnostics.Debug.WriteLine($"Error loading payments: {ex.Message}");
-        }
-        finally
-        {
-            IsLoading = false;
-        }
+            finally
+            {
+                IsLoading = false;
+            }
+        }, "Erreur lors du chargement des paiements", _logger);
     }
 
     private async Task LoadHousesAsync()
     {
-        try
+        await ExecuteSafelyAsync(async () =>
         {
             var houses = await _houseRepository.GetAllActiveAsync();
             
@@ -203,11 +205,7 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
                     MonthlyAmount = house.MonthlyAmount
                 });
             }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"Error loading houses: {ex.Message}");
-        }
+        }, "Erreur lors du chargement des maisons", _logger);
     }
 
     private void ShowCreateForm()
@@ -226,56 +224,55 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
 
     private async Task CreatePaymentAsync()
     {
-        try
+        await ExecuteSafelyAsync(async () =>
         {
-            // Validation côté client
-            if (string.IsNullOrWhiteSpace(SelectedHouseCode))
+            try
             {
-                MessageBox.Show("Veuillez sélectionner une maison", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
+                // Validation côté client
+                if (string.IsNullOrWhiteSpace(SelectedHouseCode))
+                {
+                    MessageBox.Show("Veuillez sélectionner une maison", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
 
-            if (PaymentAmount <= 0)
-            {
-                MessageBox.Show("Le montant doit être supérieur à zéro", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
+                if (PaymentAmount <= 0)
+                {
+                    MessageBox.Show("Le montant doit être supérieur à zéro", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
 
-            if (PaymentDate == default(DateTime))
-            {
-                MessageBox.Show("Veuillez sélectionner une date de paiement", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
+                if (PaymentDate == default(DateTime))
+                {
+                    MessageBox.Show("Veuillez sélectionner une date de paiement", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
 
-            var payment = new CreatePaymentDto
-            {
-                HouseCode = SelectedHouseCode,
-                Amount = PaymentAmount,
-                PaymentDate = PaymentDate,
-                Month = PaymentDate.ToString("yyyy-MM", CultureInfo.InvariantCulture)
-            };
+                var payment = new CreatePaymentDto
+                {
+                    HouseCode = SelectedHouseCode,
+                    Amount = PaymentAmount,
+                    PaymentDate = PaymentDate,
+                    Month = PaymentDate.ToString("yyyy-MM", CultureInfo.InvariantCulture)
+                };
 
-            await _paymentService.CreatePaymentAsync(payment);
-            await LoadPaymentsAsync();
-            
-            // Close form and show success message
-            IsFormVisible = false;
-            MessageBox.Show("Paiement enregistré avec succès", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-        catch (ValidationException ex)
-        {
-            var sb = new StringBuilder();
-            sb.AppendLine("Erreur de validation :");
-            foreach (var error in ex.Errors)
-            {
-                sb.AppendLine($"- {string.Join(", ", error.Value)}");
+                await _paymentService.CreatePaymentAsync(payment);
+                await LoadPaymentsAsync();
+                
+                // Close form and show success message
+                IsFormVisible = false;
+                MessageBox.Show("Paiement enregistré avec succès", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            MessageBox.Show(sb.ToString(), "Erreur de Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Erreur: {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+            catch (ValidationException ex)
+            {
+                var sb = new StringBuilder();
+                sb.AppendLine("Erreur de validation :");
+                foreach (var error in ex.Errors)
+                {
+                    sb.AppendLine($"- {string.Join(", ", error.Value)}");
+                }
+                MessageBox.Show(sb.ToString(), "Erreur de Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }, "Erreur lors de la création du paiement", _logger);
     }
 
     private async Task MarkAsPaidAsync(PaymentDto payment)
@@ -286,24 +283,11 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
             return;
         }
 
-        try
+        await ExecuteSafelyAsync(async () =>
         {
             await _paymentService.MarkAsPaidAsync(payment.Id, DateTime.Now);
             await LoadPaymentsAsync();
-        }
-        catch (Exception ex)
-        {
-            var message = ex.Message;
-            if (ex.InnerException != null)
-            {
-                message += $"\n\nDétails: {ex.InnerException.Message}";
-                if (ex.InnerException.InnerException != null)
-                {
-                    message += $"\n\nCause profonde: {ex.InnerException.InnerException.Message}";
-                }
-            }
-            MessageBox.Show($"Erreur: {message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+        }, "Erreur lors de la validation du paiement", _logger);
     }
 
     private async Task GenerateReceiptAsync(PaymentDto payment)
@@ -314,29 +298,16 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
             return;
         }
 
-        try
+        await ExecuteSafelyAsync(async () =>
         {
             await _receiptService.GenerateReceiptAsync(payment.Id);
             MessageBox.Show("Reçu généré avec succès", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-        catch (Exception ex)
-        {
-            var message = ex.Message;
-            if (ex.InnerException != null)
-            {
-                message += $"\n\nDétails: {ex.InnerException.Message}";
-                if (ex.InnerException.InnerException != null)
-                {
-                    message += $"\n\nCause profonde: {ex.InnerException.InnerException.Message}";
-                }
-            }
-            MessageBox.Show($"Erreur: {message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+        }, "Erreur lors de la génération du reçu", _logger);
     }
 
     private async Task DeletePaymentAsync(PaymentDto payment)
     {
-        try
+        await ExecuteSafelyAsync(async () =>
         {
             var result = MessageBox.Show(
                 $"Êtes-vous sûr de vouloir supprimer ce paiement ?\n\nMaison: {payment.HouseCode}\nMontant: {payment.Amount:N0} TND\nDate: {payment.PaymentDate:dd/MM/yyyy}\n\nNote: Le reçu associé sera également supprimé.",
@@ -350,20 +321,7 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
                 Payments.Remove(payment);
                 MessageBox.Show("Paiement supprimé avec succès", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-        }
-        catch (Exception ex)
-        {
-            var message = ex.Message;
-            if (ex.InnerException != null)
-            {
-                message += $"\n\nDétails: {ex.InnerException.Message}";
-                if (ex.InnerException.InnerException != null)
-                {
-                    message += $"\n\nCause profonde: {ex.InnerException.InnerException.Message}";
-                }
-            }
-            MessageBox.Show($"Erreur lors de la suppression: {message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+        }, "Erreur lors de la suppression du paiement", _logger);
     }
 }
 

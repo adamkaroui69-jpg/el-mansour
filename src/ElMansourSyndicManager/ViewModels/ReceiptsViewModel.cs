@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using Microsoft.Extensions.Logging;
 
 namespace ElMansourSyndicManager.ViewModels;
 
@@ -17,16 +18,19 @@ public class ReceiptsViewModel : ViewModelBase, IInitializable
 {
     private readonly IReceiptService _receiptService;
     private readonly IPaymentService _paymentService;
+    private readonly ILogger<ReceiptsViewModel> _logger;
     private ReceiptDto? _selectedReceipt;
     private string _selectedHouseCode = string.Empty;
     private bool _isLoading;
 
     public ReceiptsViewModel(
         IReceiptService receiptService,
-        IPaymentService paymentService)
+        IPaymentService paymentService,
+        ILogger<ReceiptsViewModel> logger)
     {
         _receiptService = receiptService;
         _paymentService = paymentService;
+        _logger = logger;
 
         Receipts = new ObservableCollection<ReceiptDto>();
 
@@ -77,42 +81,36 @@ public class ReceiptsViewModel : ViewModelBase, IInitializable
 
     private async Task LoadReceiptsAsync()
     {
-        try
+        await ExecuteSafelyAsync(async () =>
         {
             IsLoading = true;
-            
-            List<ReceiptDto> receipts;
-            if (string.IsNullOrWhiteSpace(SelectedHouseCode))
+            try
             {
-                receipts = await _receiptService.GetAllReceiptsAsync();
+                List<ReceiptDto> receipts;
+                if (string.IsNullOrWhiteSpace(SelectedHouseCode))
+                {
+                    receipts = await _receiptService.GetAllReceiptsAsync();
+                }
+                else
+                {
+                    receipts = await _receiptService.GetReceiptHistoryAsync(SelectedHouseCode);
+                }
+                Receipts.Clear();
+                foreach (var receipt in receipts)
+                {
+                    Receipts.Add(receipt);
+                }
             }
-            else
+            finally
             {
-                receipts = await _receiptService.GetReceiptHistoryAsync(SelectedHouseCode);
+                IsLoading = false;
             }
-            Receipts.Clear();
-            foreach (var receipt in receipts)
-            {
-                Receipts.Add(receipt);
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(
-                $"Erreur lors du chargement des reçus: {ex.Message}",
-                "Erreur",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
-        }
-        finally
-        {
-            IsLoading = false;
-        }
+        }, "Erreur lors du chargement des reçus", _logger);
     }
 
     private async Task ViewReceiptAsync(ReceiptDto receipt)
     {
-        try
+        await ExecuteSafelyAsync(async () =>
         {
             var filePath = await _receiptService.GetReceiptFilePathAsync(receipt.Id);
             if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
@@ -141,20 +139,12 @@ public class ReceiptsViewModel : ViewModelBase, IInitializable
                 FileName = filePath,
                 UseShellExecute = true
             });
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(
-                $"Erreur lors de l'ouverture du reçu: {ex.Message}",
-                "Erreur",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
-        }
+        }, "Erreur lors de l'ouverture du reçu", _logger);
     }
 
     private async Task PrintReceiptAsync(ReceiptDto receipt)
     {
-        try
+        await ExecuteSafelyAsync(async () =>
         {
             await _receiptService.PrintReceiptAsync(receipt.Id);
             MessageBox.Show(
@@ -162,20 +152,12 @@ public class ReceiptsViewModel : ViewModelBase, IInitializable
                 "Succès",
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(
-                $"Erreur lors de l'impression: {ex.Message}",
-                "Erreur",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
-        }
+        }, "Erreur lors de l'impression", _logger);
     }
 
     private async Task DownloadReceiptAsync(ReceiptDto receipt)
     {
-        try
+        await ExecuteSafelyAsync(async () =>
         {
             var saveDialog = new SaveFileDialog
             {
@@ -204,20 +186,12 @@ public class ReceiptsViewModel : ViewModelBase, IInitializable
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
             }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(
-                $"Erreur lors du téléchargement: {ex.Message}",
-                "Erreur",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
-        }
+        }, "Erreur lors du téléchargement", _logger);
     }
 
     private async Task EmailReceiptAsync(ReceiptDto receipt)
     {
-        try
+        await ExecuteSafelyAsync(async () =>
         {
             var pdfBytes = await _receiptService.GetReceiptFileAsync(receipt.Id);
             if (pdfBytes == null)
@@ -250,14 +224,6 @@ public class ReceiptsViewModel : ViewModelBase, IInitializable
                 "Information",
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(
-                $"Erreur lors de l'envoi par email: {ex.Message}",
-                "Erreur",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
-        }
+        }, "Erreur lors de l'envoi par email", _logger);
     }
 }

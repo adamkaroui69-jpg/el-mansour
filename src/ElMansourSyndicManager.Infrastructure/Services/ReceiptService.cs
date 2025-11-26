@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
+using QRCoder;
 
 namespace ElMansourSyndicManager.Infrastructure.Services;
 
@@ -395,6 +396,26 @@ public class ReceiptService : IReceiptService
                         column.Item().PaddingTop(5).LineHorizontal(2).LineColor(Colors.Blue.Darken2);
                     });
 
+                // QR Code in top-right corner
+                page.Header()
+                    .AlignRight()
+                    .Width(60)
+                    .Column(qrColumn =>
+                    {
+                        // Generate QR code data
+                        var qrData = $"{payment.HouseCode}|{payment.Id}|{payment.Month}|{payment.Amount:F2}";
+                        var qrCodeBytes = GenerateQRCode(qrData);
+                        
+                        if (qrCodeBytes != null)
+                        {
+                            qrColumn.Item().Image(qrCodeBytes);
+                            qrColumn.Item().PaddingTop(2).AlignCenter()
+                                .Text("Scan pour vérifier")
+                                .FontSize(6)
+                                .FontColor(Colors.Grey.Medium);
+                        }
+                    });
+
                 // Main content
                 page.Content()
                     .PaddingVertical(0.5f, Unit.Centimetre)
@@ -497,6 +518,25 @@ public class ReceiptService : IReceiptService
             return date.ToString("MMMM yyyy", new System.Globalization.CultureInfo("fr-FR"));
         }
         return month;
+    }
+
+    /// <summary>
+    /// Generates QR code as PNG byte array
+    /// </summary>
+    private byte[]? GenerateQRCode(string data)
+    {
+        try
+        {
+            using var qrGenerator = new QRCodeGenerator();
+            using var qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
+            using var qrCode = new PngByteQRCode(qrCodeData);
+            return qrCode.GetGraphic(20);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to generate QR code");
+            return null;
+        }
     }
 
     /// <summary>

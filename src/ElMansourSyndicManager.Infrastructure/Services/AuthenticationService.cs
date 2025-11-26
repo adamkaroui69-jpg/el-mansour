@@ -231,7 +231,7 @@ public class AuthenticationService : IAuthenticationService
         };
     }
 
-    private (string Hash, string Salt) HashPassword(string password)
+    public (string Hash, string Salt) HashPassword(string password)
     {
         var salt = new byte[SaltSize];
         using (var rng = RandomNumberGenerator.Create())

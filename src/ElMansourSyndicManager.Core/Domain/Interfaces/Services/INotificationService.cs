@@ -10,12 +10,12 @@ public interface INotificationService
     /// <summary>
     /// Creates a new notification
     /// </summary>
-    Task<NotificationDTO> CreateNotificationAsync(NotificationDTO notification, CancellationToken cancellationToken = default);
+    Task<NotificationDto> CreateNotificationAsync(NotificationDto notification, CancellationToken cancellationToken = default);
     
     /// <summary>
     /// Gets user notifications
     /// </summary>
-    Task<List<NotificationDTO>> GetUserNotificationsAsync(string? userId = null, bool unreadOnly = false, CancellationToken cancellationToken = default);
+    Task<List<NotificationDto>> GetUserNotificationsAsync(string? userId = null, bool unreadOnly = false, CancellationToken cancellationToken = default);
     
     /// <summary>
     /// Marks a notification as read
@@ -50,7 +50,7 @@ public interface INotificationService
     /// <summary>
     /// Gets notifications by type
     /// </summary>
-    Task<List<NotificationDTO>> GetNotificationsByTypeAsync(string type, string? userId = null, CancellationToken cancellationToken = default);
+    Task<List<NotificationDto>> GetNotificationsByTypeAsync(string type, string? userId = null, CancellationToken cancellationToken = default);
     
     /// <summary>
     /// Clears expired notifications

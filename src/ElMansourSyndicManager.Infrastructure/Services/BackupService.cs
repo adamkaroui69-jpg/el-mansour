@@ -137,7 +137,7 @@ public class BackupService : IBackupService
             }, cancellationToken);
 
             // 9. Send success notification
-            await _notificationService.CreateNotificationAsync(new NotificationDTO
+            await _notificationService.CreateNotificationAsync(new NotificationDto
             {
                 UserId = _authService.CurrentUser?.Id.ToString(),
                 Type = "System",
@@ -157,7 +157,7 @@ public class BackupService : IBackupService
             // Send failure notification
             try
             {
-                await _notificationService.CreateNotificationAsync(new NotificationDTO
+                await _notificationService.CreateNotificationAsync(new NotificationDto
                 {
                     UserId = _authService.CurrentUser?.Id.ToString(),
                     Type = "System",

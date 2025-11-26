@@ -17,14 +17,18 @@ public static class DependencyInjection
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IPaymentService, PaymentService>();
         services.AddScoped<IReceiptService, ReceiptService>();
-        // Removed IMaintenanceService, MaintenanceService as implementation is missing
-        // Removed IExpenseService, ExpenseService as implementation is missing
+        services.AddScoped<IMaintenanceService, MaintenanceService>();
+        services.AddScoped<IExpenseService, ExpenseService>();
         services.AddScoped<IReportingService, ReportingService>();
-        // Removed IDocumentService, DocumentService as implementation is missing
+        services.AddScoped<IDocumentService, DocumentService>();
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<IAuditService, AuditService>();
-        // Removed ISyncService, SyncService as implementation is missing
         services.AddScoped<IBackupService, BackupService>();
+        
+        // Startup Services
+        services.AddScoped<IAppInitializer, AppInitializer>();
+        services.AddScoped<IDatabaseMigrator, DatabaseMigrator>();
+        services.AddScoped<IDataSeeder, DataSeeder>();
 
         return services;
     }

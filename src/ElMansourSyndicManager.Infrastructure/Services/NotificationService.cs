@@ -44,14 +44,14 @@ public class NotificationService : INotificationService
     /// <summary>
     /// Creates a new notification
     /// </summary>
-        public async Task<NotificationDTO> CreateNotificationAsync(
-            NotificationDTO notificationDto,
-            CancellationToken cancellationToken = default)
+    public async Task<NotificationDto> CreateNotificationAsync(
+        NotificationDto notificationDto,
+        CancellationToken cancellationToken = default)
+    {
+        try
         {
-            try
+            var entity = new Notification
             {
-                var entity = new Notification
-                {
                     UserId = notificationDto.UserId,
                     Type = notificationDto.Type,
                     Title = notificationDto.Title,
@@ -93,7 +93,7 @@ public class NotificationService : INotificationService
     /// <summary>
     /// Gets user notifications
     /// </summary>
-        public async Task<List<NotificationDTO>> GetUserNotificationsAsync(
+        public async Task<List<NotificationDto>> GetUserNotificationsAsync(
             string? userId = null,
             bool unreadOnly = false,
             CancellationToken cancellationToken = default)
@@ -222,7 +222,7 @@ public class NotificationService : INotificationService
                 
                 foreach (var house in unpaidHouses)
                 {
-                    var notification = new NotificationDTO
+                    var notification = new NotificationDto
                     {
                         UserId = null, // Ou un ID d'utilisateur spécifique si applicable
                         Type = "UnpaidHouse",
@@ -254,7 +254,7 @@ public class NotificationService : INotificationService
         {
             try
             {
-                var notification = new NotificationDTO
+                var notification = new NotificationDto
                 {
                     UserId = null, // Ou un ID d'utilisateur spécifique si applicable
                     Type = "PaymentDue",
@@ -294,7 +294,7 @@ public class NotificationService : INotificationService
                 _ => "Notification de Maintenance"
             };
 
-            var notification = new NotificationDTO
+            var notification = new NotificationDto
             {
                 UserId = maintenance.AssignedTo,
                 Type = "MaintenanceDue",
@@ -328,7 +328,7 @@ public class NotificationService : INotificationService
     {
         try
         {
-            var notification = new NotificationDTO
+            var notification = new NotificationDto
             {
                 UserId = null, // Send to all users
                 Type = "Info",
@@ -390,7 +390,7 @@ public class NotificationService : INotificationService
     // Temporarily commented out due to API changes in Microsoft.Toolkit.Uwp.Notifications
     /*
     public async Task ShowToastNotificationAsync(
-        NotificationDTO notification,
+        NotificationDto notification,
         CancellationToken cancellationToken = default)
     {
         try
@@ -457,7 +457,7 @@ public class NotificationService : INotificationService
     /// <summary>
     /// Gets notifications by type
     /// </summary>
-        public async Task<List<NotificationDTO>> GetNotificationsByTypeAsync(
+        public async Task<List<NotificationDto>> GetNotificationsByTypeAsync(
             string type,
             string? userId = null,
             CancellationToken cancellationToken = default)
@@ -513,9 +513,9 @@ public class NotificationService : INotificationService
     /// <summary>
     /// Maps Notification entity to DTO
     /// </summary>
-    private NotificationDTO MapToDto(Notification notification)
+    private NotificationDto MapToDto(Notification notification)
     {
-        return new NotificationDTO
+        return new NotificationDto
         {
             Id = notification.Id,
             UserId = notification.UserId,

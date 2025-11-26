@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Collections.ObjectModel;
 using AutoUpdaterDotNET;
 using ElMansourSyndicManager.Models;
+using Microsoft.Extensions.Logging;
 
 namespace ElMansourSyndicManager.ViewModels;
 
@@ -22,6 +23,7 @@ public class MainViewModel : ViewModelBase
     private readonly INavigationService _navigationService;
     private readonly INotificationService _notificationService;
     private readonly IServiceProvider _serviceProvider;
+    private readonly ILogger<MainViewModel> _logger;
     private object _currentView;
     private UserDto? _currentUser;
     private NavigationItem? _selectedNavigationItem;
@@ -31,12 +33,14 @@ public class MainViewModel : ViewModelBase
         INavigationService navigationService,
         INotificationService notificationService,
         IServiceProvider serviceProvider,
-        DashboardViewModel dashboardViewModel)
+        DashboardViewModel dashboardViewModel,
+        ILogger<MainViewModel> logger)
     {
         _authService = authService;
         _navigationService = navigationService;
         _notificationService = notificationService;
         _serviceProvider = serviceProvider;
+        _logger = logger;
         
         // Initialize with dashboard
         var dashboardView = _serviceProvider.GetRequiredService<DashboardView>();
@@ -90,7 +94,8 @@ public class MainViewModel : ViewModelBase
         });
 
         // Load notifications from database
-        try
+        // Load notifications from database
+        await ExecuteSafelyAsync(async () =>
         {
             // Generate notifications for unpaid houses first
             var currentMonth = DateTime.Now.ToString("yyyy-MM");
@@ -113,11 +118,7 @@ public class MainViewModel : ViewModelBase
                     });
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"Error loading notifications: {ex.Message}");
-        }
+        }, "Erreur lors du chargement des notifications", _logger);
     }
 
     private string GetIconForType(string type)
@@ -182,19 +183,22 @@ public class MainViewModel : ViewModelBase
 
     private async void LoadCurrentUser()
     {
-        CurrentUser = await _authService.GetCurrentUserAsync();
-        // Filter navigation items based on role
-        if (CurrentUser?.Role != "Admin")
+        await ExecuteSafelyAsync(async () =>
         {
-            var itemsToRemove = NavigationItems.Where(item => item.RequiresAdmin).ToList();
-            foreach (var item in itemsToRemove)
+            CurrentUser = await _authService.GetCurrentUserAsync();
+            // Filter navigation items based on role
+            if (CurrentUser?.Role != "Admin")
             {
-                NavigationItems.Remove(item);
+                var itemsToRemove = NavigationItems.Where(item => item.RequiresAdmin).ToList();
+                foreach (var item in itemsToRemove)
+                {
+                    NavigationItems.Remove(item);
+                }
             }
-        }
-        
-        // Initialize notifications
-        InitializeNotifications();
+            
+            // Initialize notifications
+            InitializeNotifications();
+        }, "Erreur lors du chargement de l'utilisateur", _logger);
     }
 
 

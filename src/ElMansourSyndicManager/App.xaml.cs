@@ -35,20 +35,19 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        Console.WriteLine("Application OnStartup method called."); // Added for debugging
+        Console.WriteLine("Application OnStartup method called.");
 
         // Configure services
         var services = new ServiceCollection();
         
-        // Database
-        // Configuration
+        // Database Configuration
         var baseDir = AppDomain.CurrentDomain.BaseDirectory;
         var builder = new ConfigurationBuilder()
             .SetBasePath(baseDir)
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
         var configuration = builder.Build();
 
-        // Database
+        // Database Provider
         var dbProvider = configuration["DatabaseProvider"] ?? "Sqlite";
         
         services.AddDbContext<ApplicationDbContext>(options =>
@@ -62,10 +61,7 @@ public partial class App : Application
             {
                 // Default to Sqlite
                 var dataDir = System.IO.Path.Combine(baseDir, "data");
-                if (!System.IO.Directory.Exists(dataDir))
-                {
-                    System.IO.Directory.CreateDirectory(dataDir);
-                }
+                // Directory creation is handled by AppInitializer
                 var dbPath = System.IO.Path.Combine(dataDir, "local.db");
                 options.UseSqlite($"Data Source={dbPath}");
             }
@@ -77,169 +73,29 @@ public partial class App : Application
         _serviceProvider = services.BuildServiceProvider();
         Services = _serviceProvider;
 
-        // Create admin user if not exists
+        // Initialize Application
         using (var scope = _serviceProvider.CreateScope())
         {
-            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            
-            // Créer la base de données si elle n'existe pas (sans la supprimer !)
-            await dbContext.Database.EnsureCreatedAsync();
-            
-            var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
-            var houseRepository = scope.ServiceProvider.GetRequiredService<IHouseRepository>();
-
-            // Ensure House D05 exists
-            var adminHouse = await houseRepository.GetByCodeAsync("D05");
-            if (adminHouse == null)
-            {
-                adminHouse = new ElMansourSyndicManager.Core.Domain.Entities.House
-                {
-                    HouseCode = "D05",
-                    BuildingCode = "D",
-                    OwnerName = "Admin System",
-                    ContactNumber = "0000000000",
-                    Email = "admin@syndic.com",
-                    MonthlyAmount = 0,
-                    IsActive = true,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
-                };
-                await houseRepository.CreateAsync(adminHouse);
-            }
-
-            // Create admin user with password "123456"
-            var authService = scope.ServiceProvider.GetRequiredService<IAuthenticationService>();
-            
-            // Generate hash for password "123456"
-            var password = "123456";
-            var (hash, salt) = GeneratePasswordHash(password);
-            
-            await userRepository.CreateAdminUserIfNotExistAsync("D05", "Admin", hash, salt);
-
-            // --- MIGRATION MANUELLE POUR CORRIGER LE SCHEMA ---
             try 
             {
-                // Maintenance: Add CompletedAt if missing
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Maintenances ADD COLUMN CompletedAt TEXT NULL;"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Maintenances ADD COLUMN StartedAt TEXT NULL;"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Maintenances ADD COLUMN ScheduledDate TEXT NULL;"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Maintenances ADD COLUMN Type TEXT DEFAULT '';"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Maintenances ADD COLUMN Cost DECIMAL(18,2) DEFAULT 0;"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Maintenances ADD COLUMN Priority TEXT DEFAULT 'Normal';"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Maintenances ADD COLUMN CreatedBy TEXT DEFAULT '';"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Maintenances ADD COLUMN AssignedTo TEXT NULL;"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Maintenances ADD COLUMN ReportedBy TEXT NULL;"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Maintenances ADD COLUMN Notes TEXT NULL;"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Maintenances ADD COLUMN UpdatedAt TEXT NULL;"); } catch { }
+                // 1. Initialize Resources (Directories, etc.)
+                var appInitializer = scope.ServiceProvider.GetRequiredService<IAppInitializer>();
+                appInitializer.Initialize();
 
-                // Payments: Add GeneratedBy, RecordedBy if missing
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Payments ADD COLUMN GeneratedBy TEXT DEFAULT '';"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Payments ADD COLUMN RecordedBy TEXT DEFAULT '';"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Payments ADD COLUMN ReferenceNumber TEXT NULL;"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Payments ADD COLUMN UpdatedAt TEXT NULL;"); } catch { }
+                // 2. Migrate Database
+                var migrator = scope.ServiceProvider.GetRequiredService<IDatabaseMigrator>();
+                await migrator.MigrateAsync();
 
-                // Expenses: Add RecordedBy, MaintenanceId, Notes if missing
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Expenses ADD COLUMN RecordedBy TEXT DEFAULT '';"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Expenses ADD COLUMN MaintenanceId TEXT NULL;"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Expenses ADD COLUMN Notes TEXT NULL;"); } catch { }
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Expenses ADD COLUMN UpdatedAt TEXT NULL;"); } catch { }
-                
-                // Houses: Add Email if missing
-                try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Houses ADD COLUMN Email TEXT NULL;"); } catch { }
+                // 3. Seed Data
+                var seeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
+                await seeder.SeedAsync();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Migration warning: {ex.Message}");
+                MessageBox.Show($"Une erreur critique est survenue au démarrage : {ex.Message}", "Erreur Fatale", MessageBoxButton.OK, MessageBoxImage.Error);
+                Shutdown();
+                return;
             }
-            // --- FIN MIGRATION ---
-
-            // --- DÉBUT SEEDING PERSONNALISÉ ---
-            
-            // 1. Définir la structure exacte attendue
-            var expectedHouses = new List<ElMansourSyndicManager.Core.Domain.Entities.House>();
-
-            // Fonction helper pour créer une maison
-            void AddHouse(string code, string block, string owner, decimal amount = 100)
-            {
-                expectedHouses.Add(new ElMansourSyndicManager.Core.Domain.Entities.House
-                {
-                    Id = Guid.NewGuid(),
-                    HouseCode = code,
-                    BuildingCode = block,
-                    OwnerName = owner,
-                    MonthlyAmount = amount,
-                    IsActive = true,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
-                });
-            }
-
-            // Blocs A, C, D, E (16 appartements : RDC+3 * 4)
-            foreach (var block in new[] { "A", "C", "D", "E" })
-            {
-                for (int i = 1; i <= 16; i++)
-                {
-                    AddHouse($"{block}{i:00}", block, $"Propriétaire {block}{i:00}");
-                }
-            }
-
-            // Bloc B (16 appartements standards + 2 spéciaux)
-            for (int i = 1; i <= 16; i++)
-            {
-                AddHouse($"B{i:00}", "B", $"Propriétaire B{i:00}");
-            }
-
-            // Bloc B - 4ème étage (Syndic + Concierge) -> Suite séquentielle ou codes spéciaux ?
-            // Logique séquentielle : B17 et B18
-            AddHouse("B17", "B", "Bureau de Syndicat");
-            AddHouse("B18", "B", "Maison de Concierge");
-
-            // Magasins
-            // Bloc A : M01
-            AddHouse("M01", "A", "Magasin M01 (Bloc A)", 150);
-            
-            // Bloc B : M02, M03
-            AddHouse("M02", "B", "Magasin M02 (Bloc B)", 150);
-            AddHouse("M03", "B", "Magasin M03 (Bloc B)", 150);
-
-            // 2. Synchroniser avec la base de données
-            var existingHouses = await houseRepository.GetAllActiveAsync();
-            var existingCodes = existingHouses.Select(h => h.HouseCode).ToHashSet();
-
-            // Créer les manquantes
-            foreach (var house in expectedHouses)
-            {
-                if (!existingCodes.Contains(house.HouseCode))
-                {
-                    await houseRepository.CreateAsync(house);
-                }
-            }
-
-            // 3. Nettoyer les maisons en trop (ex: Blocs F, G, H créés précédemment)
-            // On garde D05 (Admin) et celles qu'on vient de définir
-            var validCodes = expectedHouses.Select(h => h.HouseCode).ToHashSet();
-            validCodes.Add("D05"); // Toujours garder l'admin
-
-            foreach (var existing in existingHouses)
-            {
-                if (!validCodes.Contains(existing.HouseCode))
-                {
-                    // Suppression logique (IsActive = false) ou physique ?
-                    // Pour nettoyer proprement la liste déroulante, on va essayer de supprimer physiquement.
-                    // Si échec (clé étrangère), on désactive.
-                    try
-                    {
-                        await houseRepository.DeleteAsync(existing);
-                    }
-                    catch
-                    {
-                        existing.IsActive = false;
-                        await houseRepository.UpdateAsync(existing);
-                    }
-                }
-            }
-            
-            // --- FIN SEEDING PERSONNALISÉ ---
         }
 
         // Show login window first (MainWindow will be shown after login)
@@ -251,20 +107,16 @@ public partial class App : Application
     {
         // Repositories (add your implementations here)
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IAuditLogRepository, AuditLogRepository>(); // Added
+        services.AddScoped<IAuditLogRepository, AuditLogRepository>();
         services.AddScoped<IPaymentRepository, PaymentRepository>();
-        services.AddScoped<IHouseRepository, HouseRepository>(); // Uncommented and corrected implementation name
+        services.AddScoped<IHouseRepository, HouseRepository>();
         services.AddScoped<IReceiptRepository, ReceiptRepository>();
         services.AddScoped<IMaintenanceRepository, MaintenanceRepository>();
-        services.AddScoped<INotificationRepository, ElMansourSyndicManager.Infrastructure.Repositories.NotificationRepository>(); // Added
+        services.AddScoped<INotificationRepository, ElMansourSyndicManager.Infrastructure.Repositories.NotificationRepository>();
         services.AddScoped<IExpenseRepository, ExpenseRepository>();
         services.AddScoped<IDocumentRepository, DocumentRepository>();
         
-        // Services
-        services.AddScoped<IMaintenanceService, MaintenanceService>();
-        services.AddScoped<INotificationService, NotificationService>(); // Added
-        services.AddScoped<IExpenseService, ExpenseService>();
-        services.AddScoped<IDocumentService, DocumentService>();
+        // Services registered via AddApplicationServices()
         services.AddApplicationServices();
 
         // Logging
@@ -302,28 +154,6 @@ public partial class App : Application
 
         // Navigation service
         services.AddSingleton<INavigationService, NavigationService>();
-    }
-
-    private static (string Hash, string Salt) GeneratePasswordHash(string password)
-    {
-        const int SaltSize = 32;
-        const int HashSize = 32;
-        const int PBKDF2Iterations = 10000;
-        
-        var salt = new byte[SaltSize];
-        using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
-        {
-            rng.GetBytes(salt);
-        }
-
-        using var pbkdf2 = new System.Security.Cryptography.Rfc2898DeriveBytes(
-            password, 
-            salt, 
-            PBKDF2Iterations, 
-            System.Security.Cryptography.HashAlgorithmName.SHA256);
-        var hash = pbkdf2.GetBytes(HashSize);
-        
-        return (Convert.ToBase64String(hash), Convert.ToBase64String(salt));
     }
 
     protected override void OnExit(ExitEventArgs e)

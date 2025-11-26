@@ -51,5 +51,10 @@ public interface IAuthenticationService
     /// Current authenticated user
     /// </summary>
     UserDto? CurrentUser { get; }
+
+    /// <summary>
+    /// Hashes a password for storage
+    /// </summary>
+    (string Hash, string Salt) HashPassword(string password);
 }
 

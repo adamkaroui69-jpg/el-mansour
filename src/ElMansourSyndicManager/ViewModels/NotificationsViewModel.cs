@@ -14,7 +14,7 @@ public class NotificationsViewModel : ViewModelBase
 {
     private readonly INotificationService _notificationService;
     private readonly IAuthenticationService _authService;
-    private NotificationDTO? _selectedNotification;
+    private NotificationDto? _selectedNotification;
     private string _selectedFilter = "All";
     private string _selectedTypeFilter = "All";
     private bool _isLoading;
@@ -27,23 +27,23 @@ public class NotificationsViewModel : ViewModelBase
         _notificationService = notificationService;
         _authService = authService;
 
-        Notifications = new ObservableCollection<NotificationDTO>();
-        FilteredNotifications = new ObservableCollection<NotificationDTO>();
+        Notifications = new ObservableCollection<NotificationDto>();
+        FilteredNotifications = new ObservableCollection<NotificationDto>();
 
         RefreshCommand = new RelayCommand(async () => await LoadNotificationsAsync());
-        MarkReadCommand = new RelayCommand<NotificationDTO>(async n => await MarkAsReadAsync(n), n => n != null && !n.IsRead);
+        MarkReadCommand = new RelayCommand<NotificationDto>(async n => await MarkAsReadAsync(n), n => n != null && !n.IsRead);
         MarkAllReadCommand = new RelayCommand(async () => await MarkAllAsReadAsync(), () => UnreadCount > 0);
-        DeleteCommand = new RelayCommand<NotificationDTO>(async n => await DeleteNotificationAsync(n), n => n != null);
-        OpenRelatedItemCommand = new RelayCommand<NotificationDTO>(async n => await OpenRelatedItemAsync(n), n => n != null && !string.IsNullOrEmpty(n.RelatedEntityId));
+        DeleteCommand = new RelayCommand<NotificationDto>(async n => await DeleteNotificationAsync(n), n => n != null);
+        OpenRelatedItemCommand = new RelayCommand<NotificationDto>(async n => await OpenRelatedItemAsync(n), n => n != null && !string.IsNullOrEmpty(n.RelatedEntityId));
 
         // Load initial data
         _ = LoadNotificationsAsync();
     }
 
-    public ObservableCollection<NotificationDTO> Notifications { get; }
-    public ObservableCollection<NotificationDTO> FilteredNotifications { get; }
+    public ObservableCollection<NotificationDto> Notifications { get; }
+    public ObservableCollection<NotificationDto> FilteredNotifications { get; }
 
-    public NotificationDTO? SelectedNotification
+    public NotificationDto? SelectedNotification
     {
         get => _selectedNotification;
         set => SetProperty(ref _selectedNotification, value);
@@ -127,7 +127,7 @@ public class NotificationsViewModel : ViewModelBase
         }
     }
 
-    private async Task MarkAsReadAsync(NotificationDTO notification)
+    private async Task MarkAsReadAsync(NotificationDto notification)
     {
         try
         {
@@ -168,7 +168,7 @@ public class NotificationsViewModel : ViewModelBase
         }
     }
 
-    private async Task DeleteNotificationAsync(NotificationDTO notification)
+    private async Task DeleteNotificationAsync(NotificationDto notification)
     {
         try
         {
@@ -196,7 +196,7 @@ public class NotificationsViewModel : ViewModelBase
         }
     }
 
-    private async Task OpenRelatedItemAsync(NotificationDTO notification)
+    private async Task OpenRelatedItemAsync(NotificationDto notification)
     {
         try
         {
@@ -263,7 +263,7 @@ public class NotificationsViewModel : ViewModelBase
         }
     }
 
-    public string GetNotificationIcon(NotificationDTO notification)
+    public string GetNotificationIcon(NotificationDto notification)
     {
         return notification.Type switch
         {
@@ -275,7 +275,7 @@ public class NotificationsViewModel : ViewModelBase
         };
     }
 
-    public string GetPriorityColor(NotificationDTO notification)
+    public string GetPriorityColor(NotificationDto notification)
     {
         return notification.Priority switch
         {
