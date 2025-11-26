@@ -1,5 +1,5 @@
 ﻿ElMansourSyndicManager
-1.0.23.0
+1.0.24.0
 
 winexe
 C#
@@ -13,7 +13,7 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\App.xam
 141378359307
 3-120513658
 38-278639873
-268176021829
+2691620449370
 MainWindow.xaml;Resources\Converters.xaml;Views\AuditView.xaml;Views\BackupView.xaml;Views\DashboardView.xaml;Views\DocumentsView.xaml;Views\ExpensesView.xaml;Views\LoginWindow.xaml;Views\NotificationsView.xaml;Views\PaymentsView.xaml;Views\ReceiptsView.xaml;Views\ReportsView.xaml;Views\SettingsView.xaml;Views\UsersView.xaml;
 
 False
