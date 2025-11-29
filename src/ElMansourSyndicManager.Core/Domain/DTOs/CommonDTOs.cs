@@ -93,6 +93,7 @@ public class UserDto
 {
     public Guid Id { get; set; }
     public Guid? HouseId { get; set; }
+    public string HouseCode { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;
     public string Role { get; set; } = string.Empty;
     public bool IsActive { get; set; }

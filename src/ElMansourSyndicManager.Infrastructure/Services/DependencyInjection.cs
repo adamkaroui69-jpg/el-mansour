@@ -13,7 +13,8 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         // Services
-        services.AddScoped<IAuthenticationService, AuthenticationService>();
+        // AuthenticationService must be Singleton to maintain user session across scopes
+        services.AddSingleton<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IPaymentService, PaymentService>();
         services.AddScoped<IReceiptService, ReceiptService>();

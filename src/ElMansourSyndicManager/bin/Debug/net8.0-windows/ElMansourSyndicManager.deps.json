@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "ElMansourSyndicManager/1.0.24": {
+      "ElMansourSyndicManager/1.0.29": {
         "dependencies": {
           "Autoupdater.NET.Official": "1.9.2",
           "ElMansourSyndicManager.Core": "1.0.0",
@@ -1328,7 +1328,7 @@
     }
   },
   "libraries": {
-    "ElMansourSyndicManager/1.0.24": {
+    "ElMansourSyndicManager/1.0.29": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

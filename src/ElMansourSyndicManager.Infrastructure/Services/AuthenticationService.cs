@@ -222,6 +222,7 @@ public class AuthenticationService : IAuthenticationService
         {
             Id = user.Id,
             HouseId = user.HouseId,
+            HouseCode = user.HouseCode,
             Username = user.Username,
             Role = user.Role,
             IsActive = user.IsActive,
