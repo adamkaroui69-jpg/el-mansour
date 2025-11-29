@@ -12,11 +12,11 @@ using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("ElMansourSyndicManager")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.24.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.24+d9b53ef6584e07090bf77dbbb440875b43ad0ea9")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.25.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.25+e80e120609be547c75cc3803af7e04473ec3eb11")]
 [assembly: System.Reflection.AssemblyProductAttribute("ElMansourSyndicManager")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ElMansourSyndicManager")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.24.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.0.25.0")]
 [assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")]
 

@@ -221,7 +221,9 @@ public class ReceiptService : IReceiptService
              }
         }
 
-        return null;
+        // If file is still missing, recreate it from DB data
+        _logger.LogWarning("Receipt file missing for {ReceiptId}, recreating it...", receiptId);
+        return await RecreateReceiptPdfAsync(receipt, cancellationToken);
     }
 
     /// <summary>
@@ -251,7 +253,10 @@ public class ReceiptService : IReceiptService
              }
         }
 
-        return null;
+        // If file is still missing, recreate it
+        _logger.LogWarning("Receipt file missing for {ReceiptId} (path request), recreating it...", receiptId);
+        await RecreateReceiptPdfAsync(receipt, cancellationToken);
+        return receipt.FilePath;
     }
 
     /// <summary>
@@ -357,6 +362,51 @@ public class ReceiptService : IReceiptService
         }
     }
 
+    /// <summary>
+    /// Recreates a receipt PDF from existing DB data (for recovery)
+    /// </summary>
+    private async Task<byte[]> RecreateReceiptPdfAsync(
+        Receipt receipt,
+        CancellationToken cancellationToken)
+    {
+        var payment = await _paymentRepository.GetByIdAsync(receipt.PaymentId, cancellationToken);
+        if (payment == null)
+            throw new NotFoundException("Payment", receipt.PaymentId);
+
+        User? user = null;
+        // Use the creator of the payment (GeneratedBy)
+        if (Guid.TryParse(payment.GeneratedBy, out var userId))
+        {
+            user = await _userRepository.GetByIdAsync(userId, cancellationToken);
+        }
+
+        // Use existing Trace ID (ReceiptNumber)
+        var pdfBytes = await GenerateReceiptPdfAsync(payment, user, receipt.ReceiptNumber);
+
+        // Save locally to restore the file
+        var localFilePath = receipt.FilePath;
+        // If original path is invalid/empty, create a new standard one
+        if (string.IsNullOrEmpty(localFilePath) || !Path.IsPathRooted(localFilePath))
+        {
+            localFilePath = CreateLocalFilePath(payment.HouseCode, payment.Month, receipt.ReceiptNumber);
+        }
+
+        var directory = Path.GetDirectoryName(localFilePath);
+        if (!string.IsNullOrEmpty(directory))
+            Directory.CreateDirectory(directory);
+
+        await File.WriteAllBytesAsync(localFilePath, pdfBytes, cancellationToken);
+
+        // Update DB if path changed
+        if (receipt.FilePath != localFilePath)
+        {
+            receipt.FilePath = localFilePath;
+            await _receiptRepository.UpdateAsync(receipt, cancellationToken);
+        }
+
+        return pdfBytes;
+    }
+
     #region Private Methods
 
     /// <summary>
@@ -431,7 +481,11 @@ public class ReceiptService : IReceiptService
                             info.Item().Row(row =>
                             {
                                 row.RelativeItem().Text("Date:").FontSize(9).FontColor(Colors.Grey.Darken1);
-                                row.RelativeItem().AlignRight().Text($"{DateTime.Now:dd/MM/yyyy}").SemiBold();
+                                // Use Payment Date if available, otherwise Now
+                                var dateStr = payment.PaymentDate.HasValue 
+                                    ? payment.PaymentDate.Value.ToString("dd/MM/yyyy") 
+                                    : DateTime.Now.ToString("dd/MM/yyyy");
+                                row.RelativeItem().AlignRight().Text(dateStr).SemiBold();
                             });
                             
                             info.Item().Row(row =>
@@ -462,10 +516,10 @@ public class ReceiptService : IReceiptService
                                 .Bold().FontSize(18).FontColor(Colors.Blue.Darken3);
                         });
                         
-                        // Received by section
+                        // Received by section (Creator Name)
                         if (member != null)
                         {
-                            column.Item().PaddingTop(8).AlignCenter().Text($"Reçu par: {member.Username}")
+                            column.Item().PaddingTop(8).AlignCenter().Text($"Créé par: {member.Username}")
                                 .FontSize(9).Italic().FontColor(Colors.Grey.Darken1);
                         }
                         

@@ -118,6 +118,7 @@
 
                 <!-- DataGrid -->
                 <DataGrid Grid.Row="1"
+                         x:Name="ReceiptsDataGrid"
                          ItemsSource="{Binding Receipts}"
                          SelectedItem="{Binding SelectedReceipt}"
                          AutoGenerateColumns="False"
@@ -127,7 +128,11 @@
                          BorderThickness="0"
                          Background="White"
                          Padding="0"
-                         RowHeight="50">
+                         RowHeight="50"
+                         EnableColumnVirtualization="False"
+                         EnableRowVirtualization="False"
+                         VirtualizingPanel.IsVirtualizing="False"
+                         Loaded="ReceiptsDataGrid_Loaded">
                     <DataGrid.Resources>
                         <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
                             <Setter Property="FontWeight" Value="SemiBold"/>
@@ -143,7 +148,7 @@
                     
                     <DataGrid.Columns>
                         <!-- Date -->
-                        <DataGridTemplateColumn Header="Date de Génération" Width="200">
+                        <DataGridTemplateColumn Header="Date de Génération" Width="170">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -160,7 +165,7 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <materialDesign:PackIcon Kind="FilePdfBox" Foreground="#F44336" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                                        <TextBlock Text="{Binding FileName}" FontWeight="Medium" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding FileName}" FontWeight="Medium" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -169,20 +174,21 @@
                         <!-- Taille -->
                         <DataGridTextColumn Header="Taille" 
                                           Binding="{Binding FileSize, Converter={StaticResource FileSizeConverter}}" 
-                                          Width="120"
+                                          Width="100"
                                           Foreground="#777"/>
 
                         <!-- Actions -->
-                        <DataGridTemplateColumn Header="Actions" Width="Auto">
+                        <DataGridTemplateColumn Header="Actions" Width="Auto" MinWidth="200">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Loaded="ActionButtons_Loaded">
                                         <Button Command="{Binding DataContext.ViewReceiptCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                                CommandParameter="{Binding}"
                                                Style="{StaticResource MaterialDesignIconButton}"
                                                ToolTip="Voir"
                                                Foreground="#2196F3"
-                                               Width="32" Height="32">
+                                               Width="32" Height="32"
+                                               Visibility="Visible">
                                             <materialDesign:PackIcon Kind="Eye"/>
                                         </Button>
                                         
@@ -192,7 +198,8 @@
                                                ToolTip="Imprimer"
                                                Foreground="#666"
                                                Width="32" Height="32"
-                                               Margin="4,0,0,0">
+                                               Margin="8,0,0,0"
+                                               Visibility="Visible">
                                             <materialDesign:PackIcon Kind="Printer"/>
                                         </Button>
 
@@ -202,7 +209,8 @@
                                                ToolTip="Télécharger"
                                                Foreground="#4CAF50"
                                                Width="32" Height="32"
-                                               Margin="4,0,0,0">
+                                               Margin="8,0,0,0"
+                                               Visibility="Visible">
                                             <materialDesign:PackIcon Kind="Download"/>
                                         </Button>
 
@@ -212,7 +220,8 @@
                                                ToolTip="Envoyer par email"
                                                Foreground="#FF9800"
                                                Width="32" Height="32"
-                                               Margin="4,0,0,0">
+                                               Margin="8,0,0,0"
+                                               Visibility="Visible">
                                             <materialDesign:PackIcon Kind="Email"/>
                                         </Button>
                                     </StackPanel>

@@ -80,10 +80,10 @@ public class PaymentService : IPaymentService
             Amount = payment.Amount,
             PaymentDate = payment.PaymentDate,
             Month = payment.Month,
-            Status = "Paid",
+            Status = "Pending", // Default status is Pending until validated by Admin
             ReferenceNumber = payment.ReferenceNumber,
-            GeneratedBy = currentUser.Id.ToString(),
-            RecordedBy = currentUser.Id.ToString(),
+            GeneratedBy = currentUser.Id.ToString(), // Creator
+            RecordedBy = string.Empty, // Validator (empty initially)
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
@@ -91,16 +91,7 @@ public class PaymentService : IPaymentService
         // Save payment
         var savedPayment = await _paymentRepository.CreateAsync(paymentEntity, cancellationToken);
 
-        // Generate receipt automatically
-        try
-        {
-            await _receiptService.GenerateReceiptAsync(savedPayment.Id, cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Failed to generate receipt for payment {PaymentId}", savedPayment.Id);
-            // Don't fail the payment creation if receipt generation fails
-        }
+        // Note: Receipt is NOT generated here. It will be generated when Admin validates the payment.
 
         // Log activity
         await _auditService.LogActivityAsync(new AuditLogDto
@@ -192,6 +183,10 @@ public class PaymentService : IPaymentService
         if (!_authService.IsAuthenticated)
             throw new UnauthorizedException("User must be authenticated");
 
+        // Only Admin can validate payments
+        if (!_authService.IsAdmin)
+            throw new UnauthorizedException("Seul l'administrateur peut valider les paiements.");
+
         var payment = await _paymentRepository.GetByIdAsync(paymentId, cancellationToken);
         if (payment == null)
             throw new NotFoundException("Payment", paymentId);
@@ -200,17 +195,21 @@ public class PaymentService : IPaymentService
         payment.PaymentDate = paymentDate;
         payment.UpdatedAt = DateTime.UtcNow;
         
-        // S'assurer que GeneratedBy et RecordedBy ne sont pas vides
-        if (string.IsNullOrEmpty(payment.GeneratedBy))
-        {
-            payment.GeneratedBy = _authService.CurrentUser!.Id.ToString();
-        }
-        if (string.IsNullOrEmpty(payment.RecordedBy))
-        {
-            payment.RecordedBy = _authService.CurrentUser!.Id.ToString();
-        }
+        // Update Validator (RecordedBy)
+        payment.RecordedBy = _authService.CurrentUser!.Id.ToString();
 
         await _paymentRepository.UpdateAsync(payment, cancellationToken);
+
+        // Generate receipt automatically upon validation
+        try
+        {
+            await _receiptService.GenerateReceiptAsync(payment.Id, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to generate receipt for payment {PaymentId}", payment.Id);
+            // Don't fail the validation if receipt generation fails, but log it
+        }
 
         await _auditService.LogActivityAsync(new AuditLogDto
         {

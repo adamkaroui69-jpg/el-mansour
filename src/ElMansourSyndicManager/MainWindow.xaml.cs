@@ -18,6 +18,16 @@ public partial class MainWindow : Window
 
         // Configuration du système de mise à jour automatique
         ConfigureAutoUpdater();
+        
+        Loaded += MainWindow_Loaded;
+    }
+
+    private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+        if (_viewModel != null)
+        {
+            await _viewModel.InitializeAsync();
+        }
     }
 
     private void ConfigureAutoUpdater()

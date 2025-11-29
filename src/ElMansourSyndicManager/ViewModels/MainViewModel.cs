@@ -17,41 +17,25 @@ namespace ElMansourSyndicManager.ViewModels;
 /// <summary>
 /// Main ViewModel for the application shell
 /// </summary>
-public class MainViewModel : ViewModelBase
+/// <summary>
+/// Main ViewModel for the application shell
+/// </summary>
+public class MainViewModel : ViewModelBase, IDisposable
 {
-    private readonly IAuthenticationService _authService;
-    private readonly INavigationService _navigationService;
-    private readonly INotificationService _notificationService;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<MainViewModel> _logger;
+    private IServiceScope? _currentScope;
+    
     private object _currentView;
     private UserDto? _currentUser;
     private NavigationItem? _selectedNavigationItem;
 
     public MainViewModel(
-        IAuthenticationService authService,
-        INavigationService navigationService,
-        INotificationService notificationService,
-        IServiceProvider serviceProvider,
-        DashboardViewModel dashboardViewModel,
+        IServiceScopeFactory scopeFactory,
         ILogger<MainViewModel> logger)
     {
-        _authService = authService;
-        _navigationService = navigationService;
-        _notificationService = notificationService;
-        _serviceProvider = serviceProvider;
+        _scopeFactory = scopeFactory;
         _logger = logger;
-        
-        // Initialize with dashboard
-        var dashboardView = _serviceProvider.GetRequiredService<DashboardView>();
-        dashboardView.DataContext = dashboardViewModel;
-        _currentView = dashboardView;
-        
-        // Call InitializeAsync for the initial DashboardViewModel
-        if (dashboardViewModel is IInitializable initializableDashboardViewModel)
-        {
-            initializableDashboardViewModel.InitializeAsync();
-        }
         
         // Navigation items
         NavigationItems = new ObservableCollection<NavigationItem>
@@ -67,82 +51,23 @@ public class MainViewModel : ViewModelBase
             new() { Title = "Paramètres", Icon = "Cog", ViewModelType = typeof(SettingsViewModel), RequiresAdmin = true }
         };
 
-        // Set default selection
-        SelectedNavigationItem = NavigationItems.FirstOrDefault();
-
         LogoutCommand = new RelayCommand(Logout);
         MarkAllAsReadCommand = new RelayCommand(MarkAllAsRead);
+
+        // Set default selection (will trigger NavigateTo)
+        SelectedNavigationItem = NavigationItems.FirstOrDefault();
+    }
+
+    public async Task InitializeAsync()
+    {
+        await LoadCurrentUser();
         
-        // Load current user
-        LoadCurrentUser();
-    }
-
-    // ... (Properties)
-
-    private async void InitializeNotifications()
-    {
-        // Subscribe to AutoUpdater events
-        AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
-        
-        // Add welcome notification
-        AddNotification(new Notification
+        // Initialize the current view model if needed
+        // Note: NavigateTo might have already set CurrentView, but we ensure it's initialized here too if needed
+        if (_currentView is FrameworkElement view && view.DataContext is IInitializable initializableViewModel)
         {
-            Title = "Bienvenue",
-            Message = $"Bienvenue dans El Mansour Syndic Manager, {CurrentUser?.Username} !",
-            Icon = "HandWave",
-            TypeColor = "#4CAF50"
-        });
-
-        // Load notifications from database
-        // Load notifications from database
-        await ExecuteSafelyAsync(async () =>
-        {
-            // Generate notifications for unpaid houses first
-            var currentMonth = DateTime.Now.ToString("yyyy-MM");
-            await _notificationService.GenerateUnpaidHouseNotificationsAsync(currentMonth);
-
-            var notifications = await _notificationService.GetUserNotificationsAsync(CurrentUser?.Id.ToString());
-            
-            foreach (var notifDto in notifications)
-            {
-                // Check if already added (to avoid duplicates with welcome message)
-                if (!Notifications.Any(n => n.Title == notifDto.Title && n.Message == notifDto.Message))
-                {
-                    AddNotification(new Notification
-                    {
-                        Title = notifDto.Title,
-                        Message = notifDto.Message,
-                        Icon = GetIconForType(notifDto.Type),
-                        TypeColor = GetColorForType(notifDto.Type),
-                        IsRead = notifDto.IsRead
-                    });
-                }
-            }
-        }, "Erreur lors du chargement des notifications", _logger);
-    }
-
-    private string GetIconForType(string type)
-    {
-        return type switch
-        {
-            "UnpaidHouse" => "AlertCircle",
-            "PaymentDue" => "CashRemove",
-            "MaintenanceDue" => "Tools",
-            "Info" => "Information",
-            _ => "Bell"
-        };
-    }
-
-    private string GetColorForType(string type)
-    {
-        return type switch
-        {
-            "UnpaidHouse" => "#F44336", // Red
-            "PaymentDue" => "#FF9800", // Orange
-            "MaintenanceDue" => "#2196F3", // Blue
-            "Info" => "#4CAF50", // Green
-            _ => "#757575" // Grey
-        };
+            await initializableViewModel.InitializeAsync();
+        }
     }
 
     public ObservableCollection<NavigationItem> NavigationItems { get; }
@@ -181,11 +106,86 @@ public class MainViewModel : ViewModelBase
 
     public ICommand MarkAllAsReadCommand { get; }
 
-    private async void LoadCurrentUser()
+    private async Task InitializeNotifications()
+    {
+        // Subscribe to AutoUpdater events
+        AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
+        
+        // Add welcome notification
+        AddNotification(new Notification
+        {
+            Title = "Bienvenue",
+            Message = $"Bienvenue dans El Mansour Syndic Manager, {CurrentUser?.Username} !",
+            Icon = "HandWave",
+            TypeColor = "#4CAF50"
+        });
+
+        // Load notifications from database using a dedicated scope
+        await ExecuteSafelyAsync(async () =>
+        {
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
+
+                // Generate notifications for unpaid houses first
+                var currentMonth = DateTime.Now.ToString("yyyy-MM");
+                await notificationService.GenerateUnpaidHouseNotificationsAsync(currentMonth);
+
+                var notifications = await notificationService.GetUserNotificationsAsync(CurrentUser?.Id.ToString());
+                
+                foreach (var notifDto in notifications)
+                {
+                    // Check if already added (to avoid duplicates with welcome message)
+                    if (!Notifications.Any(n => n.Title == notifDto.Title && n.Message == notifDto.Message))
+                    {
+                        AddNotification(new Notification
+                        {
+                            Title = notifDto.Title,
+                            Message = notifDto.Message,
+                            Icon = GetIconForType(notifDto.Type),
+                            TypeColor = GetColorForType(notifDto.Type),
+                            IsRead = notifDto.IsRead
+                        });
+                    }
+                }
+            }
+        }, "Erreur lors du chargement des notifications", _logger);
+    }
+
+    private string GetIconForType(string type)
+    {
+        return type switch
+        {
+            "UnpaidHouse" => "AlertCircle",
+            "PaymentDue" => "CashRemove",
+            "MaintenanceDue" => "Tools",
+            "Info" => "Information",
+            _ => "Bell"
+        };
+    }
+
+    private string GetColorForType(string type)
+    {
+        return type switch
+        {
+            "UnpaidHouse" => "#F44336", // Red
+            "PaymentDue" => "#FF9800", // Orange
+            "MaintenanceDue" => "#2196F3", // Blue
+            "Info" => "#4CAF50", // Green
+            _ => "#757575" // Grey
+        };
+    }
+
+    private async Task LoadCurrentUser()
     {
         await ExecuteSafelyAsync(async () =>
         {
-            CurrentUser = await _authService.GetCurrentUserAsync();
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var authService = scope.ServiceProvider.GetRequiredService<IAuthenticationService>();
+                CurrentUser = await authService.GetCurrentUserAsync();
+            }
+
             // Filter navigation items based on role
             if (CurrentUser?.Role != "Admin")
             {
@@ -197,7 +197,7 @@ public class MainViewModel : ViewModelBase
             }
             
             // Initialize notifications
-            InitializeNotifications();
+            await InitializeNotifications();
         }, "Erreur lors du chargement de l'utilisateur", _logger);
     }
 
@@ -246,25 +246,36 @@ public class MainViewModel : ViewModelBase
 
     private async void NavigateTo(Type viewModelType)
     {
+        // Dispose previous scope
+        _currentScope?.Dispose();
+        _currentScope = null;
+
+        // Create new scope for the new view
+        _currentScope = _scopeFactory.CreateScope();
+        var scopedProvider = _currentScope.ServiceProvider;
+
         // Create view based on ViewModel type
+        // We resolve the View from the scoped provider so it (and its VM) gets the scoped services
         object? view = viewModelType.Name switch
         {
-            nameof(DashboardViewModel) => _serviceProvider.GetRequiredService<DashboardView>(),
-            nameof(PaymentsViewModel) => _serviceProvider.GetRequiredService<PaymentsView>(),
-            nameof(ReceiptsViewModel) => _serviceProvider.GetRequiredService<ReceiptsView>(),
-            nameof(ExpensesViewModel) => _serviceProvider.GetRequiredService<ExpensesView>(),
-            nameof(UsersViewModel) => _serviceProvider.GetRequiredService<UsersView>(),
-            nameof(DocumentsViewModel) => _serviceProvider.GetRequiredService<DocumentsView>(),
-            nameof(ReportsViewModel) => _serviceProvider.GetRequiredService<ReportsView>(),
-            nameof(AuditViewModel) => _serviceProvider.GetRequiredService<AuditView>(),
-            nameof(SettingsViewModel) => _serviceProvider.GetRequiredService<SettingsView>(),
+            nameof(DashboardViewModel) => scopedProvider.GetRequiredService<DashboardView>(),
+            nameof(PaymentsViewModel) => scopedProvider.GetRequiredService<PaymentsView>(),
+            nameof(ReceiptsViewModel) => scopedProvider.GetRequiredService<ReceiptsView>(),
+            nameof(ExpensesViewModel) => scopedProvider.GetRequiredService<ExpensesView>(),
+            nameof(UsersViewModel) => scopedProvider.GetRequiredService<UsersView>(),
+            nameof(DocumentsViewModel) => scopedProvider.GetRequiredService<DocumentsView>(),
+            nameof(ReportsViewModel) => scopedProvider.GetRequiredService<ReportsView>(),
+            nameof(AuditViewModel) => scopedProvider.GetRequiredService<AuditView>(),
+            nameof(SettingsViewModel) => scopedProvider.GetRequiredService<SettingsView>(),
             _ => null
         };
 
         if (view != null)
         {
             // Set ViewModel as DataContext
-            var viewModel = _serviceProvider.GetRequiredService(viewModelType);
+            // We also resolve the ViewModel from the SAME scoped provider
+            var viewModel = scopedProvider.GetRequiredService(viewModelType);
+            
             if (view is FrameworkElement frameworkElement)
             {
                 frameworkElement.DataContext = viewModel;
@@ -281,13 +292,26 @@ public class MainViewModel : ViewModelBase
 
     private async void Logout()
     {
-        await _authService.LogoutAsync();
+        using (var scope = _scopeFactory.CreateScope())
+        {
+            var authService = scope.ServiceProvider.GetRequiredService<IAuthenticationService>();
+            await authService.LogoutAsync();
+        }
+
         // Show login window
+        // We need to resolve LoginWindow from a fresh scope or root, but LoginWindow is transient.
+        // We can use the root services for the LoginWindow as it will create its own VM.
+        // Accessing App.Services is a bit dirty but works for top-level window switching.
         var loginWindow = new LoginWindow(App.Services?.GetRequiredService<LoginViewModel>() ?? throw new InvalidOperationException("Service provider not initialized"));
         loginWindow.Show();
         
         // Close main window
         Application.Current.Windows.OfType<MainWindow>().FirstOrDefault()?.Close();
+    }
+
+    public void Dispose()
+    {
+        _currentScope?.Dispose();
     }
 }
 
