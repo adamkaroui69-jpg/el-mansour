@@ -30,7 +30,12 @@
                 <materialDesign:Card UniformCornerRadius="12" Background="White" Margin="0,0,0,16" Padding="20">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Mois sélectionné:" FontSize="14" Foreground="#777" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                        <TextBlock Text="{Binding SelectedMonth}" FontSize="14" FontWeight="SemiBold" Foreground="#333" VerticalAlignment="Center" Margin="0,0,24,0"/>
+                        <DatePicker SelectedDate="{Binding SelectedMonthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Width="150"
+                                    materialDesign:HintAssist.Hint="Choisir le mois"
+                                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                                    VerticalAlignment="Center"
+                                    Margin="0,0,24,0"/>
                         <Button Command="{Binding RefreshCommand}" 
                                 Style="{StaticResource MaterialDesignOutlinedButton}" 
                                 Content="Actualiser"
@@ -128,6 +133,11 @@
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                              Margin="0,0,0,16"/>
                     
+                    <DatePicker SelectedDate="{Binding TargetMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                materialDesign:HintAssist.Hint="Mois concerné (Sélectionnez n'importe quel jour)" 
+                                Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                                Margin="0,0,0,16"/>
+
                     <DatePicker SelectedDate="{Binding PaymentDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                 materialDesign:HintAssist.Hint="Date de paiement" 
                                 Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 

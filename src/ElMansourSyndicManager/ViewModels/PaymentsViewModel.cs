@@ -82,7 +82,30 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
         {
             if (SetProperty(ref _selectedMonth, value))
             {
+                // Update Date property without triggering loop
+                if (DateTime.TryParseExact(value + "-01", "yyyy-MM-dd", null, DateTimeStyles.None, out var date))
+                {
+                    if (_selectedMonthDate != date)
+                    {
+                        _selectedMonthDate = date;
+                        OnPropertyChanged(nameof(SelectedMonthDate));
+                    }
+                }
                 _ = LoadPaymentsAsync();
+            }
+        }
+    }
+
+    private DateTime _selectedMonthDate = DateTime.Now;
+    public DateTime SelectedMonthDate
+    {
+        get => _selectedMonthDate;
+        set
+        {
+            if (SetProperty(ref _selectedMonthDate, value))
+            {
+                // Update String property
+                SelectedMonth = value.ToString("yyyy-MM");
             }
         }
     }
@@ -143,6 +166,13 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
     {
         get => _paymentDate;
         set => SetProperty(ref _paymentDate, value);
+    }
+
+    private DateTime _targetMonth = DateTime.Now;
+    public DateTime TargetMonth
+    {
+        get => _targetMonth;
+        set => SetProperty(ref _targetMonth, value);
     }
 
     public ICommand ShowCreateFormCommand { get; }
@@ -214,6 +244,7 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
         SelectedHouseCode = string.Empty;
         PaymentAmount = 0;
         PaymentDate = DateTime.Now;
+        TargetMonth = DateTime.Now;
         IsFormVisible = true;
     }
 
@@ -252,7 +283,7 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
                     HouseCode = SelectedHouseCode,
                     Amount = PaymentAmount,
                     PaymentDate = PaymentDate,
-                    Month = PaymentDate.ToString("yyyy-MM", CultureInfo.InvariantCulture)
+                    Month = TargetMonth.ToString("yyyy-MM", CultureInfo.InvariantCulture)
                 };
 
                 await _paymentService.CreatePaymentAsync(payment);

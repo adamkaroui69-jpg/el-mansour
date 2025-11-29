@@ -124,7 +124,7 @@ public class ReceiptService : IReceiptService
 
             _logger.LogInformation("Receipt generated for payment {PaymentId}, TraceId: {TraceId}", paymentId, traceId);
 
-            return MapToDto(receipt);
+            return MapToDto(receipt, payment.Month);
         }
         catch (Exception ex)
         {
@@ -141,7 +141,14 @@ public class ReceiptService : IReceiptService
         try
         {
             var allReceipts = await _receiptRepository.GetAllAsync(cancellationToken);
-            return allReceipts.OrderByDescending(r => r.CreatedAt).Select(MapToDto).ToList();
+            
+            // Get all payments to map months
+            var allPayments = await _paymentRepository.GetAllAsync(cancellationToken);
+            var paymentMonths = allPayments.ToDictionary(p => p.Id, p => p.Month);
+
+            return allReceipts.OrderByDescending(r => r.CreatedAt)
+                .Select(r => MapToDto(r, paymentMonths.ContainsKey(r.PaymentId) ? paymentMonths[r.PaymentId] : ""))
+                .ToList();
         }
         catch (Exception ex)
         {
@@ -162,6 +169,7 @@ public class ReceiptService : IReceiptService
             // Get all payments for this house
             var payments = await _paymentRepository.GetByHouseCodeAsync(houseCode, null, null, cancellationToken);
             var paymentIds = payments.Select(p => p.Id).ToList();
+            var paymentMonths = payments.ToDictionary(p => p.Id, p => p.Month);
 
             // Get all receipts for these payments
             var allReceipts = await _receiptRepository.GetAllAsync();
@@ -170,7 +178,9 @@ public class ReceiptService : IReceiptService
                 .OrderByDescending(r => r.CreatedAt)
                 .ToList();
 
-            return houseReceipts.Select(MapToDto).ToList();
+            return houseReceipts
+                .Select(r => MapToDto(r, paymentMonths.ContainsKey(r.PaymentId) ? paymentMonths[r.PaymentId] : ""))
+                .ToList();
         }
         catch (Exception ex)
         {
@@ -187,7 +197,11 @@ public class ReceiptService : IReceiptService
         CancellationToken cancellationToken = default)
     {
         var receipt = await _receiptRepository.GetByIdAsync(id, cancellationToken);
-        return receipt != null ? MapToDto(receipt) : null;
+        if (receipt == null) return null;
+        
+        // Get payment to retrieve the month
+        var payment = await _paymentRepository.GetByIdAsync(receipt.PaymentId, cancellationToken);
+        return MapToDto(receipt, payment?.Month ?? "");
     }
 
     /// <summary>
@@ -323,7 +337,7 @@ public class ReceiptService : IReceiptService
 
         await _receiptRepository.UpdateAsync(existingReceipt, cancellationToken);
 
-        return MapToDto(existingReceipt);
+        return MapToDto(existingReceipt, payment.Month);
     }
 
     /// <summary>
@@ -596,7 +610,7 @@ public class ReceiptService : IReceiptService
     /// <summary>
     /// Maps Receipt entity to DTO
     /// </summary>
-    private ReceiptDto MapToDto(Receipt receipt)
+    private ReceiptDto MapToDto(Receipt receipt, string paymentMonth = "")
     {
         return new ReceiptDto
         {
@@ -613,6 +627,7 @@ public class ReceiptService : IReceiptService
             GeneratedAt = receipt.GeneratedDate, // Mapped for UI
             AmountPaid = receipt.AmountPaid,
             PaymentMethod = receipt.PaymentMethod,
+            PaymentMonth = paymentMonth, // Set payment month
             CreatedAt = receipt.CreatedAt,
             UpdatedAt = receipt.UpdatedAt ?? receipt.CreatedAt
         };

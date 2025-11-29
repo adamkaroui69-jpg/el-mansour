@@ -80,6 +80,7 @@ public class ReceiptDto
     public DateTime GeneratedDate { get; set; } // Ajouté pour correspondre à l'entité
     public decimal AmountPaid { get; set; } // Ajouté
     public string PaymentMethod { get; set; } = string.Empty; // Ajouté
+    public string PaymentMonth { get; set; } = string.Empty; // Ajouté : Mois du paiement (ex: 2023-10)
     public DateTime GeneratedAt { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }

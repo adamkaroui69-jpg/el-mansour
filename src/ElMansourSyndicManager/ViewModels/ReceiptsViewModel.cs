@@ -55,6 +55,42 @@ public class ReceiptsViewModel : ViewModelBase, IInitializable
         set => SetProperty(ref _selectedReceipt, value);
     }
 
+    public string SelectedMonth
+    {
+        get => _selectedMonth;
+        set
+        {
+            if (SetProperty(ref _selectedMonth, value))
+            {
+                // Update Date property without triggering loop
+                if (DateTime.TryParseExact(value + "-01", "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out var date))
+                {
+                    if (_selectedMonthDate != date)
+                    {
+                        _selectedMonthDate = date;
+                        OnPropertyChanged(nameof(SelectedMonthDate));
+                    }
+                }
+                _ = LoadReceiptsAsync();
+            }
+        }
+    }
+
+    private string _selectedMonth = DateTime.Now.ToString("yyyy-MM");
+    private DateTime _selectedMonthDate = DateTime.Now;
+    public DateTime SelectedMonthDate
+    {
+        get => _selectedMonthDate;
+        set
+        {
+            if (SetProperty(ref _selectedMonthDate, value))
+            {
+                // Update String property
+                SelectedMonth = value.ToString("yyyy-MM");
+            }
+        }
+    }
+
     public string SelectedHouseCode
     {
         get => _selectedHouseCode;
@@ -95,6 +131,10 @@ public class ReceiptsViewModel : ViewModelBase, IInitializable
                 {
                     receipts = await _receiptService.GetReceiptHistoryAsync(SelectedHouseCode);
                 }
+
+                // Filter by payment month (not receipt generation date)
+                receipts = receipts.Where(r => !string.IsNullOrEmpty(r.PaymentMonth) && r.PaymentMonth == SelectedMonth).ToList();
+
                 Receipts.Clear();
                 foreach (var receipt in receipts)
                 {
