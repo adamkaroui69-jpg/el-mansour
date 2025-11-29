@@ -75,7 +75,7 @@ namespace ElMansourSyndicManager {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/ElMansourSyndicManager;V1.0.25.0;component/mainwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/ElMansourSyndicManager;V1.0.29.0;component/mainwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\MainWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
