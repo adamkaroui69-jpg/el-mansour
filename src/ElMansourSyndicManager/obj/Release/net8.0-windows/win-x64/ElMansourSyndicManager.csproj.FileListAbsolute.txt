@@ -684,3 +684,14 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\logo png.png
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\HarfBuzzSharp.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\LiveChartsCore.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\LiveChartsCore.SkiaSharpView.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\LiveChartsCore.SkiaSharpView.WPF.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\SkiaSharp.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\SkiaSharp.HarfBuzz.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\SkiaSharp.Views.Desktop.Common.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\SkiaSharp.Views.WPF.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\libHarfBuzzSharp.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\libSkiaSharp.dll

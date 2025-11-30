@@ -261,3 +261,4 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\ElMansourSyndicManager.pdb
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\ElMansourSyndicManager.genruntimeconfig.cache
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\ref\ElMansourSyndicManager.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\logo png.png

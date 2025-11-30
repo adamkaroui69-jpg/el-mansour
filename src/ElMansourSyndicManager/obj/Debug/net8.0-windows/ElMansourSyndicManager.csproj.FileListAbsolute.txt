@@ -261,3 +261,20 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Deb
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Debug\net8.0-windows\ElMansourSyndicManager.pdb
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Debug\net8.0-windows\ElMansourSyndicManager.genruntimeconfig.cache
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Debug\net8.0-windows\ref\ElMansourSyndicManager.dll
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\logo png.png
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\HarfBuzzSharp.dll
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\LiveChartsCore.dll
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\LiveChartsCore.SkiaSharpView.dll
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\LiveChartsCore.SkiaSharpView.WPF.dll
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\SkiaSharp.dll
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\SkiaSharp.HarfBuzz.dll
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\SkiaSharp.Views.Desktop.Common.dll
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\SkiaSharp.Views.WPF.dll
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\runtimes\osx\native\libHarfBuzzSharp.dylib
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\runtimes\win-arm64\native\libHarfBuzzSharp.dll
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\runtimes\win-x64\native\libHarfBuzzSharp.dll
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\runtimes\win-x86\native\libHarfBuzzSharp.dll
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\runtimes\osx\native\libSkiaSharp.dylib
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\runtimes\win-arm64\native\libSkiaSharp.dll
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\runtimes\win-x64\native\libSkiaSharp.dll
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Debug\net8.0-windows\runtimes\win-x86\native\libSkiaSharp.dll

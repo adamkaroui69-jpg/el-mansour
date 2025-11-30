@@ -436,61 +436,41 @@ public class ReceiptService : IReceiptService
             container.Page(page =>
             {
                 page.Size(PageSizes.A5.Landscape());
-                page.Margin(1.2f, Unit.Centimetre);
+                page.Margin(0.8f, Unit.Centimetre);
                 page.PageColor(Colors.White);
-                page.DefaultTextStyle(x => x.FontSize(10).FontColor(Colors.Black));
+                page.DefaultTextStyle(x => x.FontSize(9).FontColor(Colors.Black));
 
                 // Header with logo and title
                 page.Header()
                     .Column(column =>
                     {
-                        // Logo centered at top
-                        var logoPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "logo.png");
+                        // Logo centered at top - using "logo png.png" from base directory
+                        var logoPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logo png.png");
                         if (System.IO.File.Exists(logoPath))
                         {
-                            column.Item().AlignCenter().Width(45).Image(logoPath);
-                            column.Item().PaddingTop(5);
+                            column.Item().AlignCenter().Width(65).Image(logoPath);
+                            column.Item().PaddingTop(3);
                         }
                         
                         // Title - smaller and centered
                         column.Item().AlignCenter().Text("Reçu de Paiement - Syndic résidence El Mansour")
-                            .SemiBold().FontSize(12).FontColor(Colors.Blue.Darken2);
+                            .SemiBold().FontSize(11).FontColor(Colors.Blue.Darken2);
                         
                         // Decorative line
-                        column.Item().PaddingTop(5).LineHorizontal(2).LineColor(Colors.Blue.Darken2);
-                    });
-
-                // QR Code in top-right corner
-                page.Header()
-                    .AlignRight()
-                    .Width(60)
-                    .Column(qrColumn =>
-                    {
-                        // Generate QR code data
-                        var qrData = $"{payment.HouseCode}|{payment.Id}|{payment.Month}|{payment.Amount:F2}";
-                        var qrCodeBytes = GenerateQRCode(qrData);
-                        
-                        if (qrCodeBytes != null)
-                        {
-                            qrColumn.Item().Image(qrCodeBytes);
-                            qrColumn.Item().PaddingTop(2).AlignCenter()
-                                .Text("Scan pour vérifier")
-                                .FontSize(6)
-                                .FontColor(Colors.Grey.Medium);
-                        }
+                        column.Item().PaddingTop(3).LineHorizontal(2).LineColor(Colors.Blue.Darken2);
                     });
 
                 // Main content
                 page.Content()
-                    .PaddingVertical(0.5f, Unit.Centimetre)
+                    .PaddingVertical(0.3f, Unit.Centimetre)
                     .Column(column =>
                     {
-                        column.Spacing(8);
+                        column.Spacing(5);
                         
                         // Receipt info section with subtle background
-                        column.Item().Background(Colors.Grey.Lighten4).Padding(10).Column(info =>
+                        column.Item().Background(Colors.Grey.Lighten4).Padding(8).Column(info =>
                         {
-                            info.Spacing(5);
+                            info.Spacing(3);
                             
                             info.Item().Row(row =>
                             {
@@ -522,32 +502,57 @@ public class ReceiptService : IReceiptService
                         });
                         
                         // Amount section - highlighted
-                        column.Item().PaddingTop(6).Border(2).BorderColor(Colors.Blue.Darken2)
-                            .Background(Colors.Blue.Lighten5).Padding(12).Column(amount =>
+                        column.Item().PaddingTop(4).Border(2).BorderColor(Colors.Blue.Darken2)
+                            .Background(Colors.Blue.Lighten5).Padding(10).Column(amount =>
                         {
-                            amount.Item().AlignCenter().Text("Montant Payé").FontSize(10).FontColor(Colors.Grey.Darken1);
-                            amount.Item().PaddingTop(3).AlignCenter().Text($"{payment.Amount:N2} TND")
-                                .Bold().FontSize(18).FontColor(Colors.Blue.Darken3);
+                            amount.Item().AlignCenter().Text("Montant Payé").FontSize(9).FontColor(Colors.Grey.Darken1);
+                            amount.Item().PaddingTop(2).AlignCenter().Text($"{payment.Amount:N2} TND")
+                                .Bold().FontSize(16).FontColor(Colors.Blue.Darken3);
                         });
                         
                         // Received by section (Creator Name)
                         if (member != null)
                         {
-                            column.Item().PaddingTop(8).AlignCenter().Text($"Créé par: {member.Username}")
-                                .FontSize(9).Italic().FontColor(Colors.Grey.Darken1);
+                            column.Item().PaddingTop(5).AlignCenter().Text($"Créé par: {member.Username}")
+                                .FontSize(8).Italic().FontColor(Colors.Grey.Darken1);
                         }
                         
                         // Thank you message
-                        column.Item().PaddingTop(8).AlignCenter().Text("Merci pour votre paiement")
-                            .FontSize(9).Italic().FontColor(Colors.Grey.Medium);
+                        column.Item().PaddingTop(3).AlignCenter().Text("Merci pour votre paiement")
+                            .FontSize(8).Italic().FontColor(Colors.Grey.Medium);
                     });
 
-                // Footer - simple, no page number
+                // Footer - QR Code on the right, residence name on the left
                 page.Footer()
-                    .AlignCenter()
-                    .PaddingTop(5)
-                    .Text("Résidence El Mansour")
-                    .FontSize(8).FontColor(Colors.Grey.Medium);
+                    .Row(row =>
+                    {
+                        // Left side - Residence name
+                        row.RelativeItem()
+                            .AlignLeft()
+                            .AlignMiddle()
+                            .PaddingTop(5)
+                            .Text("Résidence El Mansour")
+                            .FontSize(8).FontColor(Colors.Grey.Medium);
+                        
+                        // Right side - QR Code
+                        row.ConstantItem(50)
+                            .AlignRight()
+                            .Column(qrColumn =>
+                            {
+                                // Generate QR code data
+                                var qrData = $"{payment.HouseCode}|{payment.Id}|{payment.Month}|{payment.Amount:F2}";
+                                var qrCodeBytes = GenerateQRCode(qrData);
+                                
+                                if (qrCodeBytes != null)
+                                {
+                                    qrColumn.Item().Image(qrCodeBytes);
+                                    qrColumn.Item().PaddingTop(1).AlignCenter()
+                                        .Text("Scan pour vérifier")
+                                        .FontSize(5)
+                                        .FontColor(Colors.Grey.Medium);
+                                }
+                            });
+                    });
             });
         });
 

@@ -13,7 +13,13 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
         Icon="/Assets/logo.png"
-        Background="#F5F5F5">
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{DynamicResource MaterialDesignFont}">
     <Window.Resources>
         <!-- Converters -->
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -59,13 +65,7 @@
         <materialDesign:DrawerHost.LeftDrawerContent>
             <Grid Width="260">
                 <!-- Fond Gradient -->
-                <Border>
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#1A237E" Offset="0"/>
-                            <GradientStop Color="#0D47A1" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
+                <Border Background="{DynamicResource PrimaryHueMidBrush}">
                 </Border>
                 
                 <DockPanel>
@@ -116,7 +116,8 @@
         </materialDesign:DrawerHost.LeftDrawerContent>
 
         <!-- Contenu Principal -->
-        <Grid Background="#F5F7FA"> <!-- Fond gris très clair pour le contenu -->
+        <!-- Contenu Principal -->
+        <Grid Background="{DynamicResource MaterialDesignPaper}"> <!-- Fond gris très clair pour le contenu -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -126,7 +127,7 @@
             <materialDesign:ColorZone Grid.Row="0" 
                                       Padding="24,16"
                                       Mode="Standard"
-                                      Background="White"
+                                      Background="{DynamicResource MaterialDesignCardBackground}"
                                       materialDesign:ShadowAssist.ShadowDepth="Depth1">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -139,7 +140,7 @@
                     <ToggleButton Grid.Column="0"
                                  Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                                  IsChecked="{Binding ElementName=DrawerHost, Path=IsLeftDrawerOpen}"
-                                 Foreground="#444"
+                                 Foreground="{DynamicResource MaterialDesignBody}"
                                  Width="24" Height="24"
                                  Margin="0,0,24,0"/>
 
@@ -148,7 +149,7 @@
                               Text="{Binding SelectedNavigationItem.Title}"
                               FontSize="20"
                               FontWeight="SemiBold"
-                              Foreground="#333"
+                              Foreground="{DynamicResource MaterialDesignBody}"
                               VerticalAlignment="Center"/>
 
                     <!-- Actions Utilisateur -->
@@ -158,10 +159,10 @@
                         <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="0,0,16,0">
                             <materialDesign:PopupBox.ToggleContent>
                                 <Grid>
-                                    <Border Background="#F0F2F5" CornerRadius="20" Width="40" Height="40" Cursor="Hand">
+                                    <Border Background="{DynamicResource MaterialDesignPaper}" CornerRadius="20" Width="40" Height="40" Cursor="Hand">
                                         <materialDesign:PackIcon Kind="Bell" 
                                                                Width="22" Height="22" 
-                                                               Foreground="#1A237E" 
+                                                               Foreground="{DynamicResource PrimaryHueMidBrush}" 
                                                                HorizontalAlignment="Center" 
                                                                VerticalAlignment="Center"/>
                                     </Border>
@@ -185,7 +186,7 @@
                             
                             <StackPanel Width="320" MaxHeight="400">
                                 <!-- Header -->
-                                <Border Background="#1A237E" Padding="16,12">
+                                <Border Background="{DynamicResource PrimaryHueMidBrush}" Padding="16,12">
                                     <Grid>
                                         <TextBlock Text="Notifications" 
                                                  Foreground="White" 
@@ -232,12 +233,12 @@
                                                                      TextWrapping="Wrap"/>
                                                             <TextBlock Text="{Binding Message}" 
                                                                      FontSize="12" 
-                                                                     Foreground="#666"
+                                                                     Foreground="{DynamicResource MaterialDesignBodyLight}"
                                                                      TextWrapping="Wrap"
                                                                      Margin="0,4,0,0"/>
                                                             <TextBlock Text="{Binding TimeAgo}" 
                                                                      FontSize="11" 
-                                                                     Foreground="#999"
+                                                                     Foreground="{DynamicResource MaterialDesignBodyLight}"
                                                                      Margin="0,4,0,0"/>
                                                         </StackPanel>
                                                     </Grid>
@@ -253,10 +254,10 @@
                                     <StackPanel HorizontalAlignment="Center">
                                         <materialDesign:PackIcon Kind="BellOff" 
                                                                Width="48" Height="48" 
-                                                               Foreground="#CCC"
+                                                               Foreground="{DynamicResource MaterialDesignBodyLight}"
                                                                HorizontalAlignment="Center"/>
                                         <TextBlock Text="Aucune notification" 
-                                                 Foreground="#999" 
+                                                 Foreground="{DynamicResource MaterialDesignBodyLight}" 
                                                  FontSize="14"
                                                  HorizontalAlignment="Center"
                                                  Margin="0,12,0,0"/>
@@ -268,10 +269,10 @@
                         <!-- Profil Utilisateur -->
                         <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
                             <materialDesign:PopupBox.ToggleContent>
-                                <Border Background="#F0F2F5" CornerRadius="20" Width="40" Height="40" Cursor="Hand">
+                                <Border Background="{DynamicResource MaterialDesignPaper}" CornerRadius="20" Width="40" Height="40" Cursor="Hand">
                                     <materialDesign:PackIcon Kind="AccountCircle" 
                                                            Width="24" Height="24" 
-                                                           Foreground="#1A237E" 
+                                                           Foreground="{DynamicResource PrimaryHueMidBrush}" 
                                                            HorizontalAlignment="Center" 
                                                            VerticalAlignment="Center"/>
                                 </Border>
@@ -285,18 +286,18 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     
-                                    <Border Grid.Column="0" Background="#E8EAF6" CornerRadius="20" Width="40" Height="40" Margin="0,0,12,0">
+                                    <Border Grid.Column="0" Background="{DynamicResource MaterialDesignPaper}" CornerRadius="20" Width="40" Height="40" Margin="0,0,12,0">
                                         <materialDesign:PackIcon Kind="User" 
                                                                Width="20" Height="20" 
-                                                               Foreground="#1A237E"
+                                                               Foreground="{DynamicResource PrimaryHueMidBrush}"
                                                                HorizontalAlignment="Center" 
                                                                VerticalAlignment="Center"/>
                                     </Border>
                                     
                                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                         <TextBlock Text="{Binding CurrentUser.Username}" FontWeight="SemiBold" FontSize="14" TextTrimming="CharacterEllipsis"/>
-                                        <TextBlock Text="{Binding CurrentUser.Role}" FontSize="12" Foreground="#777"/>
-                                        <TextBlock Text="{Binding CurrentUser.HouseCode}" FontSize="11" Foreground="#999" Margin="0,2,0,0"/>
+                                        <TextBlock Text="{Binding CurrentUser.Role}" FontSize="12" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                                        <TextBlock Text="{Binding CurrentUser.HouseCode}" FontSize="11" Foreground="{DynamicResource MaterialDesignBodyLight}" Margin="0,2,0,0"/>
                                     </StackPanel>
                                 </Grid>
                                 
@@ -320,10 +321,17 @@
                 </Grid>
             </materialDesign:ColorZone>
 
-            <!-- Zone de Contenu Dynamique -->
-            <ContentControl Grid.Row="1"
+            <!-- Zone de Contenu Dynamique avec Transitions -->
+            <materialDesign:TransitioningContent Grid.Row="1"
                            Content="{Binding CurrentView}"
-                           Margin="24"/>
+                           Margin="24">
+                <materialDesign:TransitioningContent.OpeningEffect>
+                    <materialDesign:TransitionEffect Kind="FadeIn" Duration="0:0:0.3"/>
+                </materialDesign:TransitioningContent.OpeningEffect>
+            </materialDesign:TransitioningContent>
+
+            <!-- Global Snackbar -->
+            <materialDesign:Snackbar MessageQueue="{Binding MessageQueue}" Grid.Row="1" />
         </Grid>
     </materialDesign:DrawerHost>
 </Window>

@@ -4,6 +4,10 @@ using ElMansourSyndicManager.ViewModels.Base;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.IO;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
 
 namespace ElMansourSyndicManager.ViewModels;
 
@@ -91,6 +95,9 @@ public class DashboardViewModel : ViewModelBase, IInitializable
     public ICommand NavigateToPaymentsCommand { get; }
     public ICommand NavigateToExpensesCommand { get; }
 
+    public ISeries[] Series { get; set; }
+    public Axis[] XAxes { get; set; }
+
     private async Task LoadDataAsync()
     {
         // Use relative path for logging
@@ -110,9 +117,7 @@ public class DashboardViewModel : ViewModelBase, IInitializable
             var currentMonth = DateTime.Now.ToString("yyyy-MM");
             
             // Load unpaid houses
-            File.AppendAllText(logPath, $"[{DateTime.Now}] Calling GetUnpaidHousesAsync...\n");
             var unpaidHouses = await _paymentService.GetUnpaidHousesAsync(currentMonth);
-            File.AppendAllText(logPath, $"[{DateTime.Now}] GetUnpaidHousesAsync returned {unpaidHouses.Count} items.\n");
             
             // Tri alphabétique puis numérique
             var sortedUnpaidHouses = unpaidHouses.OrderBy(h => 
@@ -128,23 +133,16 @@ public class DashboardViewModel : ViewModelBase, IInitializable
                 return int.TryParse(numberPart, out var num) ? num : 0;
             });
             
-            
             UnpaidHouses.Clear();
             foreach (var house in sortedUnpaidHouses)
             {
                 UnpaidHouses.Add(house);
             }
             UnpaidHousesCount = unpaidHouses.Count;
-            
-            // Calculate Total Due (sum of all unpaid amounts)
             TotalDue = unpaidHouses.Sum(h => h.MonthlyAmount);
-            File.AppendAllText(logPath, $"[{DateTime.Now}] Total Due calculated: {TotalDue} TND from {unpaidHouses.Count} unpaid houses.\n");
 
-            // Load recent payments du mois en cours
-            File.AppendAllText(logPath, $"[{DateTime.Now}] Calling GetPaymentsByMonthAsync...\n");
+            // Load recent payments
             var payments = await _paymentService.GetPaymentsByMonthAsync(currentMonth);
-            File.AppendAllText(logPath, $"[{DateTime.Now}] GetPaymentsByMonthAsync returned {payments.Count} items.\n");
-
             RecentPayments.Clear();
             foreach (var payment in payments.OrderByDescending(p => p.PaymentDate).Take(10))
             {
@@ -152,89 +150,74 @@ public class DashboardViewModel : ViewModelBase, IInitializable
             }
 
             // Load recent expenses
-            try 
+            var allExpenses = await _expenseService.GetAllExpensesAsync();
+            RecentExpenses.Clear();
+            foreach (var expense in allExpenses.OrderByDescending(e => e.ExpenseDate).Take(5))
             {
-                File.AppendAllText(logPath, $"[{DateTime.Now}] Calling GetAllExpensesAsync for recent expenses...\n");
-                var allExpenses = await _expenseService.GetAllExpensesAsync();
-                File.AppendAllText(logPath, $"[{DateTime.Now}] GetAllExpensesAsync returned {allExpenses.Count()} items.\n");
-
-                RecentExpenses.Clear();
-                foreach (var expense in allExpenses.OrderByDescending(e => e.ExpenseDate).Take(5))
-                {
-                    RecentExpenses.Add(expense);
-                }
-            }
-            catch (Exception ex)
-            {
-                File.AppendAllText(logPath, $"[{DateTime.Now}] ERROR loading recent expenses: {ex.Message}\n");
-                System.Diagnostics.Debug.WriteLine($"Error loading recent expenses: {ex.Message}");
+                RecentExpenses.Add(expense);
             }
 
-            // Calculate totals using PaymentService statistics
-            // Use a wide range to ensure we catch all payments
-            var startOfTime = DateTime.MinValue;
-            var endOfTime = DateTime.MaxValue;
-            
-            File.AppendAllText(logPath, $"[{DateTime.Now}] Calling GetPaymentStatisticsAsync...\n");
-            var stats = await _paymentService.GetPaymentStatisticsAsync(startOfTime, endOfTime);
-            File.AppendAllText(logPath, $"[{DateTime.Now}] GetPaymentStatisticsAsync returned. TotalCollected: {stats.TotalCollected}\n");
-            
+            // Calculate totals
+            var stats = await _paymentService.GetPaymentStatisticsAsync(DateTime.MinValue, DateTime.MaxValue);
             TotalCollected = stats.TotalCollected;
-            
-            // Calculate Total Spent from Expenses
-            try
-            {
-                File.AppendAllText(logPath, $"[{DateTime.Now}] Calling GetAllExpensesAsync...\n");
-                var expenses = await _expenseService.GetAllExpensesAsync();
-                
-                // FALLBACK for Expenses: If GetAll returns 0, try fetching by month
-                if (!expenses.Any())
-                {
-                     File.AppendAllText(logPath, $"[{DateTime.Now}] GetAllExpensesAsync returned 0. Trying fallback (GetExpensesByMonthAsync)...\n");
-                     var fallbackExpenses = new List<ExpenseDto>();
-                     var current = DateTime.Now;
-                     // Check last 24 months + next 1 month
-                     for (int i = -1; i < 24; i++)
-                     {
-                         var d = current.AddMonths(-i);
-                         var monthExpenses = await _expenseService.GetExpensesByMonthAsync(d.Year, d.Month);
-                         if (monthExpenses.Any())
-                         {
-                             fallbackExpenses.AddRange(monthExpenses);
-                             File.AppendAllText(logPath, $"  Found {monthExpenses.Count()} expenses in {d:yyyy-MM}\n");
-                         }
-                     }
-                     expenses = fallbackExpenses;
-                     File.AppendAllText(logPath, $"[{DateTime.Now}] Fallback found total {expenses.Count()} expenses.\n");
-                }
-
-                TotalSpent = expenses.Sum(e => e.Amount);
-                File.AppendAllText(logPath, $"[{DateTime.Now}] TotalSpent calculated: {TotalSpent}\n");
-            }
-            catch (Exception ex)
-            {
-                File.AppendAllText(logPath, $"[{DateTime.Now}] ERROR loading expenses: {ex.Message}\n");
-                TotalSpent = 0;
-            }
-
-            // Debug
-            System.Diagnostics.Debug.WriteLine($"DASHBOARD - Total collecté: {stats.TotalCollected} TND, Nombre de paiements: {stats.PaidCount}, Dépenses: {TotalSpent}");
-            
+            TotalSpent = allExpenses.Sum(e => e.Amount);
             Balance = TotalCollected - TotalSpent;
+
+            // --- CHART DATA PREPARATION ---
+            var incomeValues = new List<double>();
+            var expenseValues = new List<double>();
+            var labels = new List<string>();
+
+            var now = DateTime.Now;
+            for (int i = 5; i >= 0; i--)
+            {
+                var date = now.AddMonths(-i);
+                var monthStr = date.ToString("yyyy-MM");
+                labels.Add(date.ToString("MMM", System.Globalization.CultureInfo.GetCultureInfo("fr-FR")));
+
+                // Monthly Income
+                var monthPayments = await _paymentService.GetPaymentsByMonthAsync(monthStr);
+                incomeValues.Add((double)monthPayments.Sum(p => p.Amount));
+
+                // Monthly Expenses
+                var monthExpenses = await _expenseService.GetExpensesByMonthAsync(date.Year, date.Month);
+                expenseValues.Add((double)monthExpenses.Sum(e => e.Amount));
+            }
+
+            Series = new ISeries[]
+            {
+                new ColumnSeries<double>
+                {
+                    Name = "Revenus",
+                    Values = incomeValues.ToArray(),
+                    Fill = new SolidColorPaint(SKColors.CornflowerBlue)
+                },
+                new ColumnSeries<double>
+                {
+                    Name = "Dépenses",
+                    Values = expenseValues.ToArray(),
+                    Fill = new SolidColorPaint(SKColors.IndianRed)
+                }
+            };
+
+            XAxes = new Axis[]
+            {
+                new Axis
+                {
+                    Labels = labels.ToArray(),
+                    LabelsPaint = new SolidColorPaint(SKColors.Gray)
+                }
+            };
+
+            OnPropertyChanged(nameof(Series));
+            OnPropertyChanged(nameof(XAxes));
+
             File.AppendAllText(logPath, $"[{DateTime.Now}] DashboardViewModel.LoadDataAsync completed successfully.\n");
         }
         catch (Exception ex)
         {
-            // Handle error
             System.Diagnostics.Debug.WriteLine($"Error loading dashboard data: {ex.Message}");
-            try
-            {
-                File.AppendAllText(logPath, $"[{DateTime.Now}] ERROR in DashboardViewModel.LoadDataAsync: {ex.Message}\n{ex.StackTrace}\n");
-            }
-            catch
-            {
-                // Ignore logging errors
-            }
+            try { File.AppendAllText(logPath, $"[{DateTime.Now}] ERROR: {ex.Message}\n"); } catch {}
         }
         finally
         {

@@ -24,8 +24,8 @@ public class AuditViewModel : ViewModelBase
         _auditService = auditService;
         _logs = new ObservableCollection<AuditLogDto>();
         
-        // Default to last 30 days
-        StartDate = DateTime.Today.AddDays(-30);
+        // Default to last 7 days to improve initial load performance
+        StartDate = DateTime.Today.AddDays(-7);
         EndDate = DateTime.Today.AddDays(1).AddSeconds(-1);
 
         LoadCommand = new RelayCommand(async () => await LoadLogsAsync());
@@ -77,8 +77,31 @@ public class AuditViewModel : ViewModelBase
         ErrorMessage = string.Empty;
         try
         {
+            // Limit to 1000 most recent logs to avoid performance issues
             var logs = await _auditService.GetAuditLogsAsync(StartDate, EndDate, string.IsNullOrWhiteSpace(UserIdFilter) ? null : UserIdFilter);
-            Logs = new ObservableCollection<AuditLogDto>(logs.OrderByDescending(l => l.Timestamp));
+            var orderedLogs = logs.OrderByDescending(l => l.Timestamp).Take(1000).ToList();
+            
+            // Clear and add in batches to improve UI responsiveness
+            Logs.Clear();
+            
+            // Add logs in batches of 100 to avoid UI freeze
+            const int batchSize = 100;
+            for (int i = 0; i < orderedLogs.Count; i += batchSize)
+            {
+                var batch = orderedLogs.Skip(i).Take(batchSize);
+                foreach (var log in batch)
+                {
+                    Logs.Add(log);
+                }
+                
+                // Allow UI to update between batches
+                await Task.Delay(10);
+            }
+            
+            if (logs.Count() > 1000)
+            {
+                ErrorMessage = $"Affichage limité aux 1000 entrées les plus récentes sur {logs.Count()} trouvées. Utilisez les filtres pour affiner la recherche.";
+            }
         }
         catch (Exception ex)
         {

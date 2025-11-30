@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("logo%20png.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/logo.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/logo.ico")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("appsettings.json")]

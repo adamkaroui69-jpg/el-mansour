@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Xml.Linq;
 using System.Diagnostics;
 using System.Windows;
+using MaterialDesignThemes.Wpf;
 
 namespace ElMansourSyndicManager.ViewModels;
 
@@ -40,10 +41,52 @@ public class SettingsViewModel : ViewModelBase
         set => SetProperty(ref _updateStatus, value);
     }
 
+    public SettingsViewModel()
+    {
+        // Load settings (mocked for now or from Properties.Settings)
+        SelectedTheme = "Clair";
+        SelectedLanguage = "Français";
+        NotificationsEnabled = true;
+        AutoBackupEnabled = true;
+        BackupFrequency = "Quotidien";
+        EnableEmailNotifications = false;
+        EnablePaymentReminders = true;
+
+        SaveCommand = new RelayCommand(SaveSettings);
+        BackupNowCommand = new RelayCommand(BackupNow);
+        CheckForUpdatesCommand = new RelayCommand(async () => await CheckForUpdatesAsync());
+        
+        // Apply initial theme
+        ApplyTheme(SelectedTheme);
+    }
+
     public string SelectedTheme
     {
         get => _selectedTheme;
-        set => SetProperty(ref _selectedTheme, value);
+        set
+        {
+            if (SetProperty(ref _selectedTheme, value))
+            {
+                ApplyTheme(value);
+            }
+        }
+    }
+
+    private void ApplyTheme(string theme)
+    {
+        var paletteHelper = new PaletteHelper();
+        var themeObj = paletteHelper.GetTheme();
+
+        if (theme == "Sombre")
+        {
+            themeObj.SetBaseTheme(MaterialDesignThemes.Wpf.Theme.Dark);
+        }
+        else
+        {
+            themeObj.SetBaseTheme(MaterialDesignThemes.Wpf.Theme.Light);
+        }
+
+        paletteHelper.SetTheme(themeObj);
     }
 
     public string SelectedLanguage
@@ -92,22 +135,6 @@ public class SettingsViewModel : ViewModelBase
     public ICommand SaveCommand { get; }
     public ICommand BackupNowCommand { get; }
     public ICommand CheckForUpdatesCommand { get; }
-
-    public SettingsViewModel()
-    {
-        // Load settings (mocked for now or from Properties.Settings)
-        SelectedTheme = "Clair";
-        SelectedLanguage = "Français";
-        NotificationsEnabled = true;
-        AutoBackupEnabled = true;
-        BackupFrequency = "Quotidien";
-        EnableEmailNotifications = false;
-        EnablePaymentReminders = true;
-
-        SaveCommand = new RelayCommand(SaveSettings);
-        BackupNowCommand = new RelayCommand(BackupNow);
-        CheckForUpdatesCommand = new RelayCommand(async () => await CheckForUpdatesAsync());
-    }
 
     private void SaveSettings()
     {

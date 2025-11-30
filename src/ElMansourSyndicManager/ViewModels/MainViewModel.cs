@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using AutoUpdaterDotNET;
 using ElMansourSyndicManager.Models;
 using Microsoft.Extensions.Logging;
+using MaterialDesignThemes.Wpf;
 
 namespace ElMansourSyndicManager.ViewModels;
 
@@ -105,6 +106,8 @@ public class MainViewModel : ViewModelBase, IDisposable
     public int NotificationCount => Notifications.Count(n => !n.IsRead);
 
     public ICommand MarkAllAsReadCommand { get; }
+    
+    public ISnackbarMessageQueue MessageQueue { get; } = new SnackbarMessageQueue();
 
     private async Task InitializeNotifications()
     {
@@ -227,6 +230,9 @@ public class MainViewModel : ViewModelBase, IDisposable
         Notifications.Insert(0, notification);
         OnPropertyChanged(nameof(HasNotifications));
         OnPropertyChanged(nameof(NotificationCount));
+        
+        // Show snackbar
+        MessageQueue.Enqueue(notification.Message);
     }
 
     private void MarkAllAsRead()

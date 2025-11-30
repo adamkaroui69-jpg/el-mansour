@@ -21,8 +21,8 @@
             <!-- Header -->
             <Grid Margin="0,0,0,32">
                 <StackPanel>
-                    <TextBlock Text="Paramètres" FontSize="28" FontWeight="Bold" Foreground="#333"/>
-                    <TextBlock Text="Configuration de l'application" FontSize="16" Foreground="#777" Margin="0,4,0,0"/>
+                    <TextBlock Text="Paramètres" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource MaterialDesignBody}"/>
+                    <TextBlock Text="Configuration de l'application" FontSize="16" Foreground="{DynamicResource MaterialDesignBodyLight}" Margin="0,4,0,0"/>
                 </StackPanel>
                 <Button Command="{Binding SaveCommand}" 
                         Style="{StaticResource MaterialDesignRaisedButton}" 
@@ -32,20 +32,20 @@
             </Grid>
 
             <!-- Appearance Settings -->
-            <materialDesign:Card UniformCornerRadius="12" Background="White" Margin="0,0,0,16">
+            <materialDesign:Card UniformCornerRadius="12" Background="{DynamicResource MaterialDesignCardBackground}" Margin="0,0,0,16">
                 <StackPanel>
-                    <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
-                        <TextBlock Text="Apparence" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
+                    <Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0,0,0,1" Padding="20">
+                        <TextBlock Text="Apparence" FontWeight="SemiBold" FontSize="18" Foreground="{DynamicResource MaterialDesignBody}"/>
                     </Border>
                     <StackPanel Margin="20">
-                        <TextBlock Text="Thème" FontSize="14" Foreground="#777" Margin="0,0,0,8"/>
+                        <TextBlock Text="Thème" FontSize="14" Foreground="{DynamicResource MaterialDesignBodyLight}" Margin="0,0,0,8"/>
                         <ComboBox ItemsSource="{Binding Themes}" 
                                   SelectedItem="{Binding SelectedTheme}" 
                                   materialDesign:HintAssist.Hint="Sélectionner un thème" 
                                   Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                                   Margin="0,0,0,16"/>
                         
-                        <TextBlock Text="Langue" FontSize="14" Foreground="#777" Margin="0,0,0,8"/>
+                        <TextBlock Text="Langue" FontSize="14" Foreground="{DynamicResource MaterialDesignBodyLight}" Margin="0,0,0,8"/>
                         <ComboBox ItemsSource="{Binding Languages}" 
                                   SelectedItem="{Binding SelectedLanguage}" 
                                   materialDesign:HintAssist.Hint="Sélectionner une langue" 
@@ -55,10 +55,10 @@
             </materialDesign:Card>
 
             <!-- Notifications Settings -->
-            <materialDesign:Card UniformCornerRadius="12" Background="White" Margin="0,0,0,16">
+            <materialDesign:Card UniformCornerRadius="12" Background="{DynamicResource MaterialDesignCardBackground}" Margin="0,0,0,16">
                 <StackPanel>
-                    <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
-                        <TextBlock Text="Notifications" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
+                    <Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0,0,0,1" Padding="20">
+                        <TextBlock Text="Notifications" FontWeight="SemiBold" FontSize="18" Foreground="{DynamicResource MaterialDesignBody}"/>
                     </Border>
                     <StackPanel Margin="20">
                         <CheckBox IsChecked="{Binding NotificationsEnabled}" 
@@ -74,10 +74,10 @@
             </materialDesign:Card>
 
             <!-- Backup Settings -->
-            <materialDesign:Card UniformCornerRadius="12" Background="White">
+            <materialDesign:Card UniformCornerRadius="12" Background="{DynamicResource MaterialDesignCardBackground}">
                 <StackPanel>
-                    <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
-                        <TextBlock Text="Sauvegarde Cloud" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
+                    <Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0,0,0,1" Padding="20">
+                        <TextBlock Text="Sauvegarde Cloud" FontWeight="SemiBold" FontSize="18" Foreground="{DynamicResource MaterialDesignBody}"/>
                     </Border>
                     <StackPanel Margin="20">
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
@@ -88,17 +88,17 @@
                                      FontSize="14"/>
                         </StackPanel>
                         <TextBlock Text="Pour restaurer une sauvegarde, veuillez accéder à votre panneau de contrôle Somee." 
-                                 Foreground="#777" 
+                                 Foreground="{DynamicResource MaterialDesignBodyLight}" 
                                  FontStyle="Italic"/>
                     </StackPanel>
                 </StackPanel>
             </materialDesign:Card>
 
             <!-- About Section -->
-            <materialDesign:Card UniformCornerRadius="12" Background="White" Margin="0,16,0,0">
+            <materialDesign:Card UniformCornerRadius="12" Background="{DynamicResource MaterialDesignCardBackground}" Margin="0,16,0,0">
                 <StackPanel>
-                    <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
-                        <TextBlock Text="À propos" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
+                    <Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0,0,0,1" Padding="20">
+                        <TextBlock Text="À propos" FontWeight="SemiBold" FontSize="18" Foreground="{DynamicResource MaterialDesignBody}"/>
                     </Border>
                     <StackPanel Margin="20">
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
@@ -107,11 +107,11 @@
                                 <TextBlock Text="El Mansour Syndic Manager" 
                                          FontSize="16" 
                                          FontWeight="SemiBold"
-                                         Foreground="#333"/>
+                                         Foreground="{DynamicResource MaterialDesignBody}"/>
                                 <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
                                     <TextBlock Text="Version : " 
                                              FontSize="14" 
-                                             Foreground="#777"/>
+                                             Foreground="{DynamicResource MaterialDesignBodyLight}"/>
                                     <TextBlock Text="{Binding AppVersion}" 
                                              FontSize="14" 
                                              FontWeight="SemiBold"
@@ -120,7 +120,7 @@
                             </StackPanel>
                         </StackPanel>
                         <TextBlock Text="Application de gestion de syndic pour la résidence El Mansour" 
-                                 Foreground="#777" 
+                                 Foreground="{DynamicResource MaterialDesignBodyLight}" 
                                  FontSize="13"
                                  TextWrapping="Wrap"
                                  Margin="36,0,0,8"/>
@@ -149,14 +149,14 @@
                             
                             <!-- Update Status -->
                             <TextBlock Text="{Binding UpdateStatus}" 
-                                     Foreground="#666" 
+                                     Foreground="{DynamicResource MaterialDesignBodyLight}" 
                                      FontSize="12"
                                      Margin="0,8,0,0"
                                      Visibility="{Binding UpdateStatus, Converter={StaticResource StringToVisibilityConverter}}"/>
                         </StackPanel>
                         
                         <TextBlock Text="© 2024 El Mansour. Tous droits réservés." 
-                                 Foreground="#999" 
+                                 Foreground="{DynamicResource MaterialDesignBodyLight}" 
                                  FontSize="12"
                                  FontStyle="Italic"
                                  Margin="36,0,0,0"/>

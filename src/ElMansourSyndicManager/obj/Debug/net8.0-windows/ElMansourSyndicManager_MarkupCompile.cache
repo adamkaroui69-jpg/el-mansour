@@ -1,19 +1,19 @@
 ﻿ElMansourSyndicManager
-1.0.30.0
+1.0.31.0
 
 winexe
 C#
 .cs
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Debug\net8.0-windows\
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Debug\net8.0-windows\
 ElMansourSyndicManager
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\App.xaml
+c:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\App.xaml
 141378359307
-3-120513658
+4-285030499
 381259590651
-269-1781037876
+277-322504725
 MainWindow.xaml;Resources\Converters.xaml;Views\AuditView.xaml;Views\BackupView.xaml;Views\DashboardView.xaml;Views\DocumentsView.xaml;Views\ExpensesView.xaml;Views\LoginWindow.xaml;Views\NotificationsView.xaml;Views\PaymentsView.xaml;Views\ReceiptsView.xaml;Views\ReportsView.xaml;Views\SettingsView.xaml;Views\UsersView.xaml;
 
 False

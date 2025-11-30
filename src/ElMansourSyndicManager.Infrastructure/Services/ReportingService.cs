@@ -358,10 +358,10 @@ public class ReportingService : IReportingService
                         .Column(column =>
                         {
                             // Logo centered at top
-                            var logoPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "logo.png");
+                            var logoPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logo png.png");
                             if (System.IO.File.Exists(logoPath))
                             {
-                                column.Item().AlignCenter().Width(50).Image(logoPath);
+                                column.Item().AlignCenter().Width(70).Image(logoPath);
                                 column.Item().PaddingTop(8);
                             }
                             
@@ -559,10 +559,10 @@ public class ReportingService : IReportingService
                         .Column(column =>
                         {
                             // Logo centered at top
-                            var logoPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "logo.png");
+                            var logoPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logo png.png");
                             if (System.IO.File.Exists(logoPath))
                             {
-                                column.Item().AlignCenter().Width(50).Image(logoPath);
+                                column.Item().AlignCenter().Width(70).Image(logoPath);
                                 column.Item().PaddingTop(8);
                             }
                             

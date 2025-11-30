@@ -25,7 +25,7 @@
         </EventTrigger>
     </Window.Triggers>
     
-    <Border CornerRadius="20" Background="White">
+    <Border CornerRadius="20" Background="{DynamicResource MaterialDesignPaper}">
         <Border.Effect>
             <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="30" ShadowDepth="0"/>
         </Border.Effect>
@@ -37,7 +37,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Partie gauche - Image/Branding (Style Clean & Moderne) -->
-            <Border Grid.Column="0" CornerRadius="20,0,0,20" Background="#F8F9FA">
+            <Border Grid.Column="0" CornerRadius="20,0,0,20" Background="{DynamicResource MaterialDesignCardBackground}">
                 <Grid>
                     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="40">
                         <!-- Logo (Directement sur fond clair pour une netteté maximale) -->
@@ -55,33 +55,33 @@
                         <TextBlock Text="Résidence El Mansour"
                                  FontSize="32"
                                  FontWeight="Bold"
-                                 Foreground="#1A237E"
+                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
                                  TextAlignment="Center"
                                  Margin="0,0,0,8"/>
                         
                         <TextBlock Text="Gestion Moderne de Syndic"
                                  FontSize="18"
-                                 Foreground="#5C6BC0"
+                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
                                  TextAlignment="Center"/>
                         
                         <!-- Caractéristiques -->
                         <StackPanel Margin="0,50,0,0">
                             <StackPanel Orientation="Horizontal" Margin="0,10">
-                                <Border Background="#E8EAF6" CornerRadius="50" Padding="4" Margin="0,0,12,0">
-                                    <materialDesign:PackIcon Kind="Check" Foreground="#1A237E" Width="16" Height="16"/>
+                                <Border Background="{DynamicResource MaterialDesignPaper}" CornerRadius="50" Padding="4" Margin="0,0,12,0">
+                                    <materialDesign:PackIcon Kind="Check" Foreground="{DynamicResource PrimaryHueMidBrush}" Width="16" Height="16"/>
                                 </Border>
                                 <TextBlock Text="Gestion des paiements simplifiée" 
-                                         Foreground="#455A64" 
+                                         Foreground="{DynamicResource MaterialDesignBody}" 
                                          FontSize="15"
                                          VerticalAlignment="Center"/>
                             </StackPanel>
                             
                             <StackPanel Orientation="Horizontal" Margin="0,10">
-                                <Border Background="#E8EAF6" CornerRadius="50" Padding="4" Margin="0,0,12,0">
-                                    <materialDesign:PackIcon Kind="Check" Foreground="#1A237E" Width="16" Height="16"/>
+                                <Border Background="{DynamicResource MaterialDesignPaper}" CornerRadius="50" Padding="4" Margin="0,0,12,0">
+                                    <materialDesign:PackIcon Kind="Check" Foreground="{DynamicResource PrimaryHueMidBrush}" Width="16" Height="16"/>
                                 </Border>
                                 <TextBlock Text="Rapports financiers automatisés" 
-                                         Foreground="#455A64" 
+                                         Foreground="{DynamicResource MaterialDesignBody}" 
                                          FontSize="15"
                                          VerticalAlignment="Center"/>
                             </StackPanel>
@@ -112,16 +112,16 @@
                     <TextBlock Text="Bienvenue !"
                              FontSize="36"
                              FontWeight="Bold"
-                             Foreground="#1A237E"
+                             Foreground="{DynamicResource PrimaryHueMidBrush}"
                              Margin="0,0,0,8"/>
                     
                     <TextBlock Text="Connectez-vous pour continuer"
                              FontSize="14"
-                             Foreground="#666"
+                             Foreground="{DynamicResource MaterialDesignBodyLight}"
                              Margin="0,0,0,40"/>
 
                     <!-- Champ Code Maison -->
-                    <Border Background="#F5F5F5" 
+                    <Border Background="{DynamicResource MaterialDesignCardBackground}" 
                            CornerRadius="10" 
                            Padding="16,12"
                            Margin="0,0,0,16">
@@ -148,7 +148,7 @@
                     </Border>
 
                     <!-- Champ Mot de passe -->
-                    <Border Background="#F5F5F5" 
+                    <Border Background="{DynamicResource MaterialDesignCardBackground}" 
                            CornerRadius="10" 
                            Padding="16,12"
                            Margin="0,0,0,24">
