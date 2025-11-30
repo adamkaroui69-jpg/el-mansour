@@ -25,14 +25,19 @@ public class DashboardViewModel : ViewModelBase, IInitializable
     private int _unpaidHousesCount;
     private bool _isLoading;
 
+    private readonly IAuthenticationService _authService;
+    private string _userName;
+
     public DashboardViewModel(
         IPaymentService paymentService,
         INotificationService notificationService,
-        IExpenseService expenseService)
+        IExpenseService expenseService,
+        IAuthenticationService authService)
     {
         _paymentService = paymentService;
         _notificationService = notificationService;
         _expenseService = expenseService;
+        _authService = authService;
 
         UnpaidHouses = new ObservableCollection<UnpaidHouseDto>();
         RecentPayments = new ObservableCollection<PaymentDto>();
@@ -43,6 +48,12 @@ public class DashboardViewModel : ViewModelBase, IInitializable
         NavigateToExpensesCommand = new RelayCommand(() => { /* Navigate */ });
 
         // Load data on initialization
+    }
+
+    public string UserName
+    {
+        get => _userName;
+        set => SetProperty(ref _userName, value);
     }
 
     public async Task InitializeAsync()
@@ -113,6 +124,9 @@ public class DashboardViewModel : ViewModelBase, IInitializable
         {
             File.AppendAllText(logPath, $"\n[{DateTime.Now}] DashboardViewModel.LoadDataAsync started.\n");
             IsLoading = true;
+
+            var user = await _authService.GetCurrentUserAsync();
+            UserName = user?.Username ?? "Utilisateur";
 
             var currentMonth = DateTime.Now.ToString("yyyy-MM");
             

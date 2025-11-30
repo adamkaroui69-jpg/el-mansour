@@ -7,7 +7,7 @@
   "targets": {
     ".NETCoreApp,Version=v8.0": {},
     ".NETCoreApp,Version=v8.0/win-x64": {
-      "ElMansourSyndicManager/1.0.32": {
+      "ElMansourSyndicManager/1.0.33": {
         "dependencies": {
           "Autoupdater.NET.Official": "1.9.2",
           "ElMansourSyndicManager.Core": "1.0.0",
@@ -1881,7 +1881,7 @@
     }
   },
   "libraries": {
-    "ElMansourSyndicManager/1.0.32": {
+    "ElMansourSyndicManager/1.0.33": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

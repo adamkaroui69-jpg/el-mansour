@@ -116,8 +116,7 @@
         </materialDesign:DrawerHost.LeftDrawerContent>
 
         <!-- Contenu Principal -->
-        <!-- Contenu Principal -->
-        <Grid Background="{DynamicResource MaterialDesignPaper}"> <!-- Fond gris très clair pour le contenu -->
+        <Grid Background="{DynamicResource MaterialDesignPaper}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -127,8 +126,7 @@
             <materialDesign:ColorZone Grid.Row="0" 
                                       Padding="24,16"
                                       Mode="Standard"
-                                      Background="{DynamicResource MaterialDesignCardBackground}"
-                                      materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                                      Background="Transparent">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -136,7 +134,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Bouton Hamburger (Couleur sombre pour contraste sur blanc) -->
+                    <!-- Bouton Hamburger -->
                     <ToggleButton Grid.Column="0"
                                  Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                                  IsChecked="{Binding ElementName=DrawerHost, Path=IsLeftDrawerOpen}"
@@ -159,24 +157,24 @@
                         <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="0,0,16,0">
                             <materialDesign:PopupBox.ToggleContent>
                                 <Grid>
-                                    <Border Background="{DynamicResource MaterialDesignPaper}" CornerRadius="20" Width="40" Height="40" Cursor="Hand">
+                                    <Border Background="{DynamicResource MaterialDesignPaper}" CornerRadius="20" Width="40" Height="40" Cursor="Hand" Effect="{DynamicResource MaterialDesignShadowDepth1}">
                                         <materialDesign:PackIcon Kind="Bell" 
-                                                               Width="22" Height="22" 
-                                                               Foreground="{DynamicResource PrimaryHueMidBrush}" 
+                                                               Width="20" Height="20" 
+                                                               Foreground="{DynamicResource MaterialDesignBody}" 
                                                                HorizontalAlignment="Center" 
                                                                VerticalAlignment="Center"/>
                                     </Border>
                                     <!-- Badge de notification -->
                                     <Border Background="#F44336" 
                                            CornerRadius="10" 
-                                           Width="20" Height="20" 
+                                           Width="18" Height="18" 
                                            HorizontalAlignment="Right" 
                                            VerticalAlignment="Top"
-                                           Margin="0,-4,-4,0"
+                                           Margin="0,-2,-2,0"
                                            Visibility="{Binding HasNotifications, Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <TextBlock Text="{Binding NotificationCount}" 
                                                  Foreground="White" 
-                                                 FontSize="11" 
+                                                 FontSize="10" 
                                                  FontWeight="Bold"
                                                  HorizontalAlignment="Center" 
                                                  VerticalAlignment="Center"/>
@@ -269,12 +267,14 @@
                         <!-- Profil Utilisateur -->
                         <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
                             <materialDesign:PopupBox.ToggleContent>
-                                <Border Background="{DynamicResource MaterialDesignPaper}" CornerRadius="20" Width="40" Height="40" Cursor="Hand">
-                                    <materialDesign:PackIcon Kind="AccountCircle" 
-                                                           Width="24" Height="24" 
-                                                           Foreground="{DynamicResource PrimaryHueMidBrush}" 
-                                                           HorizontalAlignment="Center" 
-                                                           VerticalAlignment="Center"/>
+                                <Border Background="{DynamicResource MaterialDesignPaper}" CornerRadius="20" Padding="4,4,12,4" Cursor="Hand" Effect="{DynamicResource MaterialDesignShadowDepth1}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Width="32" Height="32" CornerRadius="16" Background="#E0E0E0" Margin="0,0,8,0">
+                                            <materialDesign:PackIcon Kind="Account" Width="20" Height="20" Foreground="#757575" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </Border>
+                                        <TextBlock Text="{Binding CurrentUser.Username}" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="{DynamicResource MaterialDesignBody}"/>
+                                        <materialDesign:PackIcon Kind="ChevronDown" Width="16" Height="16" Foreground="{DynamicResource MaterialDesignBodyLight}" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                    </StackPanel>
                                 </Border>
                             </materialDesign:PopupBox.ToggleContent>
                             

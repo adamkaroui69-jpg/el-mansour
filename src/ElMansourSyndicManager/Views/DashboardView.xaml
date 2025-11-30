@@ -1,212 +1,196 @@
 <UserControl x:Class="ElMansourSyndicManager.Views.DashboardView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             xmlns:viewModels="clr-namespace:ElMansourSyndicManager.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="1200">
+             d:DesignHeight="800" d:DesignWidth="1200"
+             d:DataContext="{d:DesignInstance viewModels:DashboardViewModel}">
     
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="24">
             <!-- Header -->
-            <Grid Margin="0,0,0,32">
-                <StackPanel>
-                    <TextBlock Text="Vue d'ensemble" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource MaterialDesignBody}"/>
-                    <TextBlock Text="Statistiques et activités récentes" FontSize="16" Foreground="{DynamicResource MaterialDesignBodyLight}" Margin="0,4,0,0"/>
-                </StackPanel>
-                <Button Command="{Binding RefreshCommand}"
-                        HorizontalAlignment="Right"
-                        Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
-                        Background="{DynamicResource MaterialDesignCardBackground}"
-                        BorderBrush="{DynamicResource MaterialDesignDivider}"
-                        Foreground="{DynamicResource PrimaryHueMidBrush}"
-                        ToolTip="Actualiser">
-                    <materialDesign:PackIcon Kind="Refresh"/>
-                </Button>
-            </Grid>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,32">
+                <TextBlock Text="Hey " FontSize="28" FontWeight="Bold" Foreground="{DynamicResource MaterialDesignBody}"/>
+                <TextBlock Text="{Binding UserName}" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource MaterialDesignBody}"/>
+                <TextBlock Text="! 👋" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource MaterialDesignBody}"/>
+            </StackPanel>
 
             <!-- KPI Cards -->
-            <Grid Margin="0,0,0,32">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <!-- Card 1: Collected -->
-                <materialDesign:Card Grid.Column="0" Margin="0,0,12,0" UniformCornerRadius="12" Padding="20" Background="{DynamicResource MaterialDesignCardBackground}">
+            <UniformGrid Columns="4" Margin="0,0,0,32">
+                <!-- Card 1: Total Dû -->
+                <materialDesign:Card Margin="0,0,12,0" UniformCornerRadius="16" Padding="20" Background="{DynamicResource MaterialDesignPaper}" materialDesign:ShadowAssist.ShadowDepth="Depth1">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Width="50" Height="50" CornerRadius="25" Background="#E8F5E9">
-                            <materialDesign:PackIcon Kind="CashPlus" Width="24" Height="24" Foreground="#4CAF50" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <Border Grid.Column="0" Width="56" Height="56" CornerRadius="16" Background="#EDE7F6">
+                            <materialDesign:PackIcon Kind="CashClock" Width="28" Height="28" Foreground="#673AB7" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Border>
                         <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
-                            <TextBlock Text="Total Collecté" FontSize="13" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                            <TextBlock Text="Total Dû" FontSize="14" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                            <TextBlock Text="{Binding TotalDue, StringFormat='{}{0:N0} TND'}" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource MaterialDesignBody}" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+                
+                <!-- Card 2: Maisons Impayées -->
+                <materialDesign:Card Margin="12,0,12,0" UniformCornerRadius="16" Padding="20" Background="{DynamicResource MaterialDesignPaper}" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Width="56" Height="56" CornerRadius="16" Background="#E3F2FD">
+                            <materialDesign:PackIcon Kind="HomeAlert" Width="28" Height="28" Foreground="#2196F3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="Maisons Impayées" FontSize="14" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                            <TextBlock Text="{Binding UnpaidHousesCount}" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource MaterialDesignBody}" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+
+                <!-- Card 3: Total Collecté -->
+                <materialDesign:Card Margin="12,0,12,0" UniformCornerRadius="16" Padding="20" Background="{DynamicResource MaterialDesignPaper}" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Width="56" Height="56" CornerRadius="16" Background="#FFF3E0">
+                            <materialDesign:PackIcon Kind="CashCheck" Width="28" Height="28" Foreground="#FF9800" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="Total Collecté" FontSize="14" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
                             <TextBlock Text="{Binding TotalCollected, StringFormat='{}{0:N0} TND'}" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource MaterialDesignBody}" Margin="0,4,0,0"/>
                         </StackPanel>
                     </Grid>
                 </materialDesign:Card>
 
-                <!-- Card 2: Spent -->
-                <materialDesign:Card Grid.Column="1" Margin="12,0" UniformCornerRadius="12" Padding="20" Background="{DynamicResource MaterialDesignCardBackground}">
+                <!-- Card 4: Total Dépensé -->
+                <materialDesign:Card Margin="12,0,0,0" UniformCornerRadius="16" Padding="20" Background="{DynamicResource MaterialDesignPaper}" materialDesign:ShadowAssist.ShadowDepth="Depth1">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Width="50" Height="50" CornerRadius="25" Background="#FFEBEE">
-                            <materialDesign:PackIcon Kind="CashMinus" Width="24" Height="24" Foreground="#F44336" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <Border Grid.Column="0" Width="56" Height="56" CornerRadius="16" Background="#E8F5E9">
+                            <materialDesign:PackIcon Kind="CashRemove" Width="28" Height="28" Foreground="#4CAF50" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Border>
                         <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
-                            <TextBlock Text="Dépenses" FontSize="13" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                            <TextBlock Text="Total Dépensé" FontSize="14" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
                             <TextBlock Text="{Binding TotalSpent, StringFormat='{}{0:N0} TND'}" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource MaterialDesignBody}" Margin="0,4,0,0"/>
                         </StackPanel>
                     </Grid>
                 </materialDesign:Card>
+            </UniformGrid>
 
-                <!-- Card 3: Balance -->
-                <materialDesign:Card Grid.Column="2" Margin="12,0" UniformCornerRadius="12" Padding="20" Background="{DynamicResource MaterialDesignCardBackground}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Width="50" Height="50" CornerRadius="25" Background="#E3F2FD">
-                            <materialDesign:PackIcon Kind="ScaleBalance" Width="24" Height="24" Foreground="#2196F3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Border>
-                        <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
-                            <TextBlock Text="Solde" FontSize="13" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
-                            <TextBlock Text="{Binding Balance, StringFormat='{}{0:N0} TND'}" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource MaterialDesignBody}" Margin="0,4,0,0"/>
-                        </StackPanel>
-                    </Grid>
-                </materialDesign:Card>
-
-                <!-- Card 4: Total Due -->
-                <materialDesign:Card Grid.Column="3" Margin="12,0,0,0" UniformCornerRadius="12" Padding="20" Background="{DynamicResource MaterialDesignCardBackground}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Width="50" Height="50" CornerRadius="25" Background="#FFF3E0">
-                            <materialDesign:PackIcon Kind="AlertCircleOutline" Width="24" Height="24" Foreground="#FF9800" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Border>
-                        <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
-                            <TextBlock Text="Impayés" FontSize="13" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
-                            <TextBlock FontSize="20" FontWeight="Bold" Foreground="{DynamicResource MaterialDesignBody}" Margin="0,4,0,0">
-                                <Run Text="{Binding UnpaidHousesCount, Mode=OneWay}"/>
-                                <Run Text=" (" FontSize="14" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
-                                <Run Text="{Binding TotalDue, StringFormat='{}{0:N0} TND', Mode=OneWay}" FontSize="14" Foreground="#FF9800"/>
-                                <Run Text=")" FontSize="14" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
-                            </TextBlock>
-                        </StackPanel>
-                    </Grid>
-                </materialDesign:Card>
-
-            </Grid>
-
-            <!-- Chart Section -->
-            <materialDesign:Card Margin="0,0,0,32" UniformCornerRadius="12" Padding="20" Background="{DynamicResource MaterialDesignCardBackground}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="300"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="Aperçu Financier (6 derniers mois)" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource MaterialDesignBody}" Margin="0,0,0,20"/>
-                    <lvc:CartesianChart Grid.Row="1" Series="{Binding Series}" XAxes="{Binding XAxes}"/>
-                </Grid>
-            </materialDesign:Card>
-
-            <!-- Content Grid -->
+            <!-- Tables Section -->
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Left Column -->
-                <StackPanel Grid.Column="0" Margin="0,0,16,0">
-                    <!-- Unpaid List -->
-                    <materialDesign:Card UniformCornerRadius="12" Margin="0,0,0,24" Background="{DynamicResource MaterialDesignCardBackground}">
-                        <StackPanel>
-                            <Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0,0,0,1" Padding="20">
-                                <TextBlock Text="Retards de Paiement" FontWeight="SemiBold" FontSize="18" Foreground="{DynamicResource MaterialDesignBody}"/>
-                            </Border>
-                            <DataGrid ItemsSource="{Binding UnpaidHouses}"
-                                      AutoGenerateColumns="False"
-                                      HeadersVisibility="Column"
-                                      IsReadOnly="True"
-                                      BorderThickness="0"
-                                      Background="{DynamicResource MaterialDesignCardBackground}"
-                                      Padding="0,8">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Maison" Binding="{Binding HouseCode}" Width="80"/>
-                                    <DataGridTextColumn Header="Propriétaire" Binding="{Binding OwnerName}" Width="*"/>
-                                    <DataGridTextColumn Header="Montant" Binding="{Binding MonthlyAmount, StringFormat='{}{0:N0} TND'}" Width="100" FontWeight="Bold"/>
-                                    <DataGridTextColumn Header="Jours" Binding="{Binding DaysOverdue}" Width="80"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </StackPanel>
-                    </materialDesign:Card>
-
-                    <!-- Recent Payments -->
-                    <materialDesign:Card UniformCornerRadius="12" Background="{DynamicResource MaterialDesignCardBackground}">
-                        <StackPanel>
-                            <Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0,0,0,1" Padding="20">
-                                <TextBlock Text="Paiements Récents" FontWeight="SemiBold" FontSize="18" Foreground="{DynamicResource MaterialDesignBody}"/>
-                            </Border>
-                            <DataGrid ItemsSource="{Binding RecentPayments}"
-                                      AutoGenerateColumns="False"
-                                      HeadersVisibility="Column"
-                                      IsReadOnly="True"
-                                      BorderThickness="0"
-                                      Background="{DynamicResource MaterialDesignCardBackground}"
-                                      Padding="0,8">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Maison" Binding="{Binding HouseCode}" Width="80"/>
-                                    <DataGridTextColumn Header="Date" Binding="{Binding PaymentDate, StringFormat='{}{0:dd/MM/yyyy}'}" Width="120"/>
-                                    <DataGridTextColumn Header="Montant" Binding="{Binding Amount, StringFormat='{}{0:N0} TND'}" Width="*" FontWeight="Bold"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </StackPanel>
-                    </materialDesign:Card>
-                </StackPanel>
-
-                <!-- Right Column -->
-                <StackPanel Grid.Column="1">
-                    <materialDesign:Card UniformCornerRadius="12" Background="{DynamicResource MaterialDesignCardBackground}">
-                        <StackPanel>
-                            <Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0,0,0,1" Padding="20">
-                                <TextBlock Text="Dépenses Récentes" FontWeight="SemiBold" FontSize="18" Foreground="{DynamicResource MaterialDesignBody}"/>
-                            </Border>
-                            <ItemsControl ItemsSource="{Binding RecentExpenses}" Padding="0,8">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0,0,0,1" Padding="16,12">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel Grid.Column="0">
-                                                    <TextBlock Text="{Binding Description}" FontWeight="Medium"/>
-                                                    <TextBlock Text="{Binding Category}" FontSize="12" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                <!-- Left Table: Recent Payments -->
+                <materialDesign:Card Grid.Column="0" Margin="0,0,12,0" UniformCornerRadius="16" Padding="0" Background="{DynamicResource MaterialDesignPaper}" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                    <StackPanel>
+                        <TextBlock Text="Derniers Paiements" FontSize="18" FontWeight="Bold" Margin="24,24,24,16" Foreground="{DynamicResource MaterialDesignBody}"/>
+                        <DataGrid ItemsSource="{Binding RecentPayments}" AutoGenerateColumns="False" IsReadOnly="True" 
+                                  HeadersVisibility="Column" GridLinesVisibility="Horizontal" Background="Transparent" BorderThickness="0"
+                                  HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
+                                  materialDesign:DataGridAssist.CellPadding="16 12 12 12" VerticalScrollBarVisibility="Auto" MaxHeight="400">
+                            <DataGrid.Resources>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBodyLight}"/>
+                                    <Setter Property="FontSize" Value="13"/>
+                                    <Setter Property="Padding" Value="16,8,8,8"/>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Maison" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border Width="36" Height="36" CornerRadius="18" Background="#F5F5F5" Margin="0,0,12,0">
+                                                    <TextBlock Text="{Binding HouseCode}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="11" FontWeight="Bold" Foreground="#616161"/>
+                                                </Border>
+                                                <StackPanel VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding HouseCode}" FontWeight="SemiBold" FontSize="14"/>
+                                                    <TextBlock Text="Résident" FontSize="12" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
                                                 </StackPanel>
-                                                <TextBlock Grid.Column="1" Text="{Binding Amount, StringFormat='{}{0:N0} TND'}" FontWeight="Bold"/>
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </materialDesign:Card>
-                </StackPanel>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Mois" Binding="{Binding Month}" Width="Auto" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
+                                <DataGridTextColumn Header="Montant" Binding="{Binding Amount, StringFormat='{}{0:N0} TND'}" Width="Auto" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
+                                <DataGridTemplateColumn Header="Statut" Width="Auto">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border Background="#E8F5E9" CornerRadius="6" Padding="10,4">
+                                                <TextBlock Text="Payé" Foreground="#2E7D32" FontSize="12" FontWeight="SemiBold"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <!-- Right Table: Unpaid Houses -->
+                <materialDesign:Card Grid.Column="1" Margin="12,0,0,0" UniformCornerRadius="16" Padding="0" Background="{DynamicResource MaterialDesignPaper}" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                    <StackPanel>
+                        <TextBlock Text="Maisons Impayées" FontSize="18" FontWeight="Bold" Margin="24,24,24,16" Foreground="{DynamicResource MaterialDesignBody}"/>
+                        <DataGrid ItemsSource="{Binding UnpaidHouses}" AutoGenerateColumns="False" IsReadOnly="True" 
+                                  HeadersVisibility="Column" GridLinesVisibility="Horizontal" Background="Transparent" BorderThickness="0"
+                                  HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
+                                  materialDesign:DataGridAssist.CellPadding="16 12 12 12" VerticalScrollBarVisibility="Auto" MaxHeight="400">
+                            <DataGrid.Resources>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBodyLight}"/>
+                                    <Setter Property="FontSize" Value="13"/>
+                                    <Setter Property="Padding" Value="16,8,8,8"/>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Maison" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border Width="36" Height="36" CornerRadius="18" Background="#FFEBEE" Margin="0,0,12,0">
+                                                    <TextBlock Text="{Binding HouseCode}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="11" FontWeight="Bold" Foreground="#D32F2F"/>
+                                                </Border>
+                                                <StackPanel VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding HouseCode}" FontWeight="SemiBold" FontSize="14"/>
+                                                    <TextBlock Text="{Binding OwnerName}" FontSize="12" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Montant" Binding="{Binding MonthlyAmount, StringFormat='{}{0:N0} TND'}" Width="Auto" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
+                                <DataGridTemplateColumn Header="Priorité" Width="Auto">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border Background="#FFEBEE" CornerRadius="6" Padding="10,4">
+                                                <TextBlock Text="Haute" Foreground="#C62828" FontSize="12" FontWeight="SemiBold"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </materialDesign:Card>
             </Grid>
         </StackPanel>
     </ScrollViewer>
