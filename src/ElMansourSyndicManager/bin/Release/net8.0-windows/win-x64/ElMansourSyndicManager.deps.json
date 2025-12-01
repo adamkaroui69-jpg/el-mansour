@@ -7,7 +7,7 @@
   "targets": {
     ".NETCoreApp,Version=v8.0": {},
     ".NETCoreApp,Version=v8.0/win-x64": {
-      "ElMansourSyndicManager/1.0.33": {
+      "ElMansourSyndicManager/1.0.34": {
         "dependencies": {
           "Autoupdater.NET.Official": "1.9.2",
           "ElMansourSyndicManager.Core": "1.0.0",
@@ -22,6 +22,8 @@
           "Microsoft.Extensions.Configuration.Json": "10.0.0",
           "Microsoft.Extensions.Logging.Console": "8.0.0",
           "Microsoft.Extensions.Logging.Debug": "8.0.0",
+          "SkiaSharp.NativeAssets.Win32": "2.88.8",
+          "SkiaSharp.Views.WPF": "2.88.8",
           "runtimepack.Microsoft.NETCore.App.Runtime.win-x64": "8.0.22",
           "runtimepack.Microsoft.WindowsDesktop.App.Runtime.win-x64": "8.0.22"
         },
@@ -1119,7 +1121,7 @@
       "LiveChartsCore.SkiaSharpView/2.0.0-rc2": {
         "dependencies": {
           "LiveChartsCore": "2.0.0-rc2",
-          "SkiaSharp": "2.88.6",
+          "SkiaSharp": "2.88.8",
           "SkiaSharp.HarfBuzz": "2.88.6"
         },
         "runtime": {
@@ -1132,7 +1134,7 @@
       "LiveChartsCore.SkiaSharpView.WPF/2.0.0-rc2": {
         "dependencies": {
           "LiveChartsCore.SkiaSharpView": "2.0.0-rc2",
-          "SkiaSharp.Views.WPF": "2.88.6"
+          "SkiaSharp.Views.WPF": "2.88.8"
         },
         "runtime": {
           "lib/netcoreapp3.1/LiveChartsCore.SkiaSharpView.WPF.dll": {
@@ -1945,21 +1947,21 @@
           }
         }
       },
-      "SkiaSharp/2.88.6": {
+      "SkiaSharp/2.88.8": {
         "dependencies": {
-          "SkiaSharp.NativeAssets.Win32": "2.88.6"
+          "SkiaSharp.NativeAssets.Win32": "2.88.8"
         },
         "runtime": {
           "lib/net6.0/SkiaSharp.dll": {
             "assemblyVersion": "2.88.0.0",
-            "fileVersion": "2.88.6.0"
+            "fileVersion": "2.88.8.0"
           }
         }
       },
       "SkiaSharp.HarfBuzz/2.88.6": {
         "dependencies": {
           "HarfBuzzSharp": "7.3.0",
-          "SkiaSharp": "2.88.6"
+          "SkiaSharp": "2.88.8"
         },
         "runtime": {
           "lib/net6.0/SkiaSharp.HarfBuzz.dll": {
@@ -1968,33 +1970,33 @@
           }
         }
       },
-      "SkiaSharp.NativeAssets.Win32/2.88.6": {
+      "SkiaSharp.NativeAssets.Win32/2.88.8": {
         "native": {
           "runtimes/win-x64/native/libSkiaSharp.dll": {
             "fileVersion": "0.0.0.0"
           }
         }
       },
-      "SkiaSharp.Views.Desktop.Common/2.88.6": {
+      "SkiaSharp.Views.Desktop.Common/2.88.8": {
         "dependencies": {
-          "SkiaSharp": "2.88.6"
+          "SkiaSharp": "2.88.8"
         },
         "runtime": {
           "lib/netcoreapp3.1/SkiaSharp.Views.Desktop.Common.dll": {
             "assemblyVersion": "2.88.0.0",
-            "fileVersion": "2.88.6.0"
+            "fileVersion": "2.88.8.0"
           }
         }
       },
-      "SkiaSharp.Views.WPF/2.88.6": {
+      "SkiaSharp.Views.WPF/2.88.8": {
         "dependencies": {
-          "SkiaSharp": "2.88.6",
-          "SkiaSharp.Views.Desktop.Common": "2.88.6"
+          "SkiaSharp": "2.88.8",
+          "SkiaSharp.Views.Desktop.Common": "2.88.8"
         },
         "runtime": {
           "lib/netcoreapp3.1/SkiaSharp.Views.WPF.dll": {
             "assemblyVersion": "2.88.0.0",
-            "fileVersion": "2.88.6.0"
+            "fileVersion": "2.88.8.0"
           }
         }
       },
@@ -2185,7 +2187,7 @@
     }
   },
   "libraries": {
-    "ElMansourSyndicManager/1.0.33": {
+    "ElMansourSyndicManager/1.0.34": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -2662,12 +2664,12 @@
       "path": "questpdf/2024.6.0",
       "hashPath": "questpdf.2024.6.0.nupkg.sha512"
     },
-    "SkiaSharp/2.88.6": {
+    "SkiaSharp/2.88.8": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-wdfeBAQrEQCbJIRgAiargzP1Uy+0grZiG4CSgBnhAgcJTsPzlifIaO73JRdwIlT3TyBoeU9jEqzwFUhl4hTYnQ==",
-      "path": "skiasharp/2.88.6",
-      "hashPath": "skiasharp.2.88.6.nupkg.sha512"
+      "sha512": "sha512-bRkp3uKp5ZI8gXYQT57uKwil1uobb2p8c69n7v5evlB/2JNcMAXVcw9DZAP5Ig3WSvgzGm2YSn27UVeOi05NlA==",
+      "path": "skiasharp/2.88.8",
+      "hashPath": "skiasharp.2.88.8.nupkg.sha512"
     },
     "SkiaSharp.HarfBuzz/2.88.6": {
       "type": "package",
@@ -2676,26 +2678,26 @@
       "path": "skiasharp.harfbuzz/2.88.6",
       "hashPath": "skiasharp.harfbuzz.2.88.6.nupkg.sha512"
     },
-    "SkiaSharp.NativeAssets.Win32/2.88.6": {
+    "SkiaSharp.NativeAssets.Win32/2.88.8": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-7TzFO0u/g2MpQsTty4fyCDdMcfcWI+aLswwfnYXr3gtNS6VLKdMXPMeKpJa3pJSLnUBN6wD0JjuCe8OoLBQ6cQ==",
-      "path": "skiasharp.nativeassets.win32/2.88.6",
-      "hashPath": "skiasharp.nativeassets.win32.2.88.6.nupkg.sha512"
+      "sha512": "sha512-O9QXoWEXA+6cweR4h3BOnwMz+pO9vL9mXdjLrpDd0w1QzCgWmLQBxa1VgySDITiH7nQndrDG1h6937zm9pLj1Q==",
+      "path": "skiasharp.nativeassets.win32/2.88.8",
+      "hashPath": "skiasharp.nativeassets.win32.2.88.8.nupkg.sha512"
     },
-    "SkiaSharp.Views.Desktop.Common/2.88.6": {
+    "SkiaSharp.Views.Desktop.Common/2.88.8": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Ectb9s9+xH8zh82UbagYX4l6bdR1PcWz7xmaVzcyBcmVhrDmty61U0vIlXgthZH0wJ9fmFX3X+71OwrA9c9adw==",
-      "path": "skiasharp.views.desktop.common/2.88.6",
-      "hashPath": "skiasharp.views.desktop.common.2.88.6.nupkg.sha512"
+      "sha512": "sha512-SBP7byk9a5gmzHriOTC6BjykqJ5rCTqXIo/RLNszPaKwDs8naCZGUM9GZmreshPkpsyez3Ci4sm3+eleuSGgVQ==",
+      "path": "skiasharp.views.desktop.common/2.88.8",
+      "hashPath": "skiasharp.views.desktop.common.2.88.8.nupkg.sha512"
     },
-    "SkiaSharp.Views.WPF/2.88.6": {
+    "SkiaSharp.Views.WPF/2.88.8": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-JQFZ8BeEg7Lv4uMMbgGnbq7GLi9w63mvL+tzkMzFYmXBEDuFibubWPQmYwOkEo5dlWee0Wn7K1SBhMb8EMFROg==",
-      "path": "skiasharp.views.wpf/2.88.6",
-      "hashPath": "skiasharp.views.wpf.2.88.6.nupkg.sha512"
+      "sha512": "sha512-of9rrurnrX8Y7TYcegA+Lbp9CzEOA6962HUF0lcIZfGsOu3fehPAFcCWgehVUDIHdsb5+P8VVx7dhQXQt21qQQ==",
+      "path": "skiasharp.views.wpf/2.88.8",
+      "hashPath": "skiasharp.views.wpf.2.88.8.nupkg.sha512"
     },
     "SQLitePCLRaw.bundle_e_sqlite3/2.1.6": {
       "type": "package",

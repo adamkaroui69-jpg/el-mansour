@@ -17,123 +17,117 @@
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="24">
+        <StackPanel Margin="0">
             <!-- Header -->
             <Grid Margin="0,0,0,32">
                 <StackPanel>
-                    <TextBlock Text="Paramètres" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource MaterialDesignBody}"/>
-                    <TextBlock Text="Configuration de l'application" FontSize="16" Foreground="{DynamicResource MaterialDesignBodyLight}" Margin="0,4,0,0"/>
+                    <TextBlock Text="Paramètres" FontSize="32" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                    <TextBlock Text="Configuration de l'application" FontSize="16" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0"/>
                 </StackPanel>
                 <Button Command="{Binding SaveCommand}" 
-                        Style="{StaticResource MaterialDesignRaisedButton}" 
+                        Style="{StaticResource ModernButton}" 
                         Content="Enregistrer"
                         HorizontalAlignment="Right"
-                        Height="36"/>
+                        Width="160"/>
             </Grid>
 
             <!-- Appearance Settings -->
-            <materialDesign:Card UniformCornerRadius="12" Background="{DynamicResource MaterialDesignCardBackground}" Margin="0,0,0,16">
+            <Border Style="{StaticResource GlassCard}" Margin="0,0,0,24">
                 <StackPanel>
-                    <Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0,0,0,1" Padding="20">
-                        <TextBlock Text="Apparence" FontWeight="SemiBold" FontSize="18" Foreground="{DynamicResource MaterialDesignBody}"/>
-                    </Border>
-                    <StackPanel Margin="20">
-                        <TextBlock Text="Thème" FontSize="14" Foreground="{DynamicResource MaterialDesignBodyLight}" Margin="0,0,0,8"/>
+                    <TextBlock Text="Apparence" FontWeight="SemiBold" FontSize="20" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,24"/>
+                    <StackPanel>
+                        <TextBlock Text="Thème" FontSize="14" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
                         <ComboBox ItemsSource="{Binding Themes}" 
                                   SelectedItem="{Binding SelectedTheme}" 
                                   materialDesign:HintAssist.Hint="Sélectionner un thème" 
                                   Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                                  Margin="0,0,0,16"/>
+                                  Foreground="{StaticResource TextPrimaryBrush}"
+                                  Margin="0,0,0,24"/>
                         
-                        <TextBlock Text="Langue" FontSize="14" Foreground="{DynamicResource MaterialDesignBodyLight}" Margin="0,0,0,8"/>
+                        <TextBlock Text="Langue" FontSize="14" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
                         <ComboBox ItemsSource="{Binding Languages}" 
                                   SelectedItem="{Binding SelectedLanguage}" 
                                   materialDesign:HintAssist.Hint="Sélectionner une langue" 
-                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}"/>
+                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                  Foreground="{StaticResource TextPrimaryBrush}"/>
                     </StackPanel>
                 </StackPanel>
-            </materialDesign:Card>
+            </Border>
 
             <!-- Notifications Settings -->
-            <materialDesign:Card UniformCornerRadius="12" Background="{DynamicResource MaterialDesignCardBackground}" Margin="0,0,0,16">
+            <Border Style="{StaticResource GlassCard}" Margin="0,0,0,24">
                 <StackPanel>
-                    <Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0,0,0,1" Padding="20">
-                        <TextBlock Text="Notifications" FontWeight="SemiBold" FontSize="18" Foreground="{DynamicResource MaterialDesignBody}"/>
-                    </Border>
-                    <StackPanel Margin="20">
+                    <TextBlock Text="Notifications" FontWeight="SemiBold" FontSize="20" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,24"/>
+                    <StackPanel>
                         <CheckBox IsChecked="{Binding NotificationsEnabled}" 
                                   Content="Activer les notifications" 
+                                  Foreground="{StaticResource TextPrimaryBrush}"
                                   Margin="0,0,0,16"/>
                         <CheckBox IsChecked="{Binding EnableEmailNotifications}" 
                                   Content="Notifications par email" 
+                                  Foreground="{StaticResource TextPrimaryBrush}"
                                   Margin="0,0,0,16"/>
                         <CheckBox IsChecked="{Binding EnablePaymentReminders}" 
-                                  Content="Rappels de paiement"/>
+                                  Content="Rappels de paiement"
+                                  Foreground="{StaticResource TextPrimaryBrush}"/>
                     </StackPanel>
                 </StackPanel>
-            </materialDesign:Card>
+            </Border>
 
             <!-- Backup Settings -->
-            <materialDesign:Card UniformCornerRadius="12" Background="{DynamicResource MaterialDesignCardBackground}">
+            <Border Style="{StaticResource GlassCard}" Margin="0,0,0,24">
                 <StackPanel>
-                    <Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0,0,0,1" Padding="20">
-                        <TextBlock Text="Sauvegarde Cloud" FontWeight="SemiBold" FontSize="18" Foreground="{DynamicResource MaterialDesignBody}"/>
-                    </Border>
-                    <StackPanel Margin="20">
+                    <TextBlock Text="Sauvegarde Cloud" FontWeight="SemiBold" FontSize="20" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,24"/>
+                    <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
-                            <materialDesign:PackIcon Kind="CloudCheck" Width="24" Height="24" Foreground="#4CAF50" Margin="0,0,12,0"/>
+                            <materialDesign:PackIcon Kind="CloudCheck" Width="24" Height="24" Foreground="{StaticResource SuccessBrush}" Margin="0,0,12,0"/>
                             <TextBlock Text="Vos données sont synchronisées et sauvegardées automatiquement sur le Cloud (Somee.com)." 
                                      TextWrapping="Wrap" 
                                      VerticalAlignment="Center"
+                                     Foreground="{StaticResource TextPrimaryBrush}"
                                      FontSize="14"/>
                         </StackPanel>
                         <TextBlock Text="Pour restaurer une sauvegarde, veuillez accéder à votre panneau de contrôle Somee." 
-                                 Foreground="{DynamicResource MaterialDesignBodyLight}" 
+                                 Foreground="{StaticResource TextSecondaryBrush}" 
                                  FontStyle="Italic"/>
                     </StackPanel>
                 </StackPanel>
-            </materialDesign:Card>
+            </Border>
 
             <!-- About Section -->
-            <materialDesign:Card UniformCornerRadius="12" Background="{DynamicResource MaterialDesignCardBackground}" Margin="0,16,0,0">
+            <Border Style="{StaticResource GlassCard}">
                 <StackPanel>
-                    <Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0,0,0,1" Padding="20">
-                        <TextBlock Text="À propos" FontWeight="SemiBold" FontSize="18" Foreground="{DynamicResource MaterialDesignBody}"/>
-                    </Border>
-                    <StackPanel Margin="20">
+                    <TextBlock Text="À propos" FontWeight="SemiBold" FontSize="20" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,24"/>
+                    <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                            <materialDesign:PackIcon Kind="Information" Width="24" Height="24" Foreground="#2196F3" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                            <materialDesign:PackIcon Kind="Information" Width="24" Height="24" Foreground="{StaticResource InfoBrush}" Margin="0,0,12,0" VerticalAlignment="Center"/>
                             <StackPanel>
                                 <TextBlock Text="El Mansour Syndic Manager" 
                                          FontSize="16" 
                                          FontWeight="SemiBold"
-                                         Foreground="{DynamicResource MaterialDesignBody}"/>
+                                         Foreground="{StaticResource TextPrimaryBrush}"/>
                                 <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
                                     <TextBlock Text="Version : " 
                                              FontSize="14" 
-                                             Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                                             Foreground="{StaticResource TextSecondaryBrush}"/>
                                     <TextBlock Text="{Binding AppVersion}" 
                                              FontSize="14" 
                                              FontWeight="SemiBold"
-                                             Foreground="#2196F3"/>
+                                             Foreground="{StaticResource PrimaryBrush}"/>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
                         <TextBlock Text="Application de gestion de syndic pour la résidence El Mansour" 
-                                 Foreground="{DynamicResource MaterialDesignBodyLight}" 
+                                 Foreground="{StaticResource TextSecondaryBrush}" 
                                  FontSize="13"
                                  TextWrapping="Wrap"
-                                 Margin="36,0,0,8"/>
+                                 Margin="36,0,0,16"/>
                         
                         <!-- Check for Updates Button -->
-                        <StackPanel Margin="36,12,0,8">
+                        <StackPanel Margin="36,0,0,16">
                             <Button Command="{Binding CheckForUpdatesCommand}"
-                                    Style="{StaticResource MaterialDesignRaisedButton}"
-                                    Background="#667eea"
-                                    BorderBrush="#667eea"
-                                    Foreground="White"
-                                    Height="36"
-                                    Padding="16,0"
+                                    Style="{StaticResource ModernButton}"
+                                    Width="220"
                                     HorizontalAlignment="Left"
                                     IsEnabled="{Binding IsCheckingForUpdates, Converter={StaticResource InverseBooleanConverter}}">
                                 <StackPanel Orientation="Horizontal">
@@ -149,20 +143,20 @@
                             
                             <!-- Update Status -->
                             <TextBlock Text="{Binding UpdateStatus}" 
-                                     Foreground="{DynamicResource MaterialDesignBodyLight}" 
+                                     Foreground="{StaticResource TextSecondaryBrush}" 
                                      FontSize="12"
                                      Margin="0,8,0,0"
                                      Visibility="{Binding UpdateStatus, Converter={StaticResource StringToVisibilityConverter}}"/>
                         </StackPanel>
                         
                         <TextBlock Text="© 2024 El Mansour. Tous droits réservés." 
-                                 Foreground="{DynamicResource MaterialDesignBodyLight}" 
+                                 Foreground="{StaticResource TextSecondaryBrush}" 
                                  FontSize="12"
                                  FontStyle="Italic"
                                  Margin="36,0,0,0"/>
                     </StackPanel>
                 </StackPanel>
-            </materialDesign:Card>
+            </Border>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

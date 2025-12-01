@@ -4,10 +4,11 @@ using ElMansourSyndicManager.ViewModels.Base;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.IO;
-using LiveChartsCore;
-using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Painting;
-using SkiaSharp;
+// Temporarily commented to isolate SkiaSharp issues
+// using LiveChartsCore;
+// using LiveChartsCore.SkiaSharpView;
+// using LiveChartsCore.SkiaSharpView.Painting;
+// using SkiaSharp;
 
 namespace ElMansourSyndicManager.ViewModels;
 
@@ -58,6 +59,8 @@ public class DashboardViewModel : ViewModelBase, IInitializable
 
     public async Task InitializeAsync()
     {
+        // Add a small delay to avoid DbContext concurrency issues at startup
+        await Task.Delay(100);
         await LoadDataAsync();
     }
 
@@ -106,8 +109,9 @@ public class DashboardViewModel : ViewModelBase, IInitializable
     public ICommand NavigateToPaymentsCommand { get; }
     public ICommand NavigateToExpensesCommand { get; }
 
-    public ISeries[] Series { get; set; }
-    public Axis[] XAxes { get; set; }
+    // Temporarily commented to isolate SkiaSharp issues
+    // public ISeries[] Series { get; set; }
+    // public Axis[] XAxes { get; set; }
 
     private async Task LoadDataAsync()
     {
@@ -177,6 +181,7 @@ public class DashboardViewModel : ViewModelBase, IInitializable
             TotalSpent = allExpenses.Sum(e => e.Amount);
             Balance = TotalCollected - TotalSpent;
 
+            /* Temporarily commented to isolate SkiaSharp issues
             // --- CHART DATA PREPARATION ---
             var incomeValues = new List<double>();
             var expenseValues = new List<double>();
@@ -225,6 +230,7 @@ public class DashboardViewModel : ViewModelBase, IInitializable
 
             OnPropertyChanged(nameof(Series));
             OnPropertyChanged(nameof(XAxes));
+            */
 
             File.AppendAllText(logPath, $"[{DateTime.Now}] DashboardViewModel.LoadDataAsync completed successfully.\n");
         }

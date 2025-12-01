@@ -27,9 +27,9 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrast
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\obj\Release\net8.0\ElMansourSyndicManager.Infrastructure.AssemblyInfoInputs.cache
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\obj\Release\net8.0\ElMansourSyndicManager.Infrastructure.AssemblyInfo.cs
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\obj\Release\net8.0\ElMansourSyndicManager.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\obj\Release\net8.0\ElMansourSyndicManager.Infrastructure.sourcelink.json
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\obj\Release\net8.0\ElMansou.E83AED3E.Up2Date
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\obj\Release\net8.0\ElMansourSyndicManager.Infrastructure.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\obj\Release\net8.0\refint\ElMansourSyndicManager.Infrastructure.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\obj\Release\net8.0\ElMansourSyndicManager.Infrastructure.pdb
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\obj\Release\net8.0\ref\ElMansourSyndicManager.Infrastructure.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\obj\Release\net8.0\ElMansourSyndicManager.Infrastructure.sourcelink.json

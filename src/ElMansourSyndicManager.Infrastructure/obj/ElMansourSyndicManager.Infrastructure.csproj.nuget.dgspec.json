@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj": {}
+    "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj": {}
   },
   "projects": {
     "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Core\\ElMansourSyndicManager.Core.csproj": {
@@ -82,14 +82,14 @@
         }
       }
     },
-    "c:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj": {
+    "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj",
         "projectName": "ElMansourSyndicManager.Infrastructure",
-        "projectPath": "c:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj",
+        "projectPath": "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\adamk\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\adamk\\AppData\\Roaming\\NuGet\\NuGet.Config"

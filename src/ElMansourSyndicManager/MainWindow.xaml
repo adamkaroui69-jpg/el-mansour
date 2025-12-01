@@ -13,42 +13,65 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
         Icon="/Assets/logo.png"
-        Background="{DynamicResource MaterialDesignPaper}"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{StaticResource AppBackgroundBrush}"
+        TextElement.Foreground="{StaticResource TextPrimaryBrush}"
         TextElement.FontWeight="Regular"
-        TextElement.FontSize="13"
+        TextElement.FontSize="14"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
         FontFamily="{DynamicResource MaterialDesignFont}">
+    
     <Window.Resources>
-        <!-- Converters -->
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
         <converters:NotificationBackgroundConverter x:Key="NotificationBackgroundConverter"/>
         
-        <!-- Style moderne pour les éléments de navigation -->
+        <!-- Style de Navigation Moderne -->
         <Style x:Key="ModernNavItem" TargetType="ListBoxItem">
-            <Setter Property="Padding" Value="16,12"/>
-            <Setter Property="Margin" Value="10,4"/>
+            <Setter Property="Padding" Value="20,16"/>
+            <Setter Property="Margin" Value="16,4"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
                         <Border x:Name="Border" 
                                 Background="{TemplateBinding Background}"
-                                CornerRadius="10"
+                                CornerRadius="12"
                                 Padding="{TemplateBinding Padding}">
-                            <ContentPresenter/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <!-- Indicateur de sélection (Glow) -->
+                                <Border x:Name="SelectionIndicator" 
+                                        Grid.Column="0"
+                                        Width="4" Height="24" 
+                                        CornerRadius="2"
+                                        Background="{StaticResource PrimaryBrush}"
+                                        HorizontalAlignment="Left"
+                                        Margin="-20,0,0,0"
+                                        Opacity="0">
+                                    <!-- Effect removed -->
+                                </Border>
+                                
+                                <ContentPresenter Grid.ColumnSpan="2"/>
+                            </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#20FFFFFF"/>
+                                <Setter TargetName="Border" Property="Background" Value="#10FFFFFF"/>
+                                <Setter Property="Foreground" Value="White"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#40FFFFFF"/>
-                                <Setter TargetName="Border" Property="BorderBrush" Value="White"/>
+                                <Setter TargetName="Border" Property="Background" Value="#203B82F6"/>
+                                <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter TargetName="SelectionIndicator" Property="Opacity" Value="1"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -57,77 +80,126 @@
         </Style>
     </Window.Resources>
 
-    <materialDesign:DrawerHost x:Name="DrawerHost"
-                              IsLeftDrawerOpen="True"
-                              OpenMode="Standard">
+    <!-- Fond Global avec Glows -->
+    <Grid>
+        <!-- Éléments décoratifs d'arrière-plan -->
+        <Ellipse Width="800" Height="800" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-400,-200,0" Opacity="0.3">
+            <Ellipse.Fill>
+                <RadialGradientBrush Center="0.5,0.5" GradientOrigin="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+                    <GradientStop Color="#1E3A8A" Offset="0"/>
+                    <GradientStop Color="Transparent" Offset="1"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+            <Ellipse.Effect>
+                <BlurEffect Radius="100"/>
+            </Ellipse.Effect>
+        </Ellipse>
         
-        <!-- Menu Latéral Moderne -->
-        <materialDesign:DrawerHost.LeftDrawerContent>
-            <Grid Width="260">
-                <!-- Fond Gradient -->
-                <Border Background="{DynamicResource PrimaryHueMidBrush}">
-                </Border>
-                
-                <DockPanel>
-                    <!-- En-tête du Menu -->
-                    <StackPanel DockPanel.Dock="Top" Margin="24,40,24,30">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <materialDesign:PackIcon Kind="HomeCity" Width="32" Height="32" Foreground="White" Margin="0,0,12,0"/>
-                            <TextBlock Text="El Mansour" 
-                                     FontSize="22" 
-                                     FontWeight="Bold" 
-                                     Foreground="White" 
-                                     VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <TextBlock Text="Syndic Manager" 
-                                 FontSize="12" 
-                                 Foreground="White" 
-                                 Opacity="0.7" 
-                                 HorizontalAlignment="Center" 
-                                 Margin="44,-4,0,0"/>
-                    </StackPanel>
+        <Ellipse Width="600" Height="600" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="-200,0,0,-200" Opacity="0.2">
+            <Ellipse.Fill>
+                <RadialGradientBrush Center="0.5,0.5" GradientOrigin="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+                    <GradientStop Color="#4C1D95" Offset="0"/>
+                    <GradientStop Color="Transparent" Offset="1"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+            <Ellipse.Effect>
+                <BlurEffect Radius="100"/>
+            </Ellipse.Effect>
+        </Ellipse>
 
-                    <!-- Liste de Navigation -->
-                    <ListBox x:Name="NavigationListBox"
-                            ItemsSource="{Binding NavigationItems}"
-                            SelectionMode="Single"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            SelectedItem="{Binding SelectedNavigationItem}"
-                            ItemContainerStyle="{StaticResource ModernNavItem}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="{Binding Icon}" 
-                                                           Width="22" Height="22" 
-                                                           Foreground="White" 
-                                                           Margin="8,0,16,0"
-                                                           VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding Title}" 
-                                             Foreground="White" 
-                                             FontSize="15"
-                                             VerticalAlignment="Center"/>
+        <materialDesign:DrawerHost x:Name="DrawerHost"
+                                  IsLeftDrawerOpen="True"
+                                  OpenMode="Standard">
+            
+            <!-- Menu Latéral (Glassmorphism) -->
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <Grid Width="280">
+                    <Border Background="{StaticResource GlassSurfaceBrush}" BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="0,0,1,0">
+                        <DockPanel>
+                            <!-- En-tête du Menu -->
+                            <StackPanel DockPanel.Dock="Top" Margin="30,50,30,40">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <Image Source="/Assets/logo.png" Width="40" Height="40" Margin="0,0,15,0"/>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="El Mansour" 
+                                                 FontSize="20" 
+                                                 FontWeight="Bold" 
+                                                 Foreground="White"/>
+                                        <TextBlock Text="Syndic Manager" 
+                                                 FontSize="12" 
+                                                 Foreground="{StaticResource TextSecondaryBrush}"/>
+                                    </StackPanel>
                                 </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </DockPanel>
-            </Grid>
-        </materialDesign:DrawerHost.LeftDrawerContent>
+                            </StackPanel>
 
-        <!-- Contenu Principal -->
-        <Grid Background="{DynamicResource MaterialDesignPaper}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+                            <!-- Profil Utilisateur (Bas de page) -->
+                            <Border DockPanel.Dock="Bottom" Margin="20,0,20,30" Padding="15" Background="#10FFFFFF" CornerRadius="12">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="{StaticResource PrimaryGradientBrush}">
+                                        <TextBlock Text="{Binding CurrentUser.Username, Converter={StaticResource StringToInitialsConverter}}" 
+                                                 Foreground="White" 
+                                                 FontWeight="Bold" 
+                                                 HorizontalAlignment="Center" 
+                                                 VerticalAlignment="Center"/>
+                                    </Border>
+                                    
+                                    <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding CurrentUser.Username}" FontWeight="SemiBold" FontSize="14" Foreground="White"/>
+                                        <TextBlock Text="{Binding CurrentUser.Role}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                    </StackPanel>
+                                    
+                                    <materialDesign:PopupBox Grid.Column="2" PlacementMode="TopAndAlignRightEdges" StaysOpen="False" Foreground="{StaticResource TextSecondaryBrush}">
+                                        <StackPanel Width="150">
+                                            <Button Command="{Binding LogoutCommand}" Content="Déconnexion" />
+                                        </StackPanel>
+                                    </materialDesign:PopupBox>
+                                </Grid>
+                            </Border>
 
-            <!-- Barre Supérieure Blanche -->
-            <materialDesign:ColorZone Grid.Row="0" 
-                                      Padding="24,16"
-                                      Mode="Standard"
-                                      Background="Transparent">
-                <Grid>
+                            <!-- Liste de Navigation -->
+                            <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                                <ListBox x:Name="NavigationListBox"
+                                        ItemsSource="{Binding NavigationItems}"
+                                        SelectionMode="Single"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        SelectedItem="{Binding SelectedNavigationItem}"
+                                        ItemContainerStyle="{StaticResource ModernNavItem}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="{Binding Icon}" 
+                                                                       Width="20" Height="20" 
+                                                                       Margin="0,0,16,0"
+                                                                       VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Title}" 
+                                                         FontSize="15"
+                                                         VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </ScrollViewer>
+                        </DockPanel>
+                    </Border>
+                </Grid>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+
+            <!-- Contenu Principal -->
+            <Grid Background="Transparent">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Barre Supérieure Transparente -->
+                <Grid Grid.Row="0" Margin="30,20,30,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
@@ -138,200 +210,55 @@
                     <ToggleButton Grid.Column="0"
                                  Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                                  IsChecked="{Binding ElementName=DrawerHost, Path=IsLeftDrawerOpen}"
-                                 Foreground="{DynamicResource MaterialDesignBody}"
+                                 Foreground="White"
                                  Width="24" Height="24"
-                                 Margin="0,0,24,0"/>
+                                 Margin="0,0,20,0"/>
 
                     <!-- Titre de la page active -->
                     <TextBlock Grid.Column="1"
                               Text="{Binding SelectedNavigationItem.Title}"
-                              FontSize="20"
-                              FontWeight="SemiBold"
-                              Foreground="{DynamicResource MaterialDesignBody}"
-                              VerticalAlignment="Center"/>
+                              FontSize="24"
+                              FontWeight="Bold"
+                              Foreground="White"
+                              VerticalAlignment="Center">
+                        <!-- Effect removed -->
+                    </TextBlock>
 
-                    <!-- Actions Utilisateur -->
-                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                        
-                        <!-- Notifications Bell -->
-                        <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="0,0,16,0">
-                            <materialDesign:PopupBox.ToggleContent>
-                                <Grid>
-                                    <Border Background="{DynamicResource MaterialDesignPaper}" CornerRadius="20" Width="40" Height="40" Cursor="Hand" Effect="{DynamicResource MaterialDesignShadowDepth1}">
-                                        <materialDesign:PackIcon Kind="Bell" 
-                                                               Width="20" Height="20" 
-                                                               Foreground="{DynamicResource MaterialDesignBody}" 
-                                                               HorizontalAlignment="Center" 
-                                                               VerticalAlignment="Center"/>
-                                    </Border>
-                                    <!-- Badge de notification -->
-                                    <Border Background="#F44336" 
-                                           CornerRadius="10" 
-                                           Width="18" Height="18" 
-                                           HorizontalAlignment="Right" 
-                                           VerticalAlignment="Top"
-                                           Margin="0,-2,-2,0"
-                                           Visibility="{Binding HasNotifications, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                        <TextBlock Text="{Binding NotificationCount}" 
-                                                 Foreground="White" 
-                                                 FontSize="10" 
-                                                 FontWeight="Bold"
-                                                 HorizontalAlignment="Center" 
-                                                 VerticalAlignment="Center"/>
-                                    </Border>
-                                </Grid>
-                            </materialDesign:PopupBox.ToggleContent>
-                            
-                            <StackPanel Width="320" MaxHeight="400">
-                                <!-- Header -->
-                                <Border Background="{DynamicResource PrimaryHueMidBrush}" Padding="16,12">
-                                    <Grid>
-                                        <TextBlock Text="Notifications" 
-                                                 Foreground="White" 
-                                                 FontSize="16" 
-                                                 FontWeight="SemiBold"/>
-                                        <Button Content="Tout marquer comme lu" 
-                                               Command="{Binding MarkAllAsReadCommand}"
-                                               Style="{StaticResource MaterialDesignFlatButton}"
-                                               Foreground="White"
-                                               FontSize="11"
-                                               HorizontalAlignment="Right"
-                                               Padding="8,4"/>
-                                    </Grid>
-                                </Border>
-                                
-                                <!-- Notifications List -->
-                                <ScrollViewer MaxHeight="350" VerticalScrollBarVisibility="Auto">
-                                    <ItemsControl ItemsSource="{Binding Notifications}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border BorderBrush="#EEE" BorderThickness="0,0,0,1" Padding="16,12" Background="{Binding IsRead, Converter={StaticResource NotificationBackgroundConverter}}">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                            <ColumnDefinition Width="*"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        
-                                                        <Border Grid.Column="0" 
-                                                               Background="{Binding TypeColor}" 
-                                                               CornerRadius="20" 
-                                                               Width="36" Height="36" 
-                                                               Margin="0,0,12,0">
-                                                            <materialDesign:PackIcon Kind="{Binding Icon}" 
-                                                                                   Width="18" Height="18" 
-                                                                                   Foreground="White"
-                                                                                   HorizontalAlignment="Center" 
-                                                                                   VerticalAlignment="Center"/>
-                                                        </Border>
-                                                        
-                                                        <StackPanel Grid.Column="1">
-                                                            <TextBlock Text="{Binding Title}" 
-                                                                     FontWeight="SemiBold" 
-                                                                     FontSize="13"
-                                                                     TextWrapping="Wrap"/>
-                                                            <TextBlock Text="{Binding Message}" 
-                                                                     FontSize="12" 
-                                                                     Foreground="{DynamicResource MaterialDesignBodyLight}"
-                                                                     TextWrapping="Wrap"
-                                                                     Margin="0,4,0,0"/>
-                                                            <TextBlock Text="{Binding TimeAgo}" 
-                                                                     FontSize="11" 
-                                                                     Foreground="{DynamicResource MaterialDesignBodyLight}"
-                                                                     Margin="0,4,0,0"/>
-                                                        </StackPanel>
-                                                    </Grid>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </ScrollViewer>
-                                
-                                <!-- Empty State -->
-                                <Border Visibility="{Binding HasNotifications, Converter={StaticResource InverseBooleanToVisibilityConverter}}" 
-                                        Padding="32">
-                                    <StackPanel HorizontalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="BellOff" 
-                                                               Width="48" Height="48" 
-                                                               Foreground="{DynamicResource MaterialDesignBodyLight}"
-                                                               HorizontalAlignment="Center"/>
-                                        <TextBlock Text="Aucune notification" 
-                                                 Foreground="{DynamicResource MaterialDesignBodyLight}" 
-                                                 FontSize="14"
-                                                 HorizontalAlignment="Center"
-                                                 Margin="0,12,0,0"/>
-                                    </StackPanel>
-                                </Border>
-                            </StackPanel>
-                        </materialDesign:PopupBox>
-
-                        <!-- Profil Utilisateur -->
+                    <!-- Actions (Notifications) -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
                         <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
                             <materialDesign:PopupBox.ToggleContent>
-                                <Border Background="{DynamicResource MaterialDesignPaper}" CornerRadius="20" Padding="4,4,12,4" Cursor="Hand" Effect="{DynamicResource MaterialDesignShadowDepth1}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="32" Height="32" CornerRadius="16" Background="#E0E0E0" Margin="0,0,8,0">
-                                            <materialDesign:PackIcon Kind="Account" Width="20" Height="20" Foreground="#757575" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        </Border>
-                                        <TextBlock Text="{Binding CurrentUser.Username}" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="{DynamicResource MaterialDesignBody}"/>
-                                        <materialDesign:PackIcon Kind="ChevronDown" Width="16" Height="16" Foreground="{DynamicResource MaterialDesignBodyLight}" VerticalAlignment="Center" Margin="8,0,0,0"/>
-                                    </StackPanel>
-                                </Border>
+                                <Grid Cursor="Hand">
+                                    <Border Background="#10FFFFFF" CornerRadius="12" Width="40" Height="40">
+                                        <materialDesign:PackIcon Kind="BellOutline" Width="20" Height="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <Border Background="#EF4444" CornerRadius="6" Width="12" Height="12" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,8,0"
+                                            Visibility="{Binding HasNotifications, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                </Grid>
                             </materialDesign:PopupBox.ToggleContent>
                             
-                            <StackPanel Width="200" Margin="16">
-                                <!-- User Info Header -->
-                                <Grid Margin="0,0,0,12">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <Border Grid.Column="0" Background="{DynamicResource MaterialDesignPaper}" CornerRadius="20" Width="40" Height="40" Margin="0,0,12,0">
-                                        <materialDesign:PackIcon Kind="User" 
-                                                               Width="20" Height="20" 
-                                                               Foreground="{DynamicResource PrimaryHueMidBrush}"
-                                                               HorizontalAlignment="Center" 
-                                                               VerticalAlignment="Center"/>
-                                    </Border>
-                                    
-                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding CurrentUser.Username}" FontWeight="SemiBold" FontSize="14" TextTrimming="CharacterEllipsis"/>
-                                        <TextBlock Text="{Binding CurrentUser.Role}" FontSize="12" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
-                                        <TextBlock Text="{Binding CurrentUser.HouseCode}" FontSize="11" Foreground="{DynamicResource MaterialDesignBodyLight}" Margin="0,2,0,0"/>
-                                    </StackPanel>
-                                </Grid>
-                                
-                                <Separator Background="#EEE" Margin="0,0,0,12"/>
-                                
-                                <!-- Logout Button -->
-                                <Button Command="{Binding LogoutCommand}"
-                                        Style="{StaticResource MaterialDesignFlatButton}"
-                                        Foreground="#D32F2F"
-                                        HorizontalContentAlignment="Left"
-                                        Padding="8,4"
-                                        Height="Auto">
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="Logout" Margin="0,0,12,0"/>
-                                        <TextBlock Text="Déconnexion"/>
-                                    </StackPanel>
-                                </Button>
+                            <StackPanel Width="350" Background="#E62C3E50" Margin="10">
+                                <Border Background="#D4AF37" Padding="12" CornerRadius="8,8,0,0">
+                                    <TextBlock Text="Notifications" Foreground="White" FontWeight="Bold" FontSize="16"/>
+                                </Border>
+                                <TextBlock Text="Aucune nouvelle notification" Foreground="#BDC3C7" FontSize="14" HorizontalAlignment="Center" Margin="20"/>
                             </StackPanel>
                         </materialDesign:PopupBox>
                     </StackPanel>
                 </Grid>
-            </materialDesign:ColorZone>
 
-            <!-- Zone de Contenu Dynamique avec Transitions -->
-            <materialDesign:TransitioningContent Grid.Row="1"
-                           Content="{Binding CurrentView}"
-                           Margin="24">
-                <materialDesign:TransitioningContent.OpeningEffect>
-                    <materialDesign:TransitionEffect Kind="FadeIn" Duration="0:0:0.3"/>
-                </materialDesign:TransitioningContent.OpeningEffect>
-            </materialDesign:TransitioningContent>
+                <!-- Zone de Contenu Dynamique -->
+                <materialDesign:TransitioningContent Grid.Row="1"
+                               Content="{Binding CurrentView}"
+                               Margin="30,10,30,30">
+                    <materialDesign:TransitioningContent.OpeningEffect>
+                        <materialDesign:TransitionEffect Kind="FadeIn" Duration="0:0:0.4"/>
+                    </materialDesign:TransitioningContent.OpeningEffect>
+                </materialDesign:TransitioningContent>
 
-            <!-- Global Snackbar -->
-            <materialDesign:Snackbar MessageQueue="{Binding MessageQueue}" Grid.Row="1" />
-        </Grid>
-    </materialDesign:DrawerHost>
+                <!-- Global Snackbar -->
+                <materialDesign:Snackbar MessageQueue="{Binding MessageQueue}" Grid.Row="1" />
+            </Grid>
+        </materialDesign:DrawerHost>
+    </Grid>
 </Window>

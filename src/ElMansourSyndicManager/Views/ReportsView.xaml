@@ -13,7 +13,7 @@
     </UserControl.Resources>
     
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid Margin="24">
+        <Grid Margin="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -21,7 +21,7 @@
             </Grid.RowDefinitions>
 
             <!-- Header -->
-            <Grid Grid.Row="0" Margin="0,0,0,24">
+            <Grid Grid.Row="0" Margin="0,0,0,32">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -29,20 +29,20 @@
                 
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="Rapports Financiers"
-                              FontSize="28"
+                              FontSize="32"
                               FontWeight="Bold"
-                              Foreground="#333"/>
+                              Foreground="{StaticResource TextPrimaryBrush}"/>
                     <TextBlock Text="Générez et analysez les performances financières"
-                              FontSize="14"
-                              Foreground="#777"
+                              FontSize="16"
+                              Foreground="{StaticResource TextSecondaryBrush}"
                               Margin="0,4,0,0"/>
                 </StackPanel>
 
                 <Button Grid.Column="1"
                        Command="{Binding LoadHistoryCommand}"
                        Style="{StaticResource MaterialDesignOutlinedButton}"
-                       BorderBrush="#E0E0E0"
-                       Foreground="#667eea"
+                       BorderBrush="{StaticResource PrimaryBrush}"
+                       Foreground="{StaticResource PrimaryBrush}"
                        Height="40">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Refresh" VerticalAlignment="Center" Margin="0,0,8,0"/>
@@ -52,12 +52,7 @@
             </Grid>
 
             <!-- Generation Card -->
-            <materialDesign:Card Grid.Row="1" 
-                                  Padding="32" 
-                                  Margin="0,0,0,24" 
-                                  UniformCornerRadius="12" 
-                                  Background="White"
-                                  materialDesign:ShadowAssist.ShadowDepth="Depth1">
+            <Border Grid.Row="1" Style="{StaticResource GlassCard}" Margin="0,0,0,24">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -66,12 +61,12 @@
 
                     <StackPanel Grid.Column="0" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
-                            <Border Background="#E8EAF6" CornerRadius="8" Width="48" Height="48" Margin="0,0,16,0">
-                                <materialDesign:PackIcon Kind="FileChart" Width="24" Height="24" Foreground="#3F51B5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Border Background="#20D4AF37" CornerRadius="12" Width="48" Height="48" Margin="0,0,16,0">
+                                <materialDesign:PackIcon Kind="FileChart" Width="24" Height="24" Foreground="{StaticResource PrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Nouveau Rapport" FontSize="20" FontWeight="Bold" Foreground="#333"/>
-                                <TextBlock Text="Sélectionnez le type de rapport à générer" FontSize="14" Foreground="#777"/>
+                                <TextBlock Text="Nouveau Rapport" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                                <TextBlock Text="Sélectionnez le type de rapport à générer" FontSize="14" Foreground="{StaticResource TextSecondaryBrush}"/>
                             </StackPanel>
                         </StackPanel>
 
@@ -105,39 +100,41 @@
                                          SelectedValuePath="Number"
                                          materialDesign:HintAssist.Hint="Mois"
                                          Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                         Foreground="{StaticResource TextPrimaryBrush}"
                                          Width="150"
                                          Margin="0,0,20,0"/>
                                 
                                 <TextBox Text="{Binding SelectedYear}" 
                                         materialDesign:HintAssist.Hint="Année" 
-                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                        Style="{StaticResource ModernTextBox}" 
                                         Width="100"/>
                             </StackPanel>
                             
                             <!-- Yearly Report: Show only Year Input -->
                             <TextBox Text="{Binding SelectedYear}" 
                                     materialDesign:HintAssist.Hint="Année" 
-                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                    Style="{StaticResource ModernTextBox}" 
                                     Width="150"
                                     Visibility="{Binding IsYearlyReport, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                         </StackPanel>
 
                         <!-- Format Selection -->
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                            <TextBlock Text="Format :" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="#555"/>
+                            <TextBlock Text="Format :" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{StaticResource TextSecondaryBrush}"/>
                             <RadioButton Content="PDF" IsChecked="True" 
-                                         Command="{Binding SetExportFormatCommand}" CommandParameter="PDF" Margin="0,0,15,0"/>
+                                         Command="{Binding SetExportFormatCommand}" CommandParameter="PDF" 
+                                         Foreground="{StaticResource TextPrimaryBrush}"
+                                         Margin="0,0,15,0"/>
                             <RadioButton Content="Excel" 
-                                         Command="{Binding SetExportFormatCommand}" CommandParameter="Excel"/>
+                                         Command="{Binding SetExportFormatCommand}" CommandParameter="Excel"
+                                         Foreground="{StaticResource TextPrimaryBrush}"/>
                         </StackPanel>
 
                         <Button Command="{Binding GenerateReportCommand}"
-                               Style="{StaticResource MaterialDesignRaisedButton}"
-                               Background="#667eea"
-                               BorderBrush="#667eea"
+                               Style="{StaticResource ModernButton}"
                                Height="50"
                                HorizontalAlignment="Left"
-                               Padding="32,0">
+                               Width="220">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="AutoFix" VerticalAlignment="Center" Margin="0,0,12,0"/>
                                 <TextBlock Text="Générer le Rapport" FontWeight="SemiBold" FontSize="16"/>
@@ -149,35 +146,49 @@
                     <materialDesign:PackIcon Grid.Column="1" 
                                            Kind="Finance" 
                                            Width="180" Height="180" 
-                                           Foreground="#F5F7FA"
+                                           Foreground="#10FFFFFF"
                                            VerticalAlignment="Center"
                                            Margin="40,0,0,0"/>
                 </Grid>
-            </materialDesign:Card>
+            </Border>
 
             <!-- Recent Reports / History -->
-            <materialDesign:Card Grid.Row="2" 
-                                  Padding="0" 
-                                  UniformCornerRadius="12" 
-                                  Background="White"
-                                  materialDesign:ShadowAssist.ShadowDepth="Depth1">
+            <Border Grid.Row="2" Style="{StaticResource GlassCard}" Padding="0">
                 <StackPanel>
-                    <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="24">
+                    <Grid Margin="24">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="History" Foreground="#667eea" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                            <TextBlock Text="Derniers Rapports Générés" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
+                            <materialDesign:PackIcon Kind="History" Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                            <TextBlock Text="Derniers Rapports Générés" FontWeight="SemiBold" FontSize="20" Foreground="{StaticResource TextPrimaryBrush}"/>
                         </StackPanel>
-                    </Border>
+                    </Grid>
                     
                     <DataGrid ItemsSource="{Binding ReportHistory}" AutoGenerateColumns="False" IsReadOnly="True"
-                              materialDesign:DataGridAssist.CellPadding="13 8 8 8" 
-                              materialDesign:DataGridAssist.ColumnHeaderPadding="8"
+                              materialDesign:DataGridAssist.CellPadding="16 12 12 12" 
                               MaxHeight="300"
-                              Background="White"
-                              RowBackground="White"
-                              AlternatingRowBackground="#F9FAFB"
-                              GridLinesVisibility="Horizontal"
-                              HorizontalGridLinesBrush="#E5E7EB">
+                              Background="Transparent"
+                              GridLinesVisibility="None"
+                              BorderThickness="0">
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                <Setter Property="FontSize" Value="13"/>
+                                <Setter Property="Padding" Value="16,12,12,12"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                <Setter Property="BorderBrush" Value="#20FFFFFF"/>
+                            </Style>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                            </Style>
+                            <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                <Setter Property="BorderBrush" Value="#10FFFFFF"/>
+                            </Style>
+                        </DataGrid.Resources>
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Type" Binding="{Binding ReportType}" Width="100"/>
                             <DataGridTextColumn Header="Période" Binding="{Binding Period}" Width="100"/>
@@ -192,7 +203,7 @@
                                                     CommandParameter="{Binding}"
                                                     Style="{StaticResource MaterialDesignIconButton}"
                                                     ToolTip="Ouvrir"
-                                                    Foreground="#2196F3"
+                                                    Foreground="{StaticResource InfoBrush}"
                                                     Width="32" Height="32"
                                                     Margin="4,0">
                                                 <materialDesign:PackIcon Kind="Eye"/>
@@ -202,7 +213,7 @@
                                                     CommandParameter="{Binding}"
                                                     Style="{StaticResource MaterialDesignIconButton}"
                                                     ToolTip="Télécharger"
-                                                    Foreground="#4CAF50"
+                                                    Foreground="{StaticResource SuccessBrush}"
                                                     Width="32" Height="32"
                                                     Margin="4,0">
                                                 <materialDesign:PackIcon Kind="Download"/>
@@ -211,7 +222,7 @@
                                             <Button Command="{Binding DataContext.DeleteReportCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
                                                     CommandParameter="{Binding}"
                                                     ToolTip="Supprimer"
-                                                    Foreground="Red"
+                                                    Foreground="{StaticResource ErrorBrush}"
                                                     Width="32" Height="32"
                                                     Margin="4,0">
                                                 <Button.Style>
@@ -233,7 +244,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
-            </materialDesign:Card>
+            </Border>
         </Grid>
     </ScrollViewer>
 </UserControl>

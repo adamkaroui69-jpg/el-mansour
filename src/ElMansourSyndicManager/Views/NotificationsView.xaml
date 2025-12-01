@@ -7,7 +7,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Margin="24">
+    <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -15,17 +15,18 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <Grid Grid.Row="0" Margin="0,0,0,16">
+        <Grid Grid.Row="0" Margin="0,0,0,32">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Horizontal">
                 <TextBlock Text="Notifications"
-                          FontSize="28"
-                          FontWeight="SemiBold"
+                          FontSize="32"
+                          FontWeight="Bold"
+                          Foreground="{StaticResource TextPrimaryBrush}"
                           VerticalAlignment="Center"/>
-                <Border Background="{DynamicResource MaterialDesignValidationErrorBrush}"
+                <Border Background="{StaticResource ErrorBrush}"
                        CornerRadius="12"
                        Padding="8,4"
                        Margin="16,0,0,0"
@@ -37,37 +38,37 @@
                 </Border>
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal">
-<Button Command="{Binding MarkAllReadCommand}"
+                <Button Command="{Binding MarkAllReadCommand}"
                        Style="{StaticResource MaterialDesignFlatButton}"
+                       Foreground="{StaticResource TextPrimaryBrush}"
                        Margin="0,0,8,0">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="CheckAll" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                            <TextBlock Text="Tout Marquer Lu"/>
-                        </StackPanel>
-                    </Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="CheckAll" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="Tout Marquer Lu"/>
+                    </StackPanel>
                 </Button>
-<Button Command="{Binding RefreshCommand}"
-                       Style="{StaticResource MaterialDesignFlatButton}">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Refresh" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                            <TextBlock Text="Actualiser"/>
-                        </StackPanel>
-                    </Button.Content>
+                <Button Command="{Binding RefreshCommand}"
+                       Style="{StaticResource MaterialDesignFlatButton}"
+                       Foreground="{StaticResource PrimaryBrush}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Refresh" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="Actualiser"/>
+                    </StackPanel>
                 </Button>
             </StackPanel>
         </Grid>
 
         <!-- Filters -->
-        <materialDesign:Card Grid.Row="1" Padding="16" Margin="0,0,0,16">
+        <Border Grid.Row="1" Style="{StaticResource GlassCard}" Margin="0,0,0,24" Padding="24">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Filtres:"
                           VerticalAlignment="Center"
-                          Margin="0,0,8,0"/>
+                          Foreground="{StaticResource TextSecondaryBrush}"
+                          Margin="0,0,16,0"/>
                 
                 <ComboBox SelectedItem="{Binding SelectedFilter}"
                          Width="120"
+                         Foreground="{StaticResource TextPrimaryBrush}"
                          Margin="0,0,16,0">
                     <ComboBox.ItemsSource>
                         <x:Array Type="sys:String">
@@ -76,23 +77,11 @@
                             <sys:String>Read</sys:String>
                         </x:Array>
                     </ComboBox.ItemsSource>
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock>
-                                <TextBlock.Text>
-                                    <Binding>
-                                        <Binding.Converter>
-                                            <converters:NotificationFilterConverter/>
-                                        </Binding.Converter>
-                                    </Binding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
                 </ComboBox>
 
                 <ComboBox SelectedItem="{Binding SelectedTypeFilter}"
                          Width="180"
+                         Foreground="{StaticResource TextPrimaryBrush}"
                          Margin="0,0,16,0">
                     <ComboBox.ItemsSource>
                         <x:Array Type="sys:String">
@@ -103,174 +92,112 @@
                             <sys:String>Info</sys:String>
                         </x:Array>
                     </ComboBox.ItemsSource>
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock>
-                                <TextBlock.Text>
-                                    <Binding>
-                                        <Binding.Converter>
-                                            <converters:NotificationTypeConverter/>
-                                        </Binding.Converter>
-                                    </Binding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
                 </ComboBox>
             </StackPanel>
-        </materialDesign:Card>
+        </Border>
 
         <!-- Notifications List -->
-        <materialDesign:Card Grid.Row="2" Padding="0">
+        <Border Grid.Row="2" Style="{StaticResource GlassCard}" Padding="0">
             <Grid>
-            <ListView ItemsSource="{Binding FilteredNotifications}"
-                     SelectedItem="{Binding SelectedNotification}"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="{DynamicResource MaterialDesignDivider}"
-                               BorderThickness="0,0,0,1"
-                               Padding="16"
-                               Background="Transparent">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsRead}" Value="False">
-                                            <Setter Property="Background" Value="{DynamicResource MaterialDesignLightBackground}"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                <ListView ItemsSource="{Binding FilteredNotifications}"
+                         SelectedItem="{Binding SelectedNotification}"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="#10FFFFFF"
+                                   BorderThickness="0,0,0,1"
+                                   Padding="16"
+                                   Background="Transparent">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <!-- Icon -->
-                                <materialDesign:PackIcon Grid.Column="0"
-                                                        Width="32"
-                                                        Height="32"
-                                                        VerticalAlignment="Center"
-                                                        Margin="0,0,16,0">
-                                    <materialDesign:PackIcon.Style>
-                                        <Style TargetType="materialDesign:PackIcon">
-                                            <Setter Property="Kind" Value="Bell"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Type}" Value="UnpaidHouse">
-                                                    <Setter Property="Kind" Value="CashAlert"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Type}" Value="MaintenanceDue">
-                                                    <Setter Property="Kind" Value="Tools"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Type}" Value="System">
-                                                    <Setter Property="Kind" Value="Information"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Type}" Value="Info">
-                                                    <Setter Property="Kind" Value="Information"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </materialDesign:PackIcon.Style>
-                                    <materialDesign:PackIcon.Foreground>
-                                        <SolidColorBrush>
-                                            <SolidColorBrush.Color>
-                                                <Binding Path="Priority" Converter="{StaticResource PriorityColorConverter}"/>
-                                            </SolidColorBrush.Color>
-                                        </SolidColorBrush>
-                                    </materialDesign:PackIcon.Foreground>
-                                </materialDesign:PackIcon>
+                                    <!-- Icon -->
+                                    <materialDesign:PackIcon Grid.Column="0"
+                                                            Kind="Bell"
+                                                            Width="32"
+                                                            Height="32"
+                                                            Foreground="{StaticResource PrimaryBrush}"
+                                                            VerticalAlignment="Center"
+                                                            Margin="0,0,16,0"/>
 
-                                <!-- Content -->
-                                <StackPanel Grid.Column="1">
-                                    <TextBlock Text="{Binding Title}"
-                                              FontSize="16"
-                                              FontWeight="SemiBold"
-                                              Margin="0,0,0,4"/>
-                                    <TextBlock Text="{Binding Message}"
-                                              FontSize="14"
-                                              TextWrapping="Wrap"
-                                              Foreground="{DynamicResource MaterialDesignBodyLight}"
-                                              Margin="0,0,0,4"/>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock FontSize="12"
-                                                  Foreground="{DynamicResource MaterialDesignBodyLight}"
-                                                  Margin="0,0,8,0">
-                                            <TextBlock.Text>
-                                                <Binding Path="Type" Converter="{StaticResource NotificationTypeConverter}"/>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                        <TextBlock Text="•"
-                                                  FontSize="12"
-                                                  Foreground="{DynamicResource MaterialDesignBodyLight}"
-                                                  Margin="0,0,8,0"/>
+                                    <!-- Content -->
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{Binding Title}"
+                                                  FontSize="16"
+                                                  FontWeight="SemiBold"
+                                                  Foreground="{StaticResource TextPrimaryBrush}"
+                                                  Margin="0,0,0,4"/>
+                                        <TextBlock Text="{Binding Message}"
+                                                  FontSize="14"
+                                                  TextWrapping="Wrap"
+                                                  Foreground="{StaticResource TextSecondaryBrush}"
+                                                  Margin="0,0,0,4"/>
                                         <TextBlock Text="{Binding CreatedAt, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}"
                                                   FontSize="12"
-                                                  Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                                                  Foreground="{StaticResource TextSecondaryBrush}"/>
                                     </StackPanel>
-                                </StackPanel>
 
-                                <!-- Actions -->
-                                <StackPanel Grid.Column="2" 
-                                           Orientation="Horizontal"
-                                           Margin="8,0">
-                                    <Button Command="{Binding DataContext.OpenRelatedItemCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                           CommandParameter="{Binding}"
-                                           Style="{StaticResource MaterialDesignIconButton}"
-                                           ToolTip="Ouvrir"
-                                           Visibility="{Binding RelatedEntityId, Converter={StaticResource StringToVisibilityConverter}}"
-                                           Margin="2">
-                                        <materialDesign:PackIcon Kind="OpenInNew"/>
-                                    </Button>
-                                    <Button Command="{Binding DataContext.MarkReadCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                           CommandParameter="{Binding}"
-                                           Style="{StaticResource MaterialDesignIconButton}"
-                                           ToolTip="Marquer comme lu"
-                                           Visibility="{Binding IsRead, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
-                                           Margin="2">
-                                        <materialDesign:PackIcon Kind="Check"/>
-                                    </Button>
-                                    <Button Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                           CommandParameter="{Binding}"
-                                           Style="{StaticResource MaterialDesignIconButton}"
-                                           ToolTip="Supprimer"
-                                           Margin="2">
-                                        <materialDesign:PackIcon Kind="Delete"/>
-                                    </Button>
-                                </StackPanel>
+                                    <!-- Actions -->
+                                    <StackPanel Grid.Column="2" 
+                                               Orientation="Horizontal"
+                                               Margin="8,0">
+                                        <Button Command="{Binding DataContext.MarkReadCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                               CommandParameter="{Binding}"
+                                               Style="{StaticResource MaterialDesignIconButton}"
+                                               ToolTip="Marquer comme lu"
+                                               Foreground="{StaticResource SuccessBrush}"
+                                               Visibility="{Binding IsRead, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                                               Margin="2">
+                                            <materialDesign:PackIcon Kind="Check"/>
+                                        </Button>
+                                        <Button Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                               CommandParameter="{Binding}"
+                                               Style="{StaticResource MaterialDesignIconButton}"
+                                               ToolTip="Supprimer"
+                                               Foreground="{StaticResource ErrorBrush}"
+                                               Margin="2">
+                                            <materialDesign:PackIcon Kind="Delete"/>
+                                        </Button>
+                                    </StackPanel>
 
-                                <!-- Unread Indicator -->
-                                <Ellipse Grid.Column="3"
-                                        Width="8"
-                                        Height="8"
-                                        Fill="{DynamicResource MaterialDesignPrimaryBrush}"
-                                        VerticalAlignment="Top"
-                                        Margin="8,8,0,0"
-                                        Visibility="{Binding IsRead, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                    <!-- Unread Indicator -->
+                                    <Ellipse Grid.Column="3"
+                                            Width="8"
+                                            Height="8"
+                                            Fill="{StaticResource PrimaryBrush}"
+                                            VerticalAlignment="Top"
+                                            Margin="8,8,0,0"
+                                            Visibility="{Binding IsRead, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
-            <!-- Empty State -->
-            <TextBlock Text="Aucune notification"
-                      FontSize="16"
-                      Foreground="{DynamicResource MaterialDesignBodyLight}"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"
-                      Visibility="{Binding FilteredNotifications.Count, Converter={StaticResource CountToVisibilityConverter}}"
-                      Margin="16"/>
+                <!-- Empty State -->
+                <TextBlock Text="Aucune notification"
+                          FontSize="16"
+                          Foreground="{StaticResource TextSecondaryBrush}"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Visibility="{Binding FilteredNotifications.Count, Converter={StaticResource CountToVisibilityConverter}}"
+                          Margin="16"/>
             </Grid>
-        </materialDesign:Card>
+        </Border>
 
         <!-- Loading Indicator -->
         <ProgressBar Grid.Row="2"
                     IsIndeterminate="True"
                     Height="4"
                     Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Foreground="{StaticResource PrimaryBrush}"
                     VerticalAlignment="Top"/>
     </Grid>
 </UserControl>

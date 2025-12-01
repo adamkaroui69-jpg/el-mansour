@@ -12,10 +12,18 @@
         Icon="/Assets/logo.png">
     
     <Window.Resources>
-        <!-- Animation pour l'apparition -->
         <Storyboard x:Key="FadeIn">
-            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                           From="0" To="1" Duration="0:0:0.5"/>
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.8">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" 
+                             From="50" To="0" Duration="0:0:0.8">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
         </Storyboard>
     </Window.Resources>
     
@@ -25,217 +33,139 @@
         </EventTrigger>
     </Window.Triggers>
     
-    <Border CornerRadius="20" Background="{DynamicResource MaterialDesignPaper}">
-        <Border.Effect>
-            <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="30" ShadowDepth="0"/>
-        </Border.Effect>
-        
+    <!-- Fond Principal -->
+    <Border CornerRadius="20" Background="{StaticResource AppBackgroundBrush}" ClipToBounds="True">
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+            <!-- Éléments décoratifs d'arrière-plan (Glows) -->
+            <Ellipse Width="600" Height="600" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-200,-200,0">
+                <Ellipse.Fill>
+                    <RadialGradientBrush Center="0.5,0.5" GradientOrigin="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+                        <GradientStop Color="#2C5282" Offset="0"/>
+                        <GradientStop Color="#1A2332" Offset="1"/>
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+                <Ellipse.Effect>
+                    <BlurEffect Radius="100"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            
+            <Ellipse Width="500" Height="500" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="-100,0,0,-100">
+                <Ellipse.Fill>
+                    <RadialGradientBrush Center="0.5,0.5" GradientOrigin="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+                        <GradientStop Color="#D4AF37" Offset="0"/>
+                        <GradientStop Color="#1A2332" Offset="1"/>
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+                <Ellipse.Effect>
+                    <BlurEffect Radius="100"/>
+                </Ellipse.Effect>
+            </Ellipse>
 
-            <!-- Partie gauche - Image/Branding (Style Clean & Moderne) -->
-            <Border Grid.Column="0" CornerRadius="20,0,0,20" Background="{DynamicResource MaterialDesignCardBackground}">
-                <Grid>
-                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="40">
-                        <!-- Logo (Directement sur fond clair pour une netteté maximale) -->
-                        <Image Source="/Assets/logo.png" 
-                               Width="280" 
-                               Height="280" 
-                               HorizontalAlignment="Center"
-                               Margin="0,0,0,30"
-                               RenderOptions.BitmapScalingMode="HighQuality">
+            <!-- Bouton Fermer -->
+            <Button Style="{StaticResource MaterialDesignIconButton}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="20"
+                    Foreground="{StaticResource TextSecondaryBrush}"
+                    Click="CloseButton_Click">
+                <materialDesign:PackIcon Kind="Close" Width="24" Height="24"/>
+            </Button>
+
+            <!-- Contenu Central -->
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Carte de Connexion Glassmorphism -->
+                <Border Grid.Row="1" Style="{StaticResource GlassCard}" Width="420" Padding="40">
+                    <Border.RenderTransform>
+                        <TranslateTransform/>
+                    </Border.RenderTransform>
+                    
+                    <StackPanel>
+                        <!-- Logo et Titre -->
+                        <Image Source="/Assets/logo.png" Width="150" Height="150" Margin="0,0,0,20">
                             <Image.Effect>
-                                <DropShadowEffect Color="#1A237E" Opacity="0.1" BlurRadius="20" ShadowDepth="5"/>
+                                <DropShadowEffect Color="#D4AF37" BlurRadius="30" ShadowDepth="0" Opacity="0.7"/>
                             </Image.Effect>
                         </Image>
                         
-                        <TextBlock Text="Résidence El Mansour"
-                                 FontSize="32"
+                        <TextBlock Text="Bienvenue"
+                                 FontSize="28"
                                  FontWeight="Bold"
-                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
-                                 TextAlignment="Center"
-                                 Margin="0,0,0,8"/>
+                                 Foreground="{StaticResource TextPrimaryBrush}"
+                                 HorizontalAlignment="Center"
+                                 Margin="0,0,0,5"/>
                         
-                        <TextBlock Text="Gestion Moderne de Syndic"
-                                 FontSize="18"
-                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
-                                 TextAlignment="Center"/>
-                        
-                        <!-- Caractéristiques -->
-                        <StackPanel Margin="0,50,0,0">
-                            <StackPanel Orientation="Horizontal" Margin="0,10">
-                                <Border Background="{DynamicResource MaterialDesignPaper}" CornerRadius="50" Padding="4" Margin="0,0,12,0">
-                                    <materialDesign:PackIcon Kind="Check" Foreground="{DynamicResource PrimaryHueMidBrush}" Width="16" Height="16"/>
-                                </Border>
-                                <TextBlock Text="Gestion des paiements simplifiée" 
-                                         Foreground="{DynamicResource MaterialDesignBody}" 
-                                         FontSize="15"
-                                         VerticalAlignment="Center"/>
-                            </StackPanel>
-                            
-                            <StackPanel Orientation="Horizontal" Margin="0,10">
-                                <Border Background="{DynamicResource MaterialDesignPaper}" CornerRadius="50" Padding="4" Margin="0,0,12,0">
-                                    <materialDesign:PackIcon Kind="Check" Foreground="{DynamicResource PrimaryHueMidBrush}" Width="16" Height="16"/>
-                                </Border>
-                                <TextBlock Text="Rapports financiers automatisés" 
-                                         Foreground="{DynamicResource MaterialDesignBody}" 
-                                         FontSize="15"
-                                         VerticalAlignment="Center"/>
-                            </StackPanel>
-                            
+                        <TextBlock Text="El Mansour Syndic Manager"
+                                 FontSize="16"
+                                 Foreground="{StaticResource TextSecondaryBrush}"
+                                 HorizontalAlignment="Center"
+                                 Margin="0,0,0,40"/>
 
+                        <!-- Champs de saisie -->
+                        <StackPanel Margin="0,0,0,20">
+                            <TextBlock Text="CODE MAISON" 
+                                     Foreground="{StaticResource TextSecondaryBrush}" 
+                                     FontSize="12" 
+                                     FontWeight="Bold" 
+                                     Margin="0,0,0,8"/>
+                            
+                            <TextBox Style="{StaticResource ModernTextBox}"
+                                     materialDesign:HintAssist.Hint="Ex: A01"
+                                     Text="{Binding HouseCode, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
-                    </StackPanel>
-                </Grid>
-            </Border>
 
-            <!-- Partie droite - Formulaire -->
-            <Grid Grid.Column="1">
-                <!-- Bouton fermer -->
-                <Button Style="{StaticResource MaterialDesignIconButton}"
-                       HorizontalAlignment="Right"
-                       VerticalAlignment="Top"
-                       Margin="16"
-                       Click="CloseButton_Click">
-                    <materialDesign:PackIcon Kind="Close" Width="24" Height="24"/>
-                </Button>
-                
-                <StackPanel VerticalAlignment="Center" 
-                           HorizontalAlignment="Center" 
-                           Width="350"
-                           Margin="60">
-                    
-                    <!-- En-tête du formulaire -->
-                    <TextBlock Text="Bienvenue !"
-                             FontSize="36"
-                             FontWeight="Bold"
-                             Foreground="{DynamicResource PrimaryHueMidBrush}"
-                             Margin="0,0,0,8"/>
-                    
-                    <TextBlock Text="Connectez-vous pour continuer"
-                             FontSize="14"
-                             Foreground="{DynamicResource MaterialDesignBodyLight}"
-                             Margin="0,0,0,40"/>
-
-                    <!-- Champ Code Maison -->
-                    <Border Background="{DynamicResource MaterialDesignCardBackground}" 
-                           CornerRadius="10" 
-                           Padding="16,12"
-                           Margin="0,0,0,16">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <materialDesign:PackIcon Kind="Home" 
-                                                   Grid.Column="0"
-                                                   VerticalAlignment="Center"
-                                                   Foreground="#FF6F00"
-                                                   Margin="0,0,12,0"/>
-                            
-                            <TextBox Grid.Column="1"
-                                   materialDesign:HintAssist.Hint="Code Maison"
-                                   Text="{Binding HouseCode, UpdateSourceTrigger=PropertyChanged}"
-                                   BorderThickness="0"
-                                   Background="Transparent"
-                                   FontSize="14"
-                                   VerticalAlignment="Center"/>
-                        </Grid>
-                    </Border>
-
-                    <!-- Champ Mot de passe -->
-                    <Border Background="{DynamicResource MaterialDesignCardBackground}" 
-                           CornerRadius="10" 
-                           Padding="16,12"
-                           Margin="0,0,0,24">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <materialDesign:PackIcon Kind="Lock" 
-                                                   Grid.Column="0"
-                                                   VerticalAlignment="Center"
-                                                   Foreground="#FF6F00"
-                                                   Margin="0,0,12,0"/>
+                        <StackPanel Margin="0,0,0,30">
+                            <TextBlock Text="CODE PIN" 
+                                     Foreground="{StaticResource TextSecondaryBrush}" 
+                                     FontSize="12" 
+                                     FontWeight="Bold" 
+                                     Margin="0,0,0,8"/>
                             
                             <PasswordBox x:Name="PasswordBox"
-                                       Grid.Column="1"
-                                       materialDesign:HintAssist.Hint="Code (6 chiffres)"
-                                       BorderThickness="0"
-                                       Background="Transparent"
-                                       FontSize="14"
-                                       VerticalAlignment="Center"
+                                       Style="{StaticResource ModernPasswordBox}"
+                                       materialDesign:HintAssist.Hint="••••••"
                                        PasswordChanged="PasswordBox_PasswordChanged"/>
-                        </Grid>
-                    </Border>
-
-                    <!-- Bouton de connexion -->
-                    <Button Content="SE CONNECTER"
-                           Command="{Binding LoginCommand}"
-                           Height="50"
-                           FontSize="14"
-                           FontWeight="Bold"
-                           Foreground="White"
-                           BorderThickness="0"
-                           Cursor="Hand">
-                        <Button.Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
-                                <Setter Property="Background">
-                                    <Setter.Value>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                            <GradientStop Color="#FF6F00" Offset="0"/>
-                                            <GradientStop Color="#FF8F00" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Opacity" Value="0.9"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-
-                    <!-- Message d'erreur -->
-                    <Border Background="#FFEBEE" 
-                           CornerRadius="8" 
-                           Padding="12"
-                           Margin="0,16,0,0"
-                           Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="AlertCircle" 
-                                                   Foreground="#D32F2F"
-                                                   VerticalAlignment="Center"
-                                                   Margin="0,0,8,0"/>
-                            <TextBlock Text="{Binding ErrorMessage}"
-                                     Foreground="#D32F2F"
-                                     TextWrapping="Wrap"
-                                     VerticalAlignment="Center"/>
                         </StackPanel>
-                    </Border>
 
-                    <!-- Indicateur de chargement -->
-                    <ProgressBar IsIndeterminate="True"
-                               Height="4"
-                               Margin="0,16,0,0"
-                               Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <ProgressBar.Foreground>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Color="#FF6F00" Offset="0"/>
-                                <GradientStop Color="#FF8F00" Offset="1"/>
-                            </LinearGradientBrush>
-                        </ProgressBar.Foreground>
-                    </ProgressBar>
+                        <!-- Bouton Connexion -->
+                        <Button Style="{StaticResource ModernButton}"
+                                Command="{Binding LoginCommand}"
+                                Content="SE CONNECTER"
+                                Margin="0,0,0,20">
+                            <Button.Effect>
+                                <DropShadowEffect Color="#3B82F6" BlurRadius="20" ShadowDepth="0" Opacity="0.4"/>
+                            </Button.Effect>
+                        </Button>
 
+                        <!-- Message d'erreur -->
+                        <Border Background="#20EF4444" 
+                                CornerRadius="8" 
+                                Padding="12"
+                                Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon Kind="AlertCircle" 
+                                                       Foreground="#EF4444"
+                                                       VerticalAlignment="Center"
+                                                       Margin="0,0,8,0"/>
+                                <TextBlock Text="{Binding ErrorMessage}"
+                                         Foreground="#EF4444"
+                                         TextWrapping="Wrap"
+                                         VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
 
-                </StackPanel>
+                        <!-- Loading -->
+                        <ProgressBar IsIndeterminate="True"
+                                   Height="4"
+                                   Margin="0,20,0,0"
+                                   Foreground="{StaticResource PrimaryBrush}"
+                                   Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </StackPanel>
+                </Border>
             </Grid>
         </Grid>
     </Border>

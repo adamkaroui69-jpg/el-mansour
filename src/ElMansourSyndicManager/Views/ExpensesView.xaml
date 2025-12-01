@@ -16,49 +16,69 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
             <!-- Main Content -->
-            <StackPanel Margin="24">
+            <StackPanel Margin="0">
                 <!-- Header -->
                 <Grid Margin="0,0,0,32">
                     <StackPanel>
-                        <TextBlock Text="Gestion des Dépenses" FontSize="28" FontWeight="Bold" Foreground="#333"/>
-                        <TextBlock Text="Suivi des coûts et factures" FontSize="16" Foreground="#777" Margin="0,4,0,0"/>
+                        <TextBlock Text="Gestion des Dépenses" FontSize="32" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                        <TextBlock Text="Suivi des coûts et factures" FontSize="16" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0"/>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                         <Button Command="{Binding LoadCommand}" 
                                 Style="{StaticResource MaterialDesignOutlinedButton}" 
                                 Content="Actualiser" 
-                                Margin="0,0,12,0"
-                                Height="36"/>
+                                Foreground="{StaticResource PrimaryBrush}"
+                                BorderBrush="{StaticResource PrimaryBrush}"
+                                Margin="0,0,16,0"
+                                Height="40"/>
                         <Button Command="{Binding CreateCommand}" 
-                                Style="{StaticResource MaterialDesignRaisedButton}" 
+                                Style="{StaticResource ModernButton}" 
                                 Content="Nouvelle Dépense"
-                                Height="36"/>
+                                Width="180"/>
                     </StackPanel>
                 </Grid>
 
                 <!-- DataGrid Card -->
-                <materialDesign:Card UniformCornerRadius="12" Background="White">
+                <Border Style="{StaticResource GlassCard}" Padding="0">
                     <StackPanel>
-                        <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
-                            <TextBlock Text="Liste des Dépenses" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
-                        </Border>
+                        <Grid Margin="24">
+                            <TextBlock Text="Liste des Dépenses" FontWeight="SemiBold" FontSize="20" Foreground="{StaticResource TextPrimaryBrush}"/>
+                        </Grid>
                         
                         <DataGrid ItemsSource="{Binding Expenses}" SelectedItem="{Binding SelectedExpense}" 
                                   AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
                                   HeadersVisibility="Column"
                                   BorderThickness="0"
-                                  Background="White"
-                                  RowBackground="White"
-                                  AlternatingRowBackground="#F9FAFB"
-                                  GridLinesVisibility="Horizontal"
-                                  HorizontalGridLinesBrush="#E5E7EB"
-                                  Padding="0,8"
+                                  Background="Transparent"
+                                  GridLinesVisibility="None"
+                                  materialDesign:DataGridAssist.CellPadding="16 12 12 12"
                                   SelectionMode="Single">
+                            <DataGrid.Resources>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                    <Setter Property="FontSize" Value="13"/>
+                                    <Setter Property="Padding" Value="16,12,12,12"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="BorderBrush" Value="#20FFFFFF"/>
+                                </Style>
+                                <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                </Style>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="BorderBrush" Value="#10FFFFFF"/>
+                                </Style>
+                            </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Date" Binding="{Binding ExpenseDate, StringFormat={}{0:dd/MM/yyyy}}" Width="120"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding ExpenseDate, StringFormat={}{0:dd/MM/yyyy}}" Width="150"/>
                                 <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
                                 <DataGridTextColumn Header="Catégorie" Binding="{Binding Category}" Width="150"/>
-                                <DataGridTextColumn Header="Montant" Binding="{Binding Amount, StringFormat={}{0:N0} TND}" Width="120" FontWeight="Bold"/>
+                                <DataGridTextColumn Header="Montant" Binding="{Binding Amount, StringFormat={}{0:N0} TND}" Width="150" FontWeight="Bold"/>
                                 <DataGridTextColumn Header="Enregistré par" Binding="{Binding RecordedBy}" Width="150"/>
                                 <DataGridTemplateColumn Header="Actions" Width="Auto">
                                     <DataGridTemplateColumn.CellTemplate>
@@ -67,14 +87,15 @@
                                                 <Button Command="{Binding DataContext.UpdateCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" 
                                                         CommandParameter="{Binding}"
                                                         Style="{StaticResource MaterialDesignIconButton}" 
-                                                        ToolTip="Modifier">
+                                                        ToolTip="Modifier"
+                                                        Foreground="{StaticResource PrimaryBrush}">
                                                     <materialDesign:PackIcon Kind="Pencil"/>
                                                 </Button>
                                                 <Button Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" 
                                                         CommandParameter="{Binding}"
                                                         Style="{StaticResource MaterialDesignIconButton}" 
                                                         ToolTip="Supprimer (Admin uniquement)"
-                                                        Foreground="Red"
+                                                        Foreground="#EF4444"
                                                         Visibility="{Binding DataContext.IsAdmin, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}">
                                                     <materialDesign:PackIcon Kind="Delete"/>
                                                 </Button>
@@ -92,38 +113,65 @@
                             </DataGrid.ContextMenu>
                         </DataGrid>
                     </StackPanel>
-                </materialDesign:Card>
+                </Border>
             </StackPanel>
 
             <!-- Loading Overlay -->
             <Grid Background="#80000000" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Value="0" IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Value="0" IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource PrimaryBrush}"/>
             </Grid>
 
             <!-- Form Overlay -->
             <Grid Background="#B0000000" Visibility="{Binding IsFormVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <materialDesign:Card Width="500" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="24" UniformCornerRadius="12">
+                <Border Style="{StaticResource GlassCard}" Width="500" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="32">
                     <StackPanel>
-                        <TextBlock Text="{Binding FormTitle}" FontSize="22" FontWeight="SemiBold" Foreground="#333" Margin="0,0,0,24"/>
+                        <TextBlock Text="{Binding FormTitle}" FontSize="24" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,32"/>
 
-                        <TextBox Text="{Binding FormDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Description" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,16"/>
+                        <TextBox Text="{Binding FormDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 materialDesign:HintAssist.Hint="Description" 
+                                 Style="{StaticResource ModernTextBox}" 
+                                 Margin="0,0,0,24"/>
                         
-                        <ComboBox ItemsSource="{Binding Categories}" SelectedItem="{Binding FormCategory, Mode=TwoWay}" materialDesign:HintAssist.Hint="Catégorie" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="0,0,0,16"/>
+                        <ComboBox ItemsSource="{Binding Categories}" 
+                                  SelectedItem="{Binding FormCategory, Mode=TwoWay}" 
+                                  materialDesign:HintAssist.Hint="Catégorie" 
+                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                  Foreground="{StaticResource TextPrimaryBrush}"
+                                  Margin="0,0,0,24"/>
                         
-                        <TextBox Text="{Binding FormAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Montant (TND)" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,16"/>
+                        <TextBox Text="{Binding FormAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 materialDesign:HintAssist.Hint="Montant (TND)" 
+                                 Style="{StaticResource ModernTextBox}" 
+                                 Margin="0,0,0,24"/>
                         
-                        <DatePicker SelectedDate="{Binding FormExpenseDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Date" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="0,0,0,16"/>
+                        <DatePicker SelectedDate="{Binding FormExpenseDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    materialDesign:HintAssist.Hint="Date" 
+                                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                                    Foreground="{StaticResource TextPrimaryBrush}"
+                                    Margin="0,0,0,24"/>
 
-                        <TextBox Text="{Binding FormNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Notes" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,16" TextWrapping="Wrap" Height="80"/>
+                        <TextBox Text="{Binding FormNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 materialDesign:HintAssist.Hint="Notes" 
+                                 Style="{StaticResource ModernTextBox}" 
+                                 Margin="0,0,0,24" 
+                                 TextWrapping="Wrap" 
+                                 Height="80"/>
 
-                        <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" TextWrapping="Wrap" Margin="0,0,0,16"/>
+                        <TextBlock Text="{Binding ErrorMessage}" Foreground="#EF4444" TextWrapping="Wrap" Margin="0,0,0,24"/>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
-                            <Button Command="{Binding CancelCommand}" Style="{StaticResource MaterialDesignFlatButton}" Content="Annuler" Margin="0,0,12,0"/>
-                            <Button Command="{Binding SaveCommand}" Style="{StaticResource MaterialDesignRaisedButton}" Content="Enregistrer"/>
+                            <Button Command="{Binding CancelCommand}" 
+                                    Style="{StaticResource MaterialDesignFlatButton}" 
+                                    Content="Annuler" 
+                                    Foreground="{StaticResource TextSecondaryBrush}"
+                                    Margin="0,0,16,0"/>
+                            <Button Command="{Binding SaveCommand}" 
+                                    Style="{StaticResource ModernButton}" 
+                                    Content="Enregistrer"
+                                    Width="140"/>
                         </StackPanel>
                     </StackPanel>
-                </materialDesign:Card>
+                </Border>
             </Grid>
         </Grid>
     </ScrollViewer>

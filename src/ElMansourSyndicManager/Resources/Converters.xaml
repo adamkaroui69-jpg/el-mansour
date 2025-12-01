@@ -1,7 +1,9 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:ElMansourSyndicManager.Converters">
-    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <!-- Use WPF's built-in BooleanToVisibilityConverter -->
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    
     <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
@@ -10,10 +12,12 @@
     
     <!-- Notification Converters -->
     <converters:NotificationTypeConverter x:Key="NotificationTypeConverter" />
+    <converters:NotificationFilterConverter x:Key="NotificationFilterConverter" />
     <converters:PriorityColorConverter x:Key="PriorityColorConverter" />
     <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
     
     <!-- Backup Converters -->
     <converters:FileSizeConverter x:Key="FileSizeConverter" />
     <converters:InverseStringToVisibilityConverter x:Key="InverseStringToVisibilityConverter" />
+    <converters:StringToInitialsConverter x:Key="StringToInitialsConverter" />
 </ResourceDictionary>

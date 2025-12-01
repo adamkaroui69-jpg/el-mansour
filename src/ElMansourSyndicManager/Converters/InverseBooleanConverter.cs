@@ -1,0 +1,1 @@
+// Ce fichier a été supprimé - les convertisseurs sont maintenant dans ValueConverters.cs

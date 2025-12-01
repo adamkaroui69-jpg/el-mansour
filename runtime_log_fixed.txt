@@ -1,0 +1,580 @@
+Application OnStartup method called.
+info: ElMansourSyndicManager.Infrastructure.Services.DatabaseMigrator[0]
+      Starting database migration...
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'Amount' on entity type 'Expense'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'Cost' on entity type 'Maintenance'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+warn: Microsoft.EntityFrameworkCore.Model.Validation[30000]
+      No store type was specified for the decimal property 'AmountPaid' on entity type 'Receipt'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (178ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (160ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [MigrationId], [ProductVersion]
+      FROM [__EFMigrationsHistory]
+      ORDER BY [MigrationId];
+info: Microsoft.EntityFrameworkCore.Migrations[20402]
+      Applying migration '20251126174642_InitialCreate'.
+fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+      Failed executing DbCommand (144ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [AuditLogs] (
+          [Id] TEXT NOT NULL,
+          [UserId] TEXT NOT NULL,
+          [Action] TEXT NOT NULL,
+          [EntityType] TEXT NOT NULL,
+          [EntityId] TEXT NOT NULL,
+          [Details] TEXT NOT NULL,
+          [IpAddress] TEXT NULL,
+          [UserAgent] TEXT NULL,
+          [Timestamp] TEXT NOT NULL,
+          [CreatedAt] TEXT NOT NULL,
+          [UpdatedAt] TEXT NULL,
+          CONSTRAINT [PK_AuditLogs] PRIMARY KEY ([Id])
+      );
+warn: ElMansourSyndicManager.Infrastructure.Services.DatabaseMigrator[0]
+      Migration warning (safe to ignore on existing DB): Column 'Id' in table 'AuditLogs' is of a type that is invalid for use as a key column in an index.
+      Could not create constraint or index. See previous errors.
+      Microsoft.Data.SqlClient.SqlException (0x80131904): Column 'Id' in table 'AuditLogs' is of a type that is invalid for use as a key column in an index.
+      Could not create constraint or index. See previous errors.
+         at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+         at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+         at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+         at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+         at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteNonQuery(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+         at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+         at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryAsync(IAsyncResult asyncResult)
+         at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__208_1(IAsyncResult result)
+         at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+      --- End of stack trace from previous location ---
+         at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQueryAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQueryAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQueryAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQueryAsync(IEnumerable`1 migrationCommands, IRelationalConnection connection, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQueryAsync(IEnumerable`1 migrationCommands, IRelationalConnection connection, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQueryAsync(IEnumerable`1 migrationCommands, IRelationalConnection connection, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQueryAsync(IEnumerable`1 migrationCommands, IRelationalConnection connection, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.MigrateAsync(String targetMigration, CancellationToken cancellationToken)
+         at ElMansourSyndicManager.Infrastructure.Services.DatabaseMigrator.MigrateAsync(CancellationToken cancellationToken) in C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\Services\DatabaseMigrator.cs:line 24
+      ClientConnectionId:c9400c95-d7cd-4f3f-a18c-b25788bd7889
+      Error Number:1919,State:1,Class:16
+info: ElMansourSyndicManager.Infrastructure.Services.DataSeeder[0]
+      Starting data seeding...
+info: ElMansourSyndicManager.Infrastructure.Services.DataSeeder[0]
+      Data seeding completed successfully.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@__houseCode_0='?' (Size = 50)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[HouseCode], [u].[HouseId], [u].[IsActive], [u].[LastLogin], [u].[PasswordHash], [u].[PasswordSalt], [u].[Role], [u].[UpdatedAt], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[HouseCode] = @__houseCode_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[HouseCode], [u].[HouseId], [u].[IsActive], [u].[LastLogin], [u].[PasswordHash], [u].[PasswordSalt], [u].[Role], [u].[UpdatedAt], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[Id] = @__id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p10='?' (DbType = Guid), @p0='?' (DbType = DateTime2), @p1='?' (Size = 50), @p2='?' (DbType = Guid), @p3='?' (DbType = Boolean), @p4='?' (DbType = DateTime2), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (Size = 50), @p8='?' (DbType = DateTime2), @p9='?' (Size = 100)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      UPDATE [Users] SET [CreatedAt] = @p0, [HouseCode] = @p1, [HouseId] = @p2, [IsActive] = @p3, [LastLogin] = @p4, [PasswordHash] = @p5, [PasswordSalt] = @p6, [Role] = @p7, [UpdatedAt] = @p8, [Username] = @p9
+      OUTPUT 1
+      WHERE [Id] = @p10;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.AuthenticationService[0]
+      User 49d2071a-8465-44a5-8cd2-90a506a3cbd0 authenticated successfully
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [h].[Id], [h].[BuildingCode], [h].[ContactNumber], [h].[CreatedAt], [h].[Email], [h].[HouseCode], [h].[IsActive], [h].[MonthlyAmount], [h].[OwnerName], [h].[UpdatedAt]
+      FROM [Houses] AS [h]
+fail: Microsoft.EntityFrameworkCore.Query[10100]
+      An exception occurred while iterating over the results of a query for context type 'ElMansourSyndicManager.Infrastructure.Data.ApplicationDbContext'.
+      System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+         at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+         at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+      System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+         at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+         at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@__month_0='?' (Size = 7)], CommandType='Text', CommandTimeout='30']
+      SELECT [p].[Id], [p].[Amount], [p].[CreatedAt], [p].[GeneratedBy], [p].[HouseCode], [p].[Month], [p].[PaymentDate], [p].[RecordedBy], [p].[ReferenceNumber], [p].[Status], [p].[UpdatedAt]
+      FROM [Payments] AS [p]
+      WHERE [p].[Month] = @__month_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (141ms) [Parameters=[@__month_0='?' (Size = 7)], CommandType='Text', CommandTimeout='30']
+      SELECT [p].[Id], [p].[Amount], [p].[CreatedAt], [p].[GeneratedBy], [p].[HouseCode], [p].[Month], [p].[PaymentDate], [p].[RecordedBy], [p].[ReferenceNumber], [p].[Status], [p].[UpdatedAt]
+      FROM [Payments] AS [p]
+      WHERE [p].[Month] = @__month_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (141ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [e].[Id], [e].[Amount], [e].[Category], [e].[CreatedAt], [e].[Description], [e].[ExpenseDate], [e].[MaintenanceId], [e].[Notes], [e].[RecordedBy], [e].[UpdatedAt]
+      FROM [Expenses] AS [e]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [p].[Id], [p].[Amount], [p].[CreatedAt], [p].[GeneratedBy], [p].[HouseCode], [p].[Month], [p].[PaymentDate], [p].[RecordedBy], [p].[ReferenceNumber], [p].[Status], [p].[UpdatedAt]
+      FROM [Payments] AS [p]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [h].[Id], [h].[BuildingCode], [h].[ContactNumber], [h].[CreatedAt], [h].[Email], [h].[HouseCode], [h].[IsActive], [h].[MonthlyAmount], [h].[OwnerName], [h].[UpdatedAt]
+      FROM [Houses] AS [h]
+info: ElMansourSyndicManager.Infrastructure.Services.PaymentService[0]
+      GetPaymentStatisticsAsync: Found 2 payments. 2 are paid. Total Amount: 200.00
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (141ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [h].[Id], [h].[BuildingCode], [h].[ContactNumber], [h].[CreatedAt], [h].[Email], [h].[HouseCode], [h].[IsActive], [h].[MonthlyAmount], [h].[OwnerName], [h].[UpdatedAt]
+      FROM [Houses] AS [h]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (141ms) [Parameters=[@__month_0='?' (Size = 7)], CommandType='Text', CommandTimeout='30']
+      SELECT [p].[Id], [p].[Amount], [p].[CreatedAt], [p].[GeneratedBy], [p].[HouseCode], [p].[Month], [p].[PaymentDate], [p].[RecordedBy], [p].[ReferenceNumber], [p].[Status], [p].[UpdatedAt]
+      FROM [Payments] AS [p]
+      WHERE [p].[Month] = @__month_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (141ms) [Parameters=[@__month_0='?' (Size = 7)], CommandType='Text', CommandTimeout='30']
+      SELECT [p].[Id], [p].[Amount], [p].[CreatedAt], [p].[GeneratedBy], [p].[HouseCode], [p].[Month], [p].[PaymentDate], [p].[RecordedBy], [p].[ReferenceNumber], [p].[Status], [p].[UpdatedAt]
+      FROM [Payments] AS [p]
+      WHERE [p].[Month] = @__month_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@__year_0='?' (DbType = Int32), @__month_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [e].[Id], [e].[Amount], [e].[Category], [e].[CreatedAt], [e].[Description], [e].[ExpenseDate], [e].[MaintenanceId], [e].[Notes], [e].[RecordedBy], [e].[UpdatedAt]
+      FROM [Expenses] AS [e]
+      WHERE DATEPART(year, [e].[ExpenseDate]) = @__year_0 AND DATEPART(month, [e].[ExpenseDate]) = @__month_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@__month_0='?' (Size = 7)], CommandType='Text', CommandTimeout='30']
+      SELECT [p].[Id], [p].[Amount], [p].[CreatedAt], [p].[GeneratedBy], [p].[HouseCode], [p].[Month], [p].[PaymentDate], [p].[RecordedBy], [p].[ReferenceNumber], [p].[Status], [p].[UpdatedAt]
+      FROM [Payments] AS [p]
+      WHERE [p].[Month] = @__month_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 316f4c00-38b8-4b74-908c-e834ec5a5a89 created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (141ms) [Parameters=[@__year_0='?' (DbType = Int32), @__month_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [e].[Id], [e].[Amount], [e].[Category], [e].[CreatedAt], [e].[Description], [e].[ExpenseDate], [e].[MaintenanceId], [e].[Notes], [e].[RecordedBy], [e].[UpdatedAt]
+      FROM [Expenses] AS [e]
+      WHERE DATEPART(year, [e].[ExpenseDate]) = @__year_0 AND DATEPART(month, [e].[ExpenseDate]) = @__month_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (141ms) [Parameters=[@__month_0='?' (Size = 7)], CommandType='Text', CommandTimeout='30']
+      SELECT [p].[Id], [p].[Amount], [p].[CreatedAt], [p].[GeneratedBy], [p].[HouseCode], [p].[Month], [p].[PaymentDate], [p].[RecordedBy], [p].[ReferenceNumber], [p].[Status], [p].[UpdatedAt]
+      FROM [Payments] AS [p]
+      WHERE [p].[Month] = @__month_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification fedc3fde-7e4c-4d65-bf09-ab5b3f1e8dd6 created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (141ms) [Parameters=[@__year_0='?' (DbType = Int32), @__month_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [e].[Id], [e].[Amount], [e].[Category], [e].[CreatedAt], [e].[Description], [e].[ExpenseDate], [e].[MaintenanceId], [e].[Notes], [e].[RecordedBy], [e].[UpdatedAt]
+      FROM [Expenses] AS [e]
+      WHERE DATEPART(year, [e].[ExpenseDate]) = @__year_0 AND DATEPART(month, [e].[ExpenseDate]) = @__month_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (141ms) [Parameters=[@__month_0='?' (Size = 7)], CommandType='Text', CommandTimeout='30']
+      SELECT [p].[Id], [p].[Amount], [p].[CreatedAt], [p].[GeneratedBy], [p].[HouseCode], [p].[Month], [p].[PaymentDate], [p].[RecordedBy], [p].[ReferenceNumber], [p].[Status], [p].[UpdatedAt]
+      FROM [Payments] AS [p]
+      WHERE [p].[Month] = @__month_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 40844e34-b058-4234-b918-306b5e298137 created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (141ms) [Parameters=[@__year_0='?' (DbType = Int32), @__month_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [e].[Id], [e].[Amount], [e].[Category], [e].[CreatedAt], [e].[Description], [e].[ExpenseDate], [e].[MaintenanceId], [e].[Notes], [e].[RecordedBy], [e].[UpdatedAt]
+      FROM [Expenses] AS [e]
+      WHERE DATEPART(year, [e].[ExpenseDate]) = @__year_0 AND DATEPART(month, [e].[ExpenseDate]) = @__month_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@__month_0='?' (Size = 7)], CommandType='Text', CommandTimeout='30']
+      SELECT [p].[Id], [p].[Amount], [p].[CreatedAt], [p].[GeneratedBy], [p].[HouseCode], [p].[Month], [p].[PaymentDate], [p].[RecordedBy], [p].[ReferenceNumber], [p].[Status], [p].[UpdatedAt]
+      FROM [Payments] AS [p]
+      WHERE [p].[Month] = @__month_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 3188ca11-0180-4962-bdbb-99dfb09d6baf created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@__year_0='?' (DbType = Int32), @__month_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [e].[Id], [e].[Amount], [e].[Category], [e].[CreatedAt], [e].[Description], [e].[ExpenseDate], [e].[MaintenanceId], [e].[Notes], [e].[RecordedBy], [e].[UpdatedAt]
+      FROM [Expenses] AS [e]
+      WHERE DATEPART(year, [e].[ExpenseDate]) = @__year_0 AND DATEPART(month, [e].[ExpenseDate]) = @__month_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@__month_0='?' (Size = 7)], CommandType='Text', CommandTimeout='30']
+      SELECT [p].[Id], [p].[Amount], [p].[CreatedAt], [p].[GeneratedBy], [p].[HouseCode], [p].[Month], [p].[PaymentDate], [p].[RecordedBy], [p].[ReferenceNumber], [p].[Status], [p].[UpdatedAt]
+      FROM [Payments] AS [p]
+      WHERE [p].[Month] = @__month_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification fbcba277-1813-467d-89b6-1ec7cbdf6845 created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@__year_0='?' (DbType = Int32), @__month_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [e].[Id], [e].[Amount], [e].[Category], [e].[CreatedAt], [e].[Description], [e].[ExpenseDate], [e].[MaintenanceId], [e].[Notes], [e].[RecordedBy], [e].[UpdatedAt]
+      FROM [Expenses] AS [e]
+      WHERE DATEPART(year, [e].[ExpenseDate]) = @__year_0 AND DATEPART(month, [e].[ExpenseDate]) = @__month_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 5f7dec08-bf15-432e-a71c-ba1e54ab1ddc created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (144ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 9e10a324-5fc4-4ab1-9a70-ef409385b20d created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (146ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 71809ce0-db61-4560-8267-cac8d8c3bdb7 created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 4536efba-4432-4fb4-9e0b-2fb3a0d287ed created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 8fbb79bf-8165-4bce-b9f5-0e330aaaeccc created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 63a8a74c-fea5-4307-94a3-5c0ae1b5f82f created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (147ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 8d5f92bd-46d8-4d89-97f0-0ccd9015e042 created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (145ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification b345caff-f5d0-42bc-aad4-0a09a4a6966e created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (144ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 130c1984-3ac5-451e-a442-35f1d48fc56b created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (144ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (146ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 85e89542-d383-4477-ae40-4439fb3a381f created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (148ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (150ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification c9790dbe-0066-4bce-8cb5-6b026e253203 created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 6643cd92-9d62-46c5-ab3f-833566bed780 created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 205551b6-3b6d-4504-90b4-398e9c8908c3 created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification fb5d4923-f90c-4f34-af41-8080b0f498b7 created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification e94e4f34-158a-4666-a17e-e967b5e0fd3e created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification c80dbdd3-ee3a-42ba-850c-498ea9287355 created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification b3661ce4-cd9a-49c1-b150-4d89a12a9c46 created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification d9009ce2-6a21-40c0-80f9-ec145eca4d0f created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 36d99e61-3ff1-4a32-a90c-e83a2c182903 created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (143ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification 15bd592d-d84e-4cb7-94bb-03a3d5e23ca8 created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+info: ElMansourSyndicManager.Infrastructure.Services.NotificationService[0]
+      Notification b13c3e2f-0cf1-4080-9634-f5c4022ae9e6 created for user (null)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (142ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([Id], [CreatedAt], [ExpiresAt], [IsRead], [Message], [Priority], [ReadAt], [RelatedEntityId], [RelatedEntityType], [Title], [Type], [UpdatedAt], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (144ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = DateTime2), @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AuditLogs] ([Id], [Action], [CreatedAt], [Details], [EntityId], [EntityType], [IpAddress], [Timestamp], [UpdatedAt], [UserAgent], [UserId])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);

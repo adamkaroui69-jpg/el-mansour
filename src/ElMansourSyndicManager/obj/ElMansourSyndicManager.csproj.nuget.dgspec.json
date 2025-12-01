@@ -82,14 +82,14 @@
         }
       }
     },
-    "c:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj": {
+    "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj",
         "projectName": "ElMansourSyndicManager.Infrastructure",
-        "projectPath": "c:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj",
+        "projectPath": "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\adamk\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\adamk\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -195,7 +195,7 @@
       }
     },
     "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager\\ElMansourSyndicManager.csproj": {
-      "version": "1.0.33",
+      "version": "1.0.34",
       "restore": {
         "projectUniqueName": "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager\\ElMansourSyndicManager.csproj",
         "projectName": "ElMansourSyndicManager",
@@ -219,8 +219,8 @@
               "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Core\\ElMansourSyndicManager.Core.csproj": {
                 "projectPath": "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Core\\ElMansourSyndicManager.Core.csproj"
               },
-              "c:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj": {
-                "projectPath": "c:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj"
+              "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager.Infrastructure\\ElMansourSyndicManager.Infrastructure.csproj"
               }
             }
           }
@@ -286,6 +286,14 @@
             "Microsoft.Extensions.Logging.Debug": {
               "target": "Package",
               "version": "[8.0.0, )"
+            },
+            "SkiaSharp.NativeAssets.Win32": {
+              "target": "Package",
+              "version": "[2.88.8, )"
+            },
+            "SkiaSharp.Views.WPF": {
+              "target": "Package",
+              "version": "[2.88.8, )"
             }
           },
           "imports": [

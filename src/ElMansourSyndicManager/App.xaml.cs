@@ -25,11 +25,40 @@ public partial class App : Application
         this.DispatcherUnhandledException += App_DispatcherUnhandledException;
     }
 
+    private bool _isHandlingException;
+
     private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
-        MessageBox.Show($"Une erreur inattendue s'est produite : {e.Exception.Message}\n\nDétails : {e.Exception.StackTrace}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-        e.Handled = true;
-        Shutdown();
+        if (_isHandlingException)
+        {
+            e.Handled = true;
+            return;
+        }
+
+        _isHandlingException = true;
+
+        try
+        {
+            string errorMessage = $"Une erreur inattendue s'est produite : {e.Exception.Message}\n\nDétails : {e.Exception.StackTrace}";
+            
+            // Log to file as fallback
+            try 
+            {
+                System.IO.File.AppendAllText("crash_log.txt", $"{DateTime.Now}: {errorMessage}\n--------------------------------\n");
+            }
+            catch { /* Ignore file log errors */ }
+
+            MessageBox.Show(errorMessage, "Erreur Critique", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch
+        {
+            // Ignore errors during error reporting
+        }
+        finally
+        {
+            e.Handled = true;
+            Shutdown();
+        }
     }
 
     protected override async void OnStartup(StartupEventArgs e)
@@ -50,12 +79,18 @@ public partial class App : Application
         // Database Provider
         var dbProvider = configuration["DatabaseProvider"] ?? "Sqlite";
         
-        services.AddDbContext<ApplicationDbContext>(options =>
+        services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
             if (dbProvider.Equals("SqlServer", StringComparison.OrdinalIgnoreCase))
             {
                 var connectionString = configuration.GetConnectionString("SqlServerConnection");
-                options.UseSqlServer(connectionString);
+                options.UseSqlServer(connectionString, sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 3,
+                        maxRetryDelay: TimeSpan.FromSeconds(5),
+                        errorNumbersToAdd: null);
+                });
             }
             else
             {
@@ -65,7 +100,16 @@ public partial class App : Application
                 var dbPath = System.IO.Path.Combine(dataDir, "local.db");
                 options.UseSqlite($"Data Source={dbPath}");
             }
-        });
+            
+            // Enable detailed logging in debug mode
+            #if DEBUG
+            options.EnableSensitiveDataLogging();
+            options.EnableDetailedErrors();
+            #endif
+            
+            // Configure query tracking behavior
+            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        }, ServiceLifetime.Scoped);
 
         ConfigureServices(services);
 

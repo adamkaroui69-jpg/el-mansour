@@ -4,6 +4,7 @@ using ElMansourSyndicManager.Core.Domain.Entities; // Utiliser les entités User
 using ElMansourSyndicManager.Core.Domain.Interfaces.Repositories;
 using ElMansourSyndicManager.Core.Domain.Interfaces.Services;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -14,8 +15,7 @@ namespace ElMansourSyndicManager.Infrastructure.Services;
 /// </summary>
 public class AuthenticationService : IAuthenticationService
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IAuditService _auditService;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ILogger<AuthenticationService> _logger;
     private UserDto? _currentUser;
     private const int PBKDF2Iterations = 10000;
@@ -23,12 +23,10 @@ public class AuthenticationService : IAuthenticationService
     private const int HashSize = 32;
 
     public AuthenticationService(
-        IUserRepository userRepository,
-        IAuditService auditService,
+        IServiceScopeFactory serviceScopeFactory,
         ILogger<AuthenticationService> logger)
     {
-        _userRepository = userRepository;
-        _auditService = auditService;
+        _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
     }
 
@@ -50,12 +48,16 @@ public class AuthenticationService : IAuthenticationService
             if (string.IsNullOrWhiteSpace(code) || code.Length != 6 || !code.All(char.IsDigit))
                 throw new ValidationException("Code must be exactly 6 digits");
 
+            using var scope = _serviceScopeFactory.CreateScope();
+            var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+            var auditService = scope.ServiceProvider.GetRequiredService<IAuditService>();
+
             // Find user by house code
-            var user = await _userRepository.GetByHouseCodeAsync(houseCode); // Supprimé cancellationToken
+            var user = await userRepository.GetByHouseCodeAsync(houseCode);
             if (user == null)
             {
                 _logger.LogWarning("Authentication failed: User not found for house code {HouseCode}", houseCode);
-                await _auditService.LogActivityAsync(new AuditLogDto
+                await auditService.LogActivityAsync(new AuditLogDto
                 {
                     Action = "Login",
                     EntityType = "User",
@@ -81,11 +83,11 @@ public class AuthenticationService : IAuthenticationService
             }
 
             // Verify password
-            var isValid = VerifyPassword(code, user.PasswordHash, user.PasswordSalt); // Utiliser user.PasswordSalt
+            var isValid = VerifyPassword(code, user.PasswordHash, user.PasswordSalt);
             if (!isValid)
             {
                 _logger.LogWarning("Authentication failed: Invalid code for user {UserId}", user.Id);
-                await _auditService.LogActivityAsync(new AuditLogDto
+                await auditService.LogActivityAsync(new AuditLogDto
                 {
                     UserId = user.Id.ToString(),
                     Action = "Login",
@@ -101,13 +103,13 @@ public class AuthenticationService : IAuthenticationService
             }
 
             // Update last login
-            await _userRepository.UpdateLastLoginAsync(user.Id, DateTime.UtcNow, cancellationToken);
+            await userRepository.UpdateLastLoginAsync(user.Id, DateTime.UtcNow, cancellationToken);
 
             // Set current user
             _currentUser = MapToDto(user);
 
             // Log successful authentication
-            await _auditService.LogActivityAsync(new AuditLogDto
+            await auditService.LogActivityAsync(new AuditLogDto
             {
                 UserId = user.Id.ToString(),
                 Action = "Login",
@@ -134,7 +136,10 @@ public class AuthenticationService : IAuthenticationService
     {
         if (_currentUser != null)
         {
-            await _auditService.LogActivityAsync(new AuditLogDto
+            using var scope = _serviceScopeFactory.CreateScope();
+            var auditService = scope.ServiceProvider.GetRequiredService<IAuditService>();
+
+            await auditService.LogActivityAsync(new AuditLogDto
             {
                 UserId = _currentUser.Id.ToString(),
                 Action = "Logout",
@@ -163,12 +168,16 @@ public class AuthenticationService : IAuthenticationService
         if (string.IsNullOrWhiteSpace(newCode) || newCode.Length != 6 || !newCode.All(char.IsDigit))
             throw new ValidationException("New code must be exactly 6 digits");
 
-        // Verify current password
-        var user = await _userRepository.GetByIdAsync(_currentUser.Id, cancellationToken);
-        if (user == null)
-            throw new NotFoundException("User", _currentUser.Id.ToString()); // Converti Guid en string pour l'exception
+        using var scope = _serviceScopeFactory.CreateScope();
+        var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+        var auditService = scope.ServiceProvider.GetRequiredService<IAuditService>();
 
-        var isValid = VerifyPassword(currentCode, user.PasswordHash, user.PasswordSalt); // Utiliser user.PasswordSalt
+        // Verify current password
+        var user = await userRepository.GetByIdAsync(_currentUser.Id, cancellationToken);
+        if (user == null)
+            throw new NotFoundException("User", _currentUser.Id.ToString());
+
+        var isValid = VerifyPassword(currentCode, user.PasswordHash, user.PasswordSalt);
         if (!isValid)
             throw new ValidationException("Current code is incorrect");
 
@@ -176,10 +185,10 @@ public class AuthenticationService : IAuthenticationService
         var (hash, salt) = HashPassword(newCode);
 
         // Update password
-        await _userRepository.UpdatePasswordAsync(_currentUser.Id, hash, salt, cancellationToken);
+        await userRepository.UpdatePasswordAsync(_currentUser.Id, hash, salt, cancellationToken);
 
         // Log activity
-        await _auditService.LogActivityAsync(new AuditLogDto
+        await auditService.LogActivityAsync(new AuditLogDto
         {
             UserId = _currentUser?.Id.ToString(),
             Action = "Update",
@@ -198,8 +207,11 @@ public class AuthenticationService : IAuthenticationService
         if (_currentUser == null)
             return false;
 
+        using var scope = _serviceScopeFactory.CreateScope();
+        var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+
         // Check if user still exists and is active
-        var user = await _userRepository.GetByIdAsync(_currentUser.Id, cancellationToken);
+        var user = await userRepository.GetByIdAsync(_currentUser.Id, cancellationToken);
         if (user == null || !user.IsActive)
         {
             _currentUser = null;

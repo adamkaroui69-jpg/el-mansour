@@ -12,50 +12,51 @@
 
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="24">
+            <StackPanel Margin="0">
                 <!-- Header -->
                 <Grid Margin="0,0,0,32">
                     <StackPanel>
-                        <TextBlock Text="Gestion des Paiements" FontSize="28" FontWeight="Bold" Foreground="#333"/>
-                        <TextBlock Text="Suivez et gérez les cotisations des résidents" FontSize="16" Foreground="#777" Margin="0,4,0,0"/>
+                        <TextBlock Text="Gestion des Paiements" FontSize="32" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                        <TextBlock Text="Suivez et gérez les cotisations des résidents" FontSize="16" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0"/>
                     </StackPanel>
                     <Button Command="{Binding ShowCreateFormCommand}"
-                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Style="{StaticResource ModernButton}"
                             Content="Nouveau Paiement"
                             HorizontalAlignment="Right"
-                            Height="36"/>
+                            Width="180"/>
                 </Grid>
 
                 <!-- Filters Card -->
-                <materialDesign:Card UniformCornerRadius="12" Background="White" Margin="0,0,0,16" Padding="20">
+                <Border Style="{StaticResource GlassCard}" Margin="0,0,0,24" Padding="24">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Mois sélectionné:" FontSize="14" Foreground="#777" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                        <TextBlock Text="Mois sélectionné:" FontSize="14" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,16,0"/>
                         <DatePicker SelectedDate="{Binding SelectedMonthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Width="150"
+                                    Width="200"
                                     materialDesign:HintAssist.Hint="Choisir le mois"
                                     Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                                    Foreground="{StaticResource TextPrimaryBrush}"
                                     VerticalAlignment="Center"
                                     Margin="0,0,24,0"/>
                         <Button Command="{Binding RefreshCommand}" 
                                 Style="{StaticResource MaterialDesignOutlinedButton}" 
                                 Content="Actualiser"
-                                Height="36"/>
+                                Foreground="{StaticResource PrimaryBrush}"
+                                BorderBrush="{StaticResource PrimaryBrush}"
+                                Height="40"/>
                     </StackPanel>
-                </materialDesign:Card>
+                </Border>
 
                 <!-- Payments List Card -->
-                <materialDesign:Card UniformCornerRadius="12" Background="White">
+                <Border Style="{StaticResource GlassCard}" Padding="0">
                     <StackPanel>
-                        <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
-                            <Grid>
-                                <TextBlock Text="Liste des Paiements" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
-                                <TextBlock Text="{Binding Payments.Count, StringFormat='{}{0} enregistrements'}" 
-                                          Foreground="#999" 
-                                          HorizontalAlignment="Right"
-                                          VerticalAlignment="Center" 
-                                          FontSize="13"/>
-                            </Grid>
-                        </Border>
+                        <Grid Margin="24">
+                            <TextBlock Text="Liste des Paiements" FontWeight="SemiBold" FontSize="20" Foreground="{StaticResource TextPrimaryBrush}"/>
+                            <TextBlock Text="{Binding Payments.Count, StringFormat='{}{0} enregistrements'}" 
+                                      Foreground="{StaticResource TextSecondaryBrush}" 
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center" 
+                                      FontSize="14"/>
+                        </Grid>
 
                         <DataGrid ItemsSource="{Binding Payments}"
                                  SelectedItem="{Binding SelectedPayment}"
@@ -64,17 +65,57 @@
                                  CanUserAddRows="False"
                                  IsReadOnly="True"
                                  BorderThickness="0"
-                                 Background="White"
-                                 RowBackground="White"
-                                 AlternatingRowBackground="#F9FAFB"
-                                 GridLinesVisibility="Horizontal"
-                                 HorizontalGridLinesBrush="#E5E7EB"
-                                 Padding="0,8">
+                                 Background="Transparent"
+                                 GridLinesVisibility="None"
+                                 materialDesign:DataGridAssist.CellPadding="16 12 12 12">
+                            <DataGrid.Resources>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                    <Setter Property="FontSize" Value="13"/>
+                                    <Setter Property="Padding" Value="16,12,12,12"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="BorderBrush" Value="#20FFFFFF"/>
+                                </Style>
+                                <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                </Style>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="BorderBrush" Value="#10FFFFFF"/>
+                                </Style>
+                            </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Maison" Binding="{Binding HouseCode}" Width="120"/>
+                                <DataGridTemplateColumn Header="Maison" Width="150">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border Width="32" Height="32" CornerRadius="10" Background="#20FFFFFF" Margin="0,0,12,0">
+                                                    <TextBlock Text="{Binding HouseCode}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                                                </Border>
+                                                <TextBlock Text="{Binding HouseCode}" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                
                                 <DataGridTextColumn Header="Montant" Binding="{Binding Amount, StringFormat={}{0:N2} TND}" Width="150" FontWeight="Bold"/>
                                 <DataGridTextColumn Header="Date" Binding="{Binding PaymentDate, StringFormat={}{0:dd/MM/yyyy}}" Width="150"/>
-                                <DataGridTextColumn Header="Statut" Binding="{Binding Status}" Width="120"/>
+                                
+                                <DataGridTemplateColumn Header="Statut" Width="150">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border Background="#2010B981" CornerRadius="6" Padding="10,4" HorizontalAlignment="Left">
+                                                <TextBlock Text="{Binding Status}" Foreground="#10B981" FontSize="12" FontWeight="SemiBold"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                
                                 <DataGridTemplateColumn Header="Actions" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -83,14 +124,14 @@
                                                        CommandParameter="{Binding}"
                                                        Style="{StaticResource MaterialDesignIconButton}"
                                                        ToolTip="Marquer comme payé"
-                                                       Foreground="#4CAF50">
+                                                       Foreground="#10B981">
                                                     <materialDesign:PackIcon Kind="CheckCircleOutline"/>
                                                 </Button>
                                                 <Button Command="{Binding DataContext.GenerateReceiptCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                                        CommandParameter="{Binding}"
                                                        Style="{StaticResource MaterialDesignIconButton}"
                                                        ToolTip="Générer le reçu"
-                                                       Foreground="#2196F3"
+                                                       Foreground="#3B82F6"
                                                        Margin="8,0,0,0">
                                                     <materialDesign:PackIcon Kind="FileDocumentOutline"/>
                                                 </Button>
@@ -98,7 +139,7 @@
                                                        CommandParameter="{Binding}"
                                                        Style="{StaticResource MaterialDesignIconButton}"
                                                        ToolTip="Supprimer (Admin uniquement)"
-                                                       Foreground="#F44336"
+                                                       Foreground="#EF4444"
                                                        Margin="8,0,0,0"
                                                        Visibility="{Binding DataContext.IsAdmin, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}">
                                                     <materialDesign:PackIcon Kind="DeleteOutline"/>
@@ -110,15 +151,15 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
-                </materialDesign:Card>
+                </Border>
             </StackPanel>
         </ScrollViewer>
 
         <!-- Create Payment Form Overlay -->
         <Grid Background="#B0000000" Visibility="{Binding IsFormVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <materialDesign:Card Width="500" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="24" UniformCornerRadius="12">
+            <Border Style="{StaticResource GlassCard}" Width="500" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="32">
                 <StackPanel>
-                    <TextBlock Text="Nouveau Paiement" FontSize="22" FontWeight="SemiBold" Foreground="#333" Margin="0,0,0,24"/>
+                    <TextBlock Text="Nouveau Paiement" FontSize="24" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,32"/>
 
                     <ComboBox ItemsSource="{Binding Houses}" 
                               SelectedValue="{Binding SelectedHouseCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -126,39 +167,44 @@
                               SelectedValuePath="Code"
                               materialDesign:HintAssist.Hint="Sélectionner une maison" 
                               Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                              Margin="0,0,0,16"/>
+                              Foreground="{StaticResource TextPrimaryBrush}"
+                              Margin="0,0,0,24"/>
                     
                     <TextBox Text="{Binding PaymentAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              materialDesign:HintAssist.Hint="Montant (TND)" 
-                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                             Margin="0,0,0,16"/>
+                             Style="{StaticResource ModernTextBox}" 
+                             Margin="0,0,0,24"/>
                     
                     <DatePicker SelectedDate="{Binding TargetMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                materialDesign:HintAssist.Hint="Mois concerné (Sélectionnez n'importe quel jour)" 
+                                materialDesign:HintAssist.Hint="Mois concerné" 
                                 Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
-                                Margin="0,0,0,16"/>
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                Margin="0,0,0,24"/>
 
                     <DatePicker SelectedDate="{Binding PaymentDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                 materialDesign:HintAssist.Hint="Date de paiement" 
                                 Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
-                                Margin="0,0,0,24"/>
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                Margin="0,0,0,40"/>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Command="{Binding CancelFormCommand}" 
                                 Style="{StaticResource MaterialDesignFlatButton}" 
                                 Content="Annuler" 
-                                Margin="0,0,12,0"/>
+                                Foreground="{StaticResource TextSecondaryBrush}"
+                                Margin="0,0,16,0"/>
                         <Button Command="{Binding CreatePaymentCommand}" 
-                                Style="{StaticResource MaterialDesignRaisedButton}" 
-                                Content="Créer le Paiement"/>
+                                Style="{StaticResource ModernButton}" 
+                                Content="Créer le Paiement"
+                                Width="160"/>
                     </StackPanel>
                 </StackPanel>
-            </materialDesign:Card>
+            </Border>
         </Grid>
 
         <!-- Loading Overlay -->
         <Grid Background="#80000000" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Value="0" IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Value="0" IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource PrimaryBrush}"/>
         </Grid>
     </Grid>
 </UserControl>

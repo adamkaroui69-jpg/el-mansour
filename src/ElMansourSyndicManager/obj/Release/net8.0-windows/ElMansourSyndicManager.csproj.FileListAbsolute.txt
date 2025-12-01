@@ -1,3 +1,4 @@
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\logo png.png
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\Assets\logo.png
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\Assets\logo.ico
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\appsettings.json
@@ -29,7 +30,11 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\Azure.Core.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\Azure.Identity.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\ControlzEx.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\HarfBuzzSharp.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\Humanizer.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\LiveChartsCore.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\LiveChartsCore.SkiaSharpView.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\LiveChartsCore.SkiaSharpView.WPF.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\MahApps.Metro.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\MaterialDesignColors.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\MaterialDesignThemes.Wpf.dll
@@ -86,6 +91,10 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\Mono.TextTemplating.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\QRCoder.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\QuestPDF.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\SkiaSharp.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\SkiaSharp.HarfBuzz.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\SkiaSharp.Views.Desktop.Common.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\SkiaSharp.Views.WPF.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\SQLitePCLRaw.batteries_v2.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\SQLitePCLRaw.core.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\SQLitePCLRaw.provider.e_sqlite3.dll
@@ -173,6 +182,10 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\osx\native\libHarfBuzzSharp.dylib
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\win-arm64\native\libHarfBuzzSharp.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\win-x64\native\libHarfBuzzSharp.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\win-x86\native\libHarfBuzzSharp.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
@@ -189,6 +202,10 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\osx-x64\native\libQuestPdfSkia.dylib
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\win-x64\native\QuestPdfSkia.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\win-x86\native\QuestPdfSkia.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\osx\native\libSkiaSharp.dylib
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\win-arm64\native\libSkiaSharp.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\win-x64\native\libSkiaSharp.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\win-x86\native\libSkiaSharp.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\browser-wasm\nativeassets\net8.0\e_sqlite3.a
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\linux-arm\native\libe_sqlite3.so
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\runtimes\linux-arm64\native\libe_sqlite3.so
@@ -216,7 +233,7 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\ElMansourSyndicManager.Core.pdb
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\ElMansourSyndicManager.Infrastructure.pdb
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\ElMansourSyndicManager.csproj.AssemblyReference.cache
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\Views\DashboardView.baml
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\Resources\ModernStyles.baml
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\Views\LoginWindow.baml
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\Views\PaymentsView.baml
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\Views\ReceiptsView.baml
@@ -243,6 +260,7 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\Resources\Converters.baml
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\Views\AuditView.baml
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\Views\BackupView.baml
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\Views\DashboardView.baml
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\Views\DocumentsView.baml
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\Views\ExpensesView.baml
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\Views\NotificationsView.baml
@@ -261,4 +279,3 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\ElMansourSyndicManager.pdb
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\ElMansourSyndicManager.genruntimeconfig.cache
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\ref\ElMansourSyndicManager.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\logo png.png

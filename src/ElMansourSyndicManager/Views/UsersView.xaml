@@ -10,7 +10,6 @@
              d:DesignHeight="600" d:DesignWidth="900"
              d:DataContext="{d:DesignInstance viewModels:UsersViewModel}">
     
-    
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
@@ -20,44 +19,64 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
             <!-- Main Content -->
-            <StackPanel Margin="24">
+            <StackPanel Margin="0">
                 <!-- Header -->
                 <Grid Margin="0,0,0,32">
                     <StackPanel>
-                        <TextBlock Text="Gestion des Utilisateurs" FontSize="28" FontWeight="Bold" Foreground="#333"/>
-                        <TextBlock Text="Administration des comptes et permissions" FontSize="16" Foreground="#777" Margin="0,4,0,0"/>
+                        <TextBlock Text="Gestion des Utilisateurs" FontSize="32" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                        <TextBlock Text="Administration des comptes et permissions" FontSize="16" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0"/>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                         <Button Command="{Binding LoadUsersCommand}" 
                                 Style="{StaticResource MaterialDesignOutlinedButton}" 
                                 Content="Actualiser" 
-                                Margin="0,0,12,0"
-                                Height="36"/>
+                                Foreground="{StaticResource PrimaryBrush}"
+                                BorderBrush="{StaticResource PrimaryBrush}"
+                                Margin="0,0,16,0"
+                                Height="40"/>
                         <Button Command="{Binding CreateUserCommand}" 
-                                Style="{StaticResource MaterialDesignRaisedButton}" 
+                                Style="{StaticResource ModernButton}" 
                                 Content="Nouvel Utilisateur"
-                                Height="36"/>
+                                Width="180"/>
                     </StackPanel>
                 </Grid>
 
                 <!-- DataGrid Card -->
-                <materialDesign:Card UniformCornerRadius="12" Background="White">
+                <Border Style="{StaticResource GlassCard}" Padding="0">
                     <StackPanel>
-                        <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
-                            <TextBlock Text="Liste des Utilisateurs" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
-                        </Border>
+                        <Grid Margin="24">
+                            <TextBlock Text="Liste des Utilisateurs" FontWeight="SemiBold" FontSize="20" Foreground="{StaticResource TextPrimaryBrush}"/>
+                        </Grid>
                         
                         <DataGrid ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" 
                                   AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
                                   HeadersVisibility="Column"
                                   BorderThickness="0"
-                                  Background="White"
-                                  RowBackground="White"
-                                  AlternatingRowBackground="#F9FAFB"
-                                  GridLinesVisibility="Horizontal"
-                                  HorizontalGridLinesBrush="#E5E7EB"
-                                  Padding="0,8"
+                                  Background="Transparent"
+                                  GridLinesVisibility="None"
+                                  materialDesign:DataGridAssist.CellPadding="16 12 12 12"
                                   SelectionMode="Single">
+                            <DataGrid.Resources>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                    <Setter Property="FontSize" Value="13"/>
+                                    <Setter Property="Padding" Value="16,12,12,12"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="BorderBrush" Value="#20FFFFFF"/>
+                                </Style>
+                                <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                </Style>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="BorderBrush" Value="#10FFFFFF"/>
+                                </Style>
+                            </DataGrid.Resources>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Nom d'utilisateur" Binding="{Binding Username}" Width="*"/>
                                 <DataGridTextColumn Header="Rôle" Binding="{Binding Role}" Width="150"/>
@@ -70,14 +89,15 @@
                                                 <Button Command="{Binding DataContext.UpdateUserCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" 
                                                         CommandParameter="{Binding}"
                                                         Style="{StaticResource MaterialDesignIconButton}" 
-                                                        ToolTip="Modifier">
+                                                        ToolTip="Modifier"
+                                                        Foreground="{StaticResource PrimaryBrush}">
                                                     <materialDesign:PackIcon Kind="Pencil"/>
                                                 </Button>
                                                 <Button Command="{Binding DataContext.DeleteUserCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" 
                                                         CommandParameter="{Binding}"
                                                         Style="{StaticResource MaterialDesignIconButton}" 
                                                         ToolTip="Supprimer (Admin uniquement)"
-                                                        Foreground="Red"
+                                                        Foreground="{StaticResource ErrorBrush}"
                                                         Visibility="{Binding DataContext.IsAdmin, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}">
                                                     <materialDesign:PackIcon Kind="Delete"/>
                                                 </Button>
@@ -96,40 +116,69 @@
                             </DataGrid.ContextMenu>
                         </DataGrid>
                     </StackPanel>
-                </materialDesign:Card>
+                </Border>
             </StackPanel>
 
             <!-- Loading Overlay -->
             <Grid Background="#80000000" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Value="0" IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Value="0" IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource PrimaryBrush}"/>
             </Grid>
 
             <!-- Form Overlay -->
             <Grid Background="#B0000000" Visibility="{Binding IsFormVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <materialDesign:Card Width="500" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="24" UniformCornerRadius="12">
+                <Border Style="{StaticResource GlassCard}" Width="500" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="32">
                     <StackPanel>
-                        <TextBlock Text="{Binding FormTitle}" FontSize="22" FontWeight="SemiBold" Foreground="#333" Margin="0,0,0,24"/>
+                        <TextBlock Text="{Binding FormTitle}" FontSize="24" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,32"/>
 
-                        <TextBox Text="{Binding FormName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Prénom" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,16"/>
+                        <TextBox Text="{Binding FormName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 materialDesign:HintAssist.Hint="Prénom" 
+                                 Style="{StaticResource ModernTextBox}" 
+                                 Margin="0,0,0,24"/>
                         
-                        <TextBox Text="{Binding FormSurname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Nom" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,16"/>
+                        <TextBox Text="{Binding FormSurname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 materialDesign:HintAssist.Hint="Nom" 
+                                 Style="{StaticResource ModernTextBox}" 
+                                 Margin="0,0,0,24"/>
                         
-                        <TextBox Text="{Binding FormHouseCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Code Maison" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,16" IsEnabled="{Binding IsEditMode, Converter={StaticResource InverseBooleanConverter}}"/>
+                        <TextBox Text="{Binding FormHouseCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 materialDesign:HintAssist.Hint="Code Maison" 
+                                 Style="{StaticResource ModernTextBox}" 
+                                 Margin="0,0,0,24" 
+                                 IsEnabled="{Binding IsEditMode, Converter={StaticResource InverseBooleanConverter}}"/>
                         
-                        <TextBox Text="{Binding FormCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Mot de passe (6 chiffres)" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,16" Visibility="{Binding IsEditMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
+                        <TextBox Text="{Binding FormCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 materialDesign:HintAssist.Hint="Mot de passe (6 chiffres)" 
+                                 Style="{StaticResource ModernTextBox}" 
+                                 Margin="0,0,0,24" 
+                                 Visibility="{Binding IsEditMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
                         
-                        <ComboBox ItemsSource="{Binding Roles}" SelectedItem="{Binding FormRole, Mode=TwoWay}" materialDesign:HintAssist.Hint="Rôle" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="0,0,0,16"/>
+                        <ComboBox ItemsSource="{Binding Roles}" 
+                                  SelectedItem="{Binding FormRole, Mode=TwoWay}" 
+                                  materialDesign:HintAssist.Hint="Rôle" 
+                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                  Foreground="{StaticResource TextPrimaryBrush}"
+                                  Margin="0,0,0,24"/>
                         
-                        <CheckBox IsChecked="{Binding FormIsActive, Mode=TwoWay}" Content="Compte actif" Margin="0,0,0,16"/>
+                        <CheckBox IsChecked="{Binding FormIsActive, Mode=TwoWay}" 
+                                  Content="Compte actif" 
+                                  Foreground="{StaticResource TextPrimaryBrush}"
+                                  Margin="0,0,0,24"/>
 
-                        <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" TextWrapping="Wrap" Margin="0,0,0,16"/>
+                        <TextBlock Text="{Binding ErrorMessage}" Foreground="{StaticResource ErrorBrush}" TextWrapping="Wrap" Margin="0,0,0,24"/>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
-                            <Button Command="{Binding CancelUserCommand}" Style="{StaticResource MaterialDesignFlatButton}" Content="Annuler" Margin="0,0,12,0"/>
-                            <Button Command="{Binding SaveUserCommand}" Style="{StaticResource MaterialDesignRaisedButton}" Content="Enregistrer"/>
+                            <Button Command="{Binding CancelUserCommand}" 
+                                    Style="{StaticResource MaterialDesignFlatButton}" 
+                                    Content="Annuler" 
+                                    Foreground="{StaticResource TextSecondaryBrush}"
+                                    Margin="0,0,16,0"/>
+                            <Button Command="{Binding SaveUserCommand}" 
+                                    Style="{StaticResource ModernButton}" 
+                                    Content="Enregistrer"
+                                    Width="140"/>
                         </StackPanel>
                     </StackPanel>
-                </materialDesign:Card>
+                </Border>
             </Grid>
         </Grid>
     </ScrollViewer>

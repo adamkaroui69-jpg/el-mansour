@@ -448,16 +448,16 @@ public class ReceiptService : IReceiptService
                         var logoPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logo png.png");
                         if (System.IO.File.Exists(logoPath))
                         {
-                            column.Item().AlignCenter().Width(65).Image(logoPath);
-                            column.Item().PaddingTop(3);
+                            column.Item().AlignCenter().Width(120).Image(logoPath);
+                            column.Item().PaddingTop(5);
                         }
                         
-                        // Title - smaller and centered
+                        // Title - Larger and Blue
                         column.Item().AlignCenter().Text("Reçu de Paiement - Syndic résidence El Mansour")
-                            .SemiBold().FontSize(11).FontColor(Colors.Blue.Darken2);
+                            .Bold().FontSize(16).FontColor(Colors.Blue.Medium);
                         
                         // Decorative line
-                        column.Item().PaddingTop(3).LineHorizontal(2).LineColor(Colors.Blue.Darken2);
+                        column.Item().PaddingTop(5).LineHorizontal(2).LineColor(Colors.Blue.Medium);
                     });
 
                 // Main content
