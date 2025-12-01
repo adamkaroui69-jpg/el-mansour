@@ -398,12 +398,9 @@ public class ReceiptService : IReceiptService
         var pdfBytes = await GenerateReceiptPdfAsync(payment, user, receipt.ReceiptNumber);
 
         // Save locally to restore the file
-        var localFilePath = receipt.FilePath;
-        // If original path is invalid/empty, create a new standard one
-        if (string.IsNullOrEmpty(localFilePath) || !Path.IsPathRooted(localFilePath))
-        {
-            localFilePath = CreateLocalFilePath(payment.HouseCode, payment.Month, receipt.ReceiptNumber);
-        }
+        // FORCE creation of a new local path adapted to the current machine
+        // This fixes the issue where the path from DB is from another PC (e.g. C:\Users\Adam...)
+        var localFilePath = CreateLocalFilePath(payment.HouseCode, payment.Month, receipt.ReceiptNumber);
 
         var directory = Path.GetDirectoryName(localFilePath);
         if (!string.IsNullOrEmpty(directory))
@@ -411,7 +408,7 @@ public class ReceiptService : IReceiptService
 
         await File.WriteAllBytesAsync(localFilePath, pdfBytes, cancellationToken);
 
-        // Update DB if path changed
+        // Update DB with the new valid path for this machine
         if (receipt.FilePath != localFilePath)
         {
             receipt.FilePath = localFilePath;
