@@ -3,7 +3,7 @@
 ; Créé le 2026-01-15
 
 #define MyAppName "El Mansour Syndic Manager"
-#define MyAppVersion "2.0.0"
+#define MyAppVersion "2.1.0"
 #define MyAppPublisher "El Mansour Syndic"
 #define MyAppURL "https://www.elmansour-syndic.tn"
 #define MyAppExeName "ElMansourSyndicManager.exe"
@@ -21,7 +21,7 @@ DefaultDirName={autopf}\ElMansourSyndic
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 OutputDir=Output
-OutputBaseFilename=ElMansourSyndicManager-Setup
+OutputBaseFilename=ElMansourSyndicManager-Setup-v{#MyAppVersion}
 Compression=lzma2/ultra64
 SolidCompression=yes
 WizardStyle=modern
@@ -45,7 +45,7 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Files]
 ; Fichiers de l'application
-Source: "src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "bin\Publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; Documentation
 Source: "GUIDE_INSTALLATION_UTILISATEUR.md"; DestDir: "{app}\Docs"; Flags: ignoreversion

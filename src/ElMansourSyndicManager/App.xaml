@@ -9,16 +9,18 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Teal.xaml" />
+                
+                <!-- Legacy Styles (RÉACTIVÉS - nécessaires pour éviter les erreurs) -->
+                <ResourceDictionary Source="/Resources/ModernStyles.xaml" />
+                <ResourceDictionary Source="/Resources/EnhancedStyles.xaml" />
                 
                 <!-- Custom Converters -->
                 <ResourceDictionary Source="/Resources/Converters.xaml" />
                 
-                <!-- Custom Modern Styles (LAST - to override Material Design) -->
-                <ResourceDictionary Source="/Resources/ModernStyles.xaml" />
-                
-                <!-- Enhanced UI/UX Styles -->
-                <ResourceDictionary Source="/Resources/EnhancedStyles.xaml" />
+                <!-- PROFESSIONAL DESIGN SYSTEM (LAST - Overrides everything) -->
+                <ResourceDictionary Source="/Resources/DesignSystem.xaml" />
+                <ResourceDictionary Source="/Resources/ProfessionalStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

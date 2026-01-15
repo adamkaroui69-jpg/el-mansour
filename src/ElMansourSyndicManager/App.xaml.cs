@@ -1,18 +1,19 @@
+using ElMansourSyndicManager.Core.Configuration;
 using ElMansourSyndicManager.Core.Domain.Interfaces.Services;
 using ElMansourSyndicManager.Infrastructure.Data;
 using ElMansourSyndicManager.Infrastructure.Services;
+using ElMansourSyndicManager.Services;
 using ElMansourSyndicManager.Services.Navigation;
 using ElMansourSyndicManager.ViewModels;
 using ElMansourSyndicManager.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Threading;
+using Serilog;
 using System.IO;
-using ElMansourSyndicManager.Core.Configuration;
+using System.Windows;
+using System.Windows.Threading;
+using MaterialDesignThemes.Wpf;
 
 namespace ElMansourSyndicManager;
 
@@ -22,43 +23,66 @@ public partial class App : Application
 
     public App()
     {
+        // Initialiser le logger global dès le démarrage
+        ConfigureGlobalLogging();
+        
+        // S'abonner aux gestionnaires d'exceptions globaux
         this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
     }
 
-    private bool _isHandlingException;
+    private void ConfigureGlobalLogging()
+    {
+        var config = AppConfiguration.Instance;
+        var logPath = Path.Combine(config.LogsDirectory, "log-.txt");
+
+        // Configuration Serilog robuste
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .Enrich.FromLogContext()
+            // Log dans la console pour le debug
+            .WriteTo.Console()
+            // Log dans les fichiers avec rotation journalière
+            .WriteTo.File(logPath, 
+                rollingInterval: RollingInterval.Day,
+                retainedFileCountLimit: 30,
+                outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+            .CreateLogger();
+
+        Log.Information("Application Démarrée. Version: {Version}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+    }
 
     private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
-        if (_isHandlingException)
-        {
-            e.Handled = true;
-            return;
-        }
+        HandleFatalException(e.Exception, "Erreur UI Non Gérée");
+        e.Handled = true; // Empêcher le crash brutal si possible
+    }
 
-        _isHandlingException = true;
+    private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        if (e.ExceptionObject is Exception ex)
+        {
+            HandleFatalException(ex, "Erreur Critique AppDomain");
+        }
+    }
 
-        try
-        {
-            string errorMessage = $"Une erreur inattendue s'est produite : {e.Exception.Message}\n\nDétails : {e.Exception.StackTrace}";
-            
-            // Log to file as fallback
-            try 
-            {
-                System.IO.File.AppendAllText("crash_log.txt", $"{DateTime.Now}: {errorMessage}\n--------------------------------\n");
-            }
-            catch { /* Ignore file log errors */ }
+    private void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
+    {
+        HandleFatalException(e.Exception, "Erreur Tâche de Fond Non Observée");
+        e.SetObserved();
+    }
 
-            MessageBox.Show(errorMessage, "Erreur Critique", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-        catch
-        {
-            // Ignore errors during error reporting
-        }
-        finally
-        {
-            e.Handled = true;
-            Shutdown();
-        }
+    private void HandleFatalException(Exception ex, string context)
+    {
+        Log.Fatal(ex, "Une erreur critique est survenue: {Context}", context);
+
+        string userMessage = "Une erreur inattendue est survenue.\n\n" +
+                             "L'application a généré un rapport d'erreur dans le dossier 'logs'.\n" +
+                             "Veuillez contacter le support si le problème persiste.\n\n" +
+                             $"Détails: {ex.Message}";
+
+        MessageBox.Show(userMessage, "Erreur de l'Application", MessageBoxButton.OK, MessageBoxImage.Error);
     }
 
     protected override async void OnStartup(StartupEventArgs e)
@@ -72,19 +96,21 @@ public partial class App : Application
         var appConfig = AppConfiguration.Instance;
         var dbPath = appConfig.GetDatabasePath();
         
-        // Directories are already ensured by AppConfiguration constructor
-        
+        // logging with Serilog
+        services.AddLogging(loggingBuilder =>
+        {
+            loggingBuilder.AddSerilog(dispose: true);
+        });
+
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
             options.UseSqlite($"Data Source={dbPath}");
             
-            // Enable detailed logging in debug mode
             #if DEBUG
             options.EnableSensitiveDataLogging();
             options.EnableDetailedErrors();
             #endif
             
-            // Configure query tracking behavior
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }, ServiceLifetime.Scoped);
 
@@ -113,6 +139,7 @@ public partial class App : Application
             }
             catch (Exception ex)
             {
+                Log.Fatal(ex, "Erreur fatale lors de l'initialisation de l'application");
                 MessageBox.Show($"Une erreur critique est survenue au démarrage : {ex.Message}", "Erreur Fatale", MessageBoxButton.OK, MessageBoxImage.Error);
                 Shutdown();
                 return;
@@ -126,18 +153,13 @@ public partial class App : Application
 
     private void ConfigureServices(IServiceCollection services)
     {
-        // 1. Logging
-        services.AddLogging(builder =>
-        {
-            builder.AddConsole();
-            builder.AddDebug();
-        });
-
         // 2. Infrastructure (Repositories & Domain Services)
         services.AddInfrastructureServices();
 
-        // 3. Navigation
+        // 3. Navigation & UI Services
         services.AddSingleton<INavigationService, NavigationService>();
+        services.AddSingleton<ISnackbarMessageQueue, SnackbarMessageQueue>();
+        services.AddSingleton<IDialogService, DialogService>();
 
         // 4. ViewModels
         ConfigureViewModels(services);
@@ -159,7 +181,9 @@ public partial class App : Application
         services.AddTransient<UsersViewModel>();
         services.AddTransient<DocumentsViewModel>();
         services.AddTransient<ReportsViewModel>();
+        services.AddTransient<FinancialReportsViewModel>();
         services.AddTransient<AuditViewModel>();
+        services.AddTransient<RolesViewModel>();
         services.AddTransient<SettingsViewModel>();
         services.AddTransient<MaintenanceViewModel>();
     }
@@ -178,6 +202,7 @@ public partial class App : Application
         services.AddTransient<UsersView>();
         services.AddTransient<DocumentsView>();
         services.AddTransient<ReportsView>();
+        services.AddTransient<FinancialReportsView>();
         services.AddTransient<AuditView>();
         services.AddTransient<SettingsView>();
         services.AddTransient<MaintenanceView>();
@@ -185,6 +210,8 @@ public partial class App : Application
 
     protected override async void OnExit(ExitEventArgs e)
     {
+        Log.Information("Arrêt de l'application...");
+
         try 
         {
             if (_serviceProvider != null)
@@ -197,12 +224,13 @@ public partial class App : Application
                 }
             }
         }
-        catch 
+        catch (Exception ex)
         {
-            // Ignore backup errors on exit to not crash the shutdown process
+            Log.Error(ex, "Erreur lors de la sauvegarde automatique à la fermeture");
         }
 
         _serviceProvider?.Dispose();
+        Log.CloseAndFlush();
         base.OnExit(e);
     }
 

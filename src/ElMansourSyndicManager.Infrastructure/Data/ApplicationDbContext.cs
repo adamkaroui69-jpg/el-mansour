@@ -38,6 +38,8 @@ namespace ElMansourSyndicManager.Infrastructure.Data
         public DbSet<User> Users { get; set; } = default!;
         // Add other DbSets for your entities (e.g., Payments, Receipts, etc.)
         public DbSet<AuditLog> AuditLogs { get; set; } = default!;
+        public DbSet<Role> Roles { get; set; } = default!;
+        public DbSet<RolePermission> RolePermissions { get; set; } = default!;
         public DbSet<Backup> Backups { get; set; } = default!;
         public DbSet<Building> Buildings { get; set; } = default!;
         public DbSet<Expense> Expenses { get; set; } = default!;
@@ -62,6 +64,33 @@ namespace ElMansourSyndicManager.Infrastructure.Data
                 entity.Property(e => e.Role).IsRequired().HasMaxLength(50);
                 entity.Property(e => e.HouseCode).IsRequired().HasMaxLength(50);
                 entity.Property(e => e.IsActive).IsRequired();
+                // Relation User -> Role
+                entity.HasOne(d => d.AssignedRole)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.SetNull);
+            });
+
+            // Configure Role entity
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasIndex(e => e.Name).IsUnique();
+                entity.Property(e => e.Name).IsRequired().HasMaxLength(50);
+                entity.Property(e => e.Description).HasMaxLength(200);
+            });
+
+            // Configure RolePermission entity
+            modelBuilder.Entity<RolePermission>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasIndex(e => new { e.RoleId, e.PermissionCode }).IsUnique();
+                entity.Property(e => e.PermissionCode).IsRequired().HasMaxLength(100);
+                
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Permissions)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             // Configure House entity

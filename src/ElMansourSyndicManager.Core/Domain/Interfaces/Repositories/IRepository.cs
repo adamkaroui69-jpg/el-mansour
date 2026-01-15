@@ -61,9 +61,4 @@ public interface IAuditLogRepository : IRepository<Entities.AuditLog>
 }
 
 
-public interface IBackupRepository : IRepository<Entities.Backup> // Spécifier Entities.Backup
-{
-    Task<List<Entities.Backup>> GetByTypeAsync(string backupType, CancellationToken cancellationToken = default);
-    Task<List<Entities.Backup>> GetByDateRangeAsync(DateTime from, DateTime to, CancellationToken cancellationToken = default);
-    Task<List<Entities.Backup>> GetAutomaticBackupsAsync(CancellationToken cancellationToken = default);
-}
+

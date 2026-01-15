@@ -94,6 +94,30 @@
                              <materialDesign:PackIcon Kind="Information" Width="16" Height="16" Foreground="{StaticResource InfoBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
                              <TextBlock Text="Les sauvegardes sont stockées dans le dossier 'data/backups'." Foreground="{StaticResource TextSecondaryBrush}" FontStyle="Italic"/>
                         </StackPanel>
+
+                        <TextBlock Text="Historique des sauvegardes" FontWeight="SemiBold" FontSize="16" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,24,0,12"/>
+                        <DataGrid ItemsSource="{Binding BackupHistory}" AutoGenerateColumns="False" 
+                                  CanUserAddRows="False" IsReadOnly="True" MaxHeight="200"
+                                  Style="{StaticResource MaterialDesignDataGrid}"
+                                  HeadersVisibility="Column"
+                                  Background="Transparent">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=dd/MM/yyyy HH:mm}" Width="150" Foreground="{StaticResource TextPrimaryBrush}"/>
+                                <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="100" Foreground="{StaticResource TextPrimaryBrush}"/>
+                                <DataGridTextColumn Header="Taille" Binding="{Binding FileSizeDisplay}" Width="100" Foreground="{StaticResource TextPrimaryBrush}"/>
+                                <DataGridTemplateColumn Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding DataContext.RestoreBackupCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                    CommandParameter="{Binding}"
+                                                    Content="Restaurer"
+                                                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                                                    Height="25" Padding="8,0" Margin="0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </StackPanel>
                 </StackPanel>
             </Border>

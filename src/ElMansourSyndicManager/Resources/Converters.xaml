@@ -20,4 +20,8 @@
     <converters:FileSizeConverter x:Key="FileSizeConverter" />
     <converters:InverseStringToVisibilityConverter x:Key="InverseStringToVisibilityConverter" />
     <converters:StringToInitialsConverter x:Key="StringToInitialsConverter" />
+    
+    <!-- Numeric Converters -->
+    <converters:GreaterThanZeroConverter x:Key="GreaterThanZeroConverter" />
+    <converters:LessThanZeroConverter x:Key="LessThanZeroConverter" />
 </ResourceDictionary>

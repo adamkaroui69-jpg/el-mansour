@@ -292,6 +292,20 @@ public class BackupHistoryDTO
     public long FileSize { get; set; }
     public string CreatedBy { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
+    
+    // Properties for UI Binding matching SettingsView Columns
+    public DateTime Date => CreatedAt;
+    public string Type => BackupType;
+    public string FileSizeDisplay
+    {
+        get
+        {
+            if (FileSize < 1024) return $"{FileSize} B";
+            if (FileSize < 1024 * 1024) return $"{FileSize / 1024.0:F2} KB";
+            return $"{FileSize / 1024.0 / 1024.0:F2} MB";
+        }
+    }
+
     public DateTime? ExpiresAt { get; set; }
     public bool IsAutomatic { get; set; }
     public string? Notes { get; set; }

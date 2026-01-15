@@ -6,22 +6,23 @@
     <!-- Style Bancaire/Fintech Professionnel         -->
     <!-- ============================================ -->
     
-    <!-- Couleurs d'Accent (Vert Émeraude + Bleu Foncé) -->
-    <Color x:Key="PrimaryAccent">#10B981</Color>        <!-- Emerald 500 - Vert principal -->
-    <Color x:Key="PrimaryAccentLight">#34D399</Color>   <!-- Emerald 400 -->
-    <Color x:Key="PrimaryAccentDark">#059669</Color>    <!-- Emerald 600 -->
-    <Color x:Key="SecondaryAccent">#1E3A5F</Color>      <!-- Bleu foncé (cartes) -->
-    <Color x:Key="TertiaryAccent">#3B82F6</Color>       <!-- Blue 500 -->
+    <!-- Couleurs d'Accent (Bleu Professionnel - NOUVEAU DESIGN SYSTEM) -->
+    <Color x:Key="PrimaryAccent">#1976D2</Color>        <!-- Blue 700 - Bleu principal -->
+    <Color x:Key="PrimaryAccentLight">#42A5F5</Color>   <!-- Blue 400 -->
+    <Color x:Key="PrimaryAccentDark">#1565C0</Color>    <!-- Blue 800 -->
+    <Color x:Key="SecondaryAccent">#00897B</Color>      <!-- Teal 600 - Émeraude -->
+    <Color x:Key="TertiaryAccent">#FF6F00</Color>       <!-- Orange 800 -->
     
-    <!-- Mode Sombre (Élégant - Bleu Foncé) -->
-    <Color x:Key="DarkBackground">#1E3A5F</Color>       <!-- Bleu foncé -->
-    <Color x:Key="DarkSurface">#2C5282</Color>          <!-- Bleu moyen -->
-    <Color x:Key="DarkCard">#2C5282</Color>             <!-- Bleu moyen -->
-    <Color x:Key="DarkCardElevated">#3B6BA8</Color>     <!-- Bleu clair -->
-    <Color x:Key="DarkTextPrimary">#F9FAFB</Color>      <!-- Gray 50 -->
-    <Color x:Key="DarkTextSecondary">#D1D5DB</Color>    <!-- Gray 300 -->
-    <Color x:Key="DarkBorder">#3B6BA8</Color>           <!-- Bleu clair -->
-    <Color x:Key="DarkBorderSubtle">#2C5282</Color>     <!-- Bleu moyen -->
+    <!-- Mode Sombre (Élégant - Gris Foncé - NOUVEAU DESIGN SYSTEM) -->
+    <Color x:Key="DarkBackground">#1E1E1E</Color>       <!-- Gris foncé -->
+    <Color x:Key="DarkSurface">#1E1E1E</Color>          <!-- Gris foncé -->
+    <Color x:Key="DarkCard">#2D2D2D</Color>             <!-- Gris moyen -->
+    <Color x:Key="DarkCardElevated">#383838</Color>     <!-- Gris clair -->
+    <Color x:Key="DarkTextPrimary">#FFFFFF</Color>      <!-- Blanc -->
+    <Color x:Key="DarkTextSecondary">#B3B3B3</Color>    <!-- Gris clair -->
+    <Color x:Key="DarkBorder">#404040</Color>           <!-- Gris bordure -->
+    <Color x:Key="DarkBorderSubtle">#4A4A4A</Color>     <!-- Gris bordure clair -->
+
     
     <!-- Mode Clair (Style Financier - Très Clair) -->
     <Color x:Key="LightBackground">#F5F7FA</Color>      <!-- Gris très clair -->
@@ -33,11 +34,11 @@
     <Color x:Key="LightBorder">#E5E7EB</Color>          <!-- Gray 200 -->
     <Color x:Key="LightBorderSubtle">#F3F4F6</Color>    <!-- Gray 100 -->
     
-    <!-- Couleurs Fonctionnelles (Modernes) -->
-    <Color x:Key="SuccessColor">#10B981</Color>         <!-- Emerald 500 -->
-    <Color x:Key="WarningColor">#F59E0B</Color>         <!-- Amber 500 -->
-    <Color x:Key="ErrorColor">#EF4444</Color>           <!-- Red 500 -->
-    <Color x:Key="InfoColor">#3B82F6</Color>            <!-- Blue 500 -->
+    <!-- Couleurs Fonctionnelles (NOUVEAU DESIGN SYSTEM) -->
+    <Color x:Key="SuccessColor">#4CAF50</Color>         <!-- Green 500 -->
+    <Color x:Key="WarningColor">#FF9800</Color>         <!-- Orange 500 -->
+    <Color x:Key="ErrorColor">#F44336</Color>           <!-- Red 500 -->
+    <Color x:Key="InfoColor">#2196F3</Color>            <!-- Blue 500 -->
     
     <!-- ============================================ -->
     <!-- BRUSHES DYNAMIQUES                           -->

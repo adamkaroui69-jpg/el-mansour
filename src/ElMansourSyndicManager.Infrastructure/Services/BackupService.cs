@@ -433,6 +433,9 @@ public class BackupService : IBackupService
     /// <summary>
     /// Backs up the SQLite database
     /// </summary>
+    /// <summary>
+    /// Backs up the SQLite database ensuring safeguards for WAL mode
+    /// </summary>
     private async Task BackupDatabaseAsync(string backupFolderPath, CancellationToken cancellationToken)
     {
         try
@@ -444,9 +447,23 @@ public class BackupService : IBackupService
             }
 
             var dbBackupPath = Path.Combine(backupFolderPath, "database.db");
-            await Task.Run(() => File.Copy(_databasePath, dbBackupPath, overwrite: true), cancellationToken);
 
-            _logger.LogInformation("Database backed up to {BackupPath}", dbBackupPath);
+            // Pour SQLite en mode WAL, il est préférable de copier aussi les fichiers wal et shm s'ils existent
+            // Ou de forcer un checkpoint. Ici, nous copions simplement les fichiers auxiliaires si présents.
+            
+            await Task.Run(() => 
+            {
+                File.Copy(_databasePath, dbBackupPath, overwrite: true);
+                
+                string walPath = _databasePath + "-wal";
+                string shmPath = _databasePath + "-shm";
+
+                if (File.Exists(walPath)) File.Copy(walPath, dbBackupPath + "-wal", overwrite: true);
+                if (File.Exists(shmPath)) File.Copy(shmPath, dbBackupPath + "-shm", overwrite: true);
+
+            }, cancellationToken);
+
+            _logger.LogInformation("Database backed up to {BackupPath} (including WAL/SHM if present)", dbBackupPath);
         }
         catch (Exception ex)
         {

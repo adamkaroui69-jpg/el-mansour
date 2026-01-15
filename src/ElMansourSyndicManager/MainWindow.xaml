@@ -67,11 +67,11 @@
                                 <Setter Property="Foreground" Value="White"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#1010B981"/>
-                                <Setter Property="Foreground" Value="#10B981"/>
+                                <Setter TargetName="Border" Property="Background" Value="#151976D2"/>
+                                <Setter Property="Foreground" Value="#1976D2"/>
                                 <Setter Property="FontWeight" Value="SemiBold"/>
                                 <Setter TargetName="SelectionIndicator" Property="Opacity" Value="1"/>
-                                <Setter TargetName="SelectionIndicator" Property="Background" Value="#10B981"/>
+                                <Setter TargetName="SelectionIndicator" Property="Background" Value="#1976D2"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -84,6 +84,7 @@
     <Grid>
 
 
+    <materialDesign:DialogHost Identifier="RootDialog" CloseOnClickAway="True">
         <materialDesign:DrawerHost x:Name="DrawerHost"
                                   IsLeftDrawerOpen="True"
                                   OpenMode="Standard">
@@ -252,7 +253,7 @@
                                     
                                     <!-- En-tête Moderne -->
                                     <Border Grid.Row="0" 
-                                            Background="#10B981" 
+                                            Background="#1976D2" 
                                             CornerRadius="16,16,0,0" 
                                             Padding="20,16">
                                         <Grid>
@@ -390,5 +391,6 @@
                 <materialDesign:Snackbar MessageQueue="{Binding MessageQueue}" Grid.Row="1" />
             </Grid>
         </materialDesign:DrawerHost>
+    </materialDesign:DialogHost>
     </Grid>
 </Window>

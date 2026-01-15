@@ -51,8 +51,8 @@
                 <Setter Property="Background" Value="#F0FDF4"/>
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#DCFCE7"/>
-                <Setter Property="Foreground" Value="#166534"/>
+                <Setter Property="Background" Value="#E3F2FD"/>
+                <Setter Property="Foreground" Value="#1565C0"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -129,8 +129,8 @@
     <!-- Bouton Secondaire (Outline) -->
     <Style x:Key="OutlineButton" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="#10B981"/>
-        <Setter Property="BorderBrush" Value="#10B981"/>
+        <Setter Property="Foreground" Value="#1976D2"/>
+        <Setter Property="BorderBrush" Value="#1976D2"/>
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Padding" Value="20,12"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
@@ -152,7 +152,7 @@
                             <Setter TargetName="border" Property="Background" Value="#F0FDF4"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#DCFCE7"/>
+                            <Setter TargetName="border" Property="Background" Value="#E3F2FD"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

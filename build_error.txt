@@ -1,0 +1,13 @@
+﻿  Identification des projets ├á restaurer...
+  Tous les projets sont ├á jour pour la restauration.
+  ElMansourSyndicManager.Core -> C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Core\bin\Debug\net8.0\ElMansourSyndicManager.Core.dll
+  ElMansourSyndicManager.Infrastructure -> C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager.Infrastructure\bin\Debug\net8.0\ElMansourSyndicManager.Infrastructure.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\Views\FinancialReportsView.xaml(46,34): error MC1000: Erreur de build inconnue, 'MC3024┬á: la propri├®t├® 'System.Windows.Controls.Button.Content' a d├®j├á ├®t├® d├®finie et ne peut l'├¬tre qu'une seule fois. Ligne 46 Position 34.'  [C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\ElMansourSyndicManager.csproj]
+
+├ëCHEC de la build.
+
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\Views\FinancialReportsView.xaml(46,34): error MC1000: Erreur de build inconnue, 'MC3024┬á: la propri├®t├® 'System.Windows.Controls.Button.Content' a d├®j├á ├®t├® d├®finie et ne peut l'├¬tre qu'une seule fois. Ligne 46 Position 34.'  [C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\ElMansourSyndicManager.csproj]
+    0 Avertissement(s)
+    1 Erreur(s)
+
+Temps ├®coul├® 00:00:02.17

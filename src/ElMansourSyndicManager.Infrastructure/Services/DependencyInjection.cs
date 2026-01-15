@@ -24,6 +24,7 @@ public static class DependencyInjection
         services.AddScoped<IReceiptRepository, ReceiptRepository>();
         services.AddScoped<IAuditLogRepository, AuditLogRepository>();
         services.AddScoped<INotificationRepository, NotificationRepository>();
+        services.AddScoped<IBackupRepository, BackupRepository>();
 
         // 2. Domain Services (Business Logic)
         // AuthenticationService must be Singleton to maintain user session across scopes
@@ -36,8 +37,11 @@ public static class DependencyInjection
         services.AddScoped<IReportingService, ReportingService>();
         services.AddScoped<IDocumentService, DocumentService>();
         services.AddScoped<INotificationService, NotificationService>();
-        services.AddScoped<IAuditService, AuditService>();
+        services.AddScoped<IAuditService, AuditService>(); // Service d'audit
+        services.AddScoped<IPermissionService, PermissionService>(); // Service de permissions
         services.AddScoped<IBackupService, BackupService>();
+        services.AddScoped<IFinancialService, FinancialService>(); // Gestion financière (Arriérés, Soldes)
+        services.AddScoped<IExportService, ExportService>(); // Export Excel/CSV
         
         // 3. System Services (Startup & Maintenance)
         services.AddScoped<IAppInitializer, AppInitializer>();

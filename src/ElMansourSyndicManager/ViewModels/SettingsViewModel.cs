@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Windows;
 using MaterialDesignThemes.Wpf;
 
-using MaterialDesignThemes.Wpf;
+
 using ElMansourSyndicManager.Core.Domain.Interfaces.Services;
 
 namespace ElMansourSyndicManager.ViewModels;
@@ -47,30 +47,7 @@ public class SettingsViewModel : ViewModelBase
     private readonly IUpdateService _updateService;
     private readonly IBackupService _backupService;
 
-    public SettingsViewModel(IUpdateService updateService, IBackupService backupService)
-    {
-        _updateService = updateService;
-        _backupService = backupService;
-
-        // Load settings (mocked for now or from Properties.Settings)
-        SelectedTheme = "Clair";
-        SelectedLanguage = "Français";
-        NotificationsEnabled = true;
-        AutoBackupEnabled = true;
-        BackupFrequency = "Quotidien";
-        EnableEmailNotifications = false;
-        EnablePaymentReminders = true;
-
-        SaveCommand = new RelayCommand(SaveSettings);
-        BackupNowCommand = new RelayCommand(async () => await BackupNowAsync());
-        CheckForUpdatesCommand = new RelayCommand(async () => await CheckForUpdatesAsync());
-        
-        // Apply initial theme
-        ApplyTheme(SelectedTheme);
-    }
-    
-    // Default constructor for design time (if needed) fallback
-    public SettingsViewModel() : this(new DesignTimeUpdateService(), new DesignTimeBackupService()) { }
+    public ObservableCollection<ElMansourSyndicManager.Core.Domain.DTOs.BackupHistoryDTO> BackupHistory { get; } = new ObservableCollection<ElMansourSyndicManager.Core.Domain.DTOs.BackupHistoryDTO>();
 
     public string SelectedTheme
     {
@@ -147,11 +124,68 @@ public class SettingsViewModel : ViewModelBase
     public ICommand SaveCommand { get; }
     public ICommand BackupNowCommand { get; }
     public ICommand CheckForUpdatesCommand { get; }
+    public ICommand RestoreBackupCommand { get; }
 
-    private void SaveSettings()
+    public SettingsViewModel(IUpdateService updateService, IBackupService backupService)
+    {
+        _updateService = updateService;
+        _backupService = backupService;
+
+        // Load settings (mocked for now or from Properties.Settings)
+        SelectedTheme = "Clair";
+        SelectedLanguage = "Français";
+        NotificationsEnabled = true;
+        AutoBackupEnabled = true;
+        BackupFrequency = "Quotidien";
+        EnableEmailNotifications = false;
+        EnablePaymentReminders = true;
+
+        SaveCommand = new RelayCommand(SaveSettings);
+        BackupNowCommand = new RelayCommand(async () => await BackupNowAsync());
+        CheckForUpdatesCommand = new RelayCommand(async () => await CheckForUpdatesAsync());
+        RestoreBackupCommand = new RelayCommand<ElMansourSyndicManager.Core.Domain.DTOs.BackupHistoryDTO>(async (b) => await RestoreBackupAsync(b));
+        
+        // Apply initial theme
+        ApplyTheme(SelectedTheme);
+        
+        // Load backups
+        _ = LoadBackupHistoryAsync();
+    }
+    
+    // Default constructor for design time (if needed) fallback
+    public SettingsViewModel() : this(new DesignTimeUpdateService(), new DesignTimeBackupService()) { }
+
+    private async Task LoadBackupHistoryAsync()
+    {
+        try
+        {
+            var backups = await _backupService.GetBackupHistoryAsync();
+            BackupHistory.Clear();
+            foreach (var backup in backups)
+            {
+                BackupHistory.Add(backup);
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log error
+            Debug.WriteLine($"Error loading backups: {ex.Message}");
+        }
+    }
+
+    private async void SaveSettings()
     {
         // Save settings logic here
-        System.Windows.MessageBox.Show("Paramètres enregistrés avec succès.", "Succès", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+        // Update AutoBackup Schedule
+        try 
+        {
+            await _backupService.ScheduleBackupsAsync(AutoBackupEnabled, TimeSpan.FromHours(2)); // Default 2 AM
+            System.Windows.MessageBox.Show("Paramètres enregistrés avec succès.", "Succès", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+             System.Windows.MessageBox.Show($"Erreur lors de l'enregistrement : {ex.Message}", "Erreur", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+        }
     }
 
     private async Task BackupNowAsync()
@@ -159,11 +193,52 @@ public class SettingsViewModel : ViewModelBase
         try 
         {
             await _backupService.RunBackupAsync();
+            await LoadBackupHistoryAsync(); // Refresh list
             System.Windows.MessageBox.Show("Sauvegarde effectuée avec succès.", "Succès", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
         }
         catch (Exception ex)
         {
             System.Windows.MessageBox.Show($"Erreur lors de la sauvegarde : {ex.Message}", "Erreur", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+        }
+    }
+
+    private async Task RestoreBackupAsync(ElMansourSyndicManager.Core.Domain.DTOs.BackupHistoryDTO? backup)
+    {
+        if (backup == null) return;
+
+        var result = MessageBox.Show(
+            "ATTENTION : La restauration va REMPLACER toutes les données actuelles par celles de la sauvegarde.\n\n" +
+            "Cette action est irréversible (une sauvegarde de sécurité de l'état actuel sera tentée).\n\n" +
+            "Voulez-vous vraiment continuer ?",
+            "Confirmation de Restauration",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning);
+
+        if (result == MessageBoxResult.Yes)
+        {
+            try
+            {
+                // Verify file exists
+                if (!System.IO.File.Exists(backup.FilePath))
+                {
+                    MessageBox.Show("Le fichier de sauvegarde est introuvable sur le disque.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                bool success = await _backupService.RestoreBackupAsync(backup.FilePath);
+                
+                if (success)
+                {
+                    MessageBox.Show("Restauration terminée avec succès.\nL'application doit redémarrer.", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                    // Restart Application
+                    System.Diagnostics.Process.Start(System.Diagnostics.Process.GetCurrentProcess().MainModule?.FileName ?? "");
+                    Application.Current.Shutdown();
+                }
+            }
+            catch (Exception ex)
+            {
+                 MessageBox.Show($"Erreur lors de la restauration : {ex.Message}", "Erreur Critique", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 

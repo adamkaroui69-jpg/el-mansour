@@ -1,0 +1,180 @@
+<UserControl x:Class="ElMansourSyndicManager.Views.RolesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1000">
+
+    <materialDesign:DialogHost Identifier="RolesRootDialog" IsOpen="{Binding IsDialogOpen}">
+        <materialDesign:DialogHost.DialogContent>
+            <Grid Width="600" Height="500" Margin="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header Dialog -->
+                <TextBlock Grid.Row="0" 
+                           Margin="0,0,0,16">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignHeadline5TextBlock}">
+                            <Setter Property="Text" Value="Nouveau Rôle"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                    <Setter Property="Text" Value="Modifier le Rôle"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <!-- Form -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBox Text="{Binding RoleName}" 
+                                 materialDesign:HintAssist.Hint="Nom du rôle"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                 Margin="0,0,0,16"/>
+
+                        <TextBox Text="{Binding RoleDescription}" 
+                                 materialDesign:HintAssist.Hint="Description"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                 AcceptsReturn="True"
+                                 Height="80"
+                                 VerticalScrollBarVisibility="Auto"
+                                 Margin="0,0,0,16"/>
+
+                        <TextBlock Text="Permissions" 
+                                   Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                   Margin="0,0,0,8"/>
+
+                        <ItemsControl ItemsSource="{Binding PermissionGroups}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Expander Header="{Binding GroupName}" IsExpanded="True" Margin="0,0,0,8">
+                                        <ItemsControl ItemsSource="{Binding Permissions}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox IsChecked="{Binding IsAssigned}" 
+                                                              Content="{Binding DisplayName}"
+                                                              Margin="16,4,0,4"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Expander>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Footer Dialog -->
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+                    <Button Command="{Binding CancelCommand}"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Content="Annuler"
+                            Margin="0,0,8,0"/>
+                    <Button Command="{Binding SaveRoleCommand}"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Content="Enregistrer"/>
+                </StackPanel>
+            </Grid>
+        </materialDesign:DialogHost.DialogContent>
+
+        <Grid Background="{DynamicResource MaterialDesignPaper}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header Page -->
+            <Grid Grid.Row="0" Margin="32">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <TextBlock Text="Gestion des Rôles" 
+                               Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
+                               FontWeight="Bold"/>
+                    <TextBlock Text="Définissez les accès et permissions des utilisateurs" 
+                               Style="{StaticResource MaterialDesignSubtitle1TextBlock}" 
+                               Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                </StackPanel>
+
+                <Button Grid.Column="1" 
+                        Command="{Binding AddRoleCommand}"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        ToolTip="Ajouter un nouveau rôle">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Plus" Margin="0,0,8,0"/>
+                        <TextBlock Text="Nouveau Rôle"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <!-- Content Page -->
+            <DataGrid Grid.Row="1" 
+                      ItemsSource="{Binding Roles}" 
+                      SelectedItem="{Binding SelectedRole}"
+                      AutoGenerateColumns="False" 
+                      CanUserAddRows="False"
+                      IsReadOnly="True"
+                      SelectionMode="Single"
+                      FrozenColumnCount="1"
+                      Margin="32,0,32,32"
+                      materialDesign:DataGridAssist.CellPadding="16">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Nom" Binding="{Binding Name}" Width="200">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+                    
+                    <DataGridTextColumn Header="Utilisateurs" Binding="{Binding UserCount}" Width="100"/>
+                    
+                    <DataGridTemplateColumn Header="Système" Width="100">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <materialDesign:PackIcon Kind="CheckCircle" 
+                                                         Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                                         Visibility="{Binding IsSystem, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Style="{StaticResource MaterialDesignIconButton}"
+                                            ToolTip="Modifier"
+                                            Command="{Binding DataContext.SelectedRole, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}">
+                                        <!-- Note: Selection triggering edit logic is handled by setter in VM -->
+                                        <materialDesign:PackIcon Kind="Pencil"/>
+                                    </Button>
+                                    
+                                    <Button Style="{StaticResource MaterialDesignIconButton}"
+                                            ToolTip="Supprimer"
+                                            Command="{Binding DataContext.DeleteRoleCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            IsEnabled="{Binding IsSystem, Converter={StaticResource InverseBooleanConverter}}">
+                                        <materialDesign:PackIcon Kind="Delete" Foreground="Red"/>
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </materialDesign:DialogHost>
+</UserControl>

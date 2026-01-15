@@ -31,10 +31,12 @@ public class MainViewModel : ViewModelBase, IDisposable
 
     public MainViewModel(
         IServiceScopeFactory scopeFactory,
-        ILogger<MainViewModel> logger)
+        ILogger<MainViewModel> logger,
+        ISnackbarMessageQueue snackbarMessageQueue)
     {
         _scopeFactory = scopeFactory;
         _logger = logger;
+        MessageQueue = snackbarMessageQueue;
         
         // Navigation items
         NavigationItems = new ObservableCollection<NavigationItem>
@@ -184,7 +186,7 @@ public class MainViewModel : ViewModelBase, IDisposable
 
     public ICommand MarkAllAsReadCommand { get; }
     
-    public ISnackbarMessageQueue MessageQueue { get; } = new SnackbarMessageQueue();
+    public ISnackbarMessageQueue MessageQueue { get; }
 
     private async Task InitializeNotifications()
     {

@@ -43,30 +43,92 @@
 
         <!-- Filters Card -->
         <Border Grid.Row="1" Style="{StaticResource GlassCard}" Margin="0,0,0,16" Padding="20">
-            <StackPanel Orientation="Horizontal">
-                <DatePicker SelectedDate="{Binding FilterStartDate}" 
-                            materialDesign:HintAssist.Hint="Date de début" 
-                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
-                            Foreground="{StaticResource TextPrimaryBrush}"
-                            Width="150" 
-                            Margin="0,0,16,0"/>
-                <DatePicker SelectedDate="{Binding FilterEndDate}" 
-                            materialDesign:HintAssist.Hint="Date de fin" 
-                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
-                            Foreground="{StaticResource TextPrimaryBrush}"
-                            Width="150" 
-                            Margin="0,0,16,0"/>
-                <TextBox Text="{Binding FilterUserId}" 
-                            materialDesign:HintAssist.Hint="ID Utilisateur" 
-                            Style="{StaticResource ModernTextBox}" 
-                            Width="150" 
-                            Margin="0,0,16,0"/>
-                <Button Command="{Binding FilterCommand}" 
-                        Style="{StaticResource MaterialDesignOutlinedButton}" 
-                        Foreground="{StaticResource TextPrimaryBrush}"
-                        BorderBrush="{StaticResource PrimaryBrush}"
-                        Content="Filtrer"
-                        Height="36"/>
+            <StackPanel>
+                <TextBlock Text="Filtres de Recherche" FontWeight="SemiBold" FontSize="16" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,16"/>
+                
+                <!-- Première ligne de filtres -->
+                <Grid Margin="0,0,0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <DatePicker Grid.Column="0" SelectedDate="{Binding FilterDateFrom}" 
+                                materialDesign:HintAssist.Hint="Date de début" 
+                                Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                Margin="0,0,8,0"/>
+                    
+                    <DatePicker Grid.Column="1" SelectedDate="{Binding FilterDateTo}" 
+                                materialDesign:HintAssist.Hint="Date de fin" 
+                                Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                Margin="4,0,4,0"/>
+                    
+                    <TextBox Grid.Column="2" Text="{Binding FilterUser}" 
+                             materialDesign:HintAssist.Hint="Utilisateur" 
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             Foreground="{StaticResource TextPrimaryBrush}"
+                             Margin="4,0,4,0"/>
+                    
+                    <ComboBox Grid.Column="3" ItemsSource="{Binding Actions}" 
+                              SelectedItem="{Binding FilterAction}"
+                              materialDesign:HintAssist.Hint="Action"
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                              Foreground="{StaticResource TextPrimaryBrush}"
+                              Margin="8,0,0,0"/>
+                </Grid>
+                
+                <!-- Deuxième ligne de filtres -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <ComboBox Grid.Column="0" ItemsSource="{Binding EntityTypes}" 
+                              SelectedItem="{Binding FilterEntityType}"
+                              materialDesign:HintAssist.Hint="Type d'entité"
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                              Foreground="{StaticResource TextPrimaryBrush}"
+                              Margin="0,0,8,0"/>
+                    
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding Severities}" 
+                              SelectedItem="{Binding FilterSeverity}"
+                              materialDesign:HintAssist.Hint="Sévérité"
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                              Foreground="{StaticResource TextPrimaryBrush}"
+                              Margin="4,0,4,0"/>
+                    
+                    <Button Grid.Column="2" Command="{Binding SearchCommand}" 
+                            Style="{StaticResource ModernButton}" 
+                            Content="Rechercher"
+                            Height="36"
+                            Width="120"
+                            Margin="8,0,8,0"/>
+                    
+                    <Button Grid.Column="3" Command="{Binding ClearFiltersCommand}" 
+                            Style="{StaticResource MaterialDesignOutlinedButton}" 
+                            Foreground="{StaticResource TextSecondaryBrush}"
+                            BorderBrush="{StaticResource TextSecondaryBrush}"
+                            Content="Réinitialiser"
+                            Height="36"
+                            Width="120"
+                            Margin="0,0,0,0"/>
+                </Grid>
+                
+                <!-- Statistiques -->
+                <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                    <materialDesign:PackIcon Kind="InformationOutline" Width="16" Height="16" Foreground="{StaticResource InfoBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <TextBlock Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center">
+                        <Run Text="{Binding TotalRecords, Mode=OneWay}"/>
+                        <Run Text="enregistrement(s) trouvé(s)"/>
+                    </TextBlock>
+                </StackPanel>
             </StackPanel>
         </Border>
 
@@ -83,7 +145,7 @@
                 </Border>
                 
                 <DataGrid Grid.Row="1" 
-                          ItemsSource="{Binding Logs}" 
+                          ItemsSource="{Binding AuditLogs}" 
                           AutoGenerateColumns="False" 
                           CanUserAddRows="False" 
                           IsReadOnly="True"
@@ -125,14 +187,16 @@
                         </Style>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Date" Binding="{Binding Timestamp, StringFormat={}{0:dd/MM/yyyy HH:mm:ss}}" Width="180">
+                        <DataGridTextColumn Header="Date" Binding="{Binding Timestamp, StringFormat={}{0:dd/MM/yyyy HH:mm:ss}}" Width="160">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                    <Setter Property="FontSize" Value="12"/>
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Utilisateur" Binding="{Binding UserId}" Width="150">
+                        
+                        <DataGridTextColumn Header="Utilisateur" Binding="{Binding Username}" Width="120">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
@@ -140,7 +204,64 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Action" Binding="{Binding Action}" Width="150">
+                        
+                        <DataGridTextColumn Header="Rôle" Binding="{Binding UserRole}" Width="100">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                    <Setter Property="FontSize" Value="11"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        
+                        <DataGridTemplateColumn Header="Sévérité" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border CornerRadius="12" Padding="8,4" HorizontalAlignment="Center">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Severity}" Value="Info">
+                                                        <Setter Property="Background" Value="#2010B981"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Severity}" Value="Warning">
+                                                        <Setter Property="Background" Value="#20F59E0B"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Severity}" Value="Error">
+                                                        <Setter Property="Background" Value="#20EF4444"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Severity}" Value="Critical">
+                                                        <Setter Property="Background" Value="#20DC2626"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <TextBlock Text="{Binding Severity}" FontSize="11" FontWeight="SemiBold">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Severity}" Value="Info">
+                                                            <Setter Property="Foreground" Value="#10B981"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Severity}" Value="Warning">
+                                                            <Setter Property="Foreground" Value="#F59E0B"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Severity}" Value="Error">
+                                                            <Setter Property="Foreground" Value="#EF4444"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Severity}" Value="Critical">
+                                                            <Setter Property="Foreground" Value="#DC2626"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        
+                        <DataGridTextColumn Header="Action" Binding="{Binding Action}" Width="140">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
@@ -148,13 +269,15 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Type d'entité" Binding="{Binding EntityType}" Width="150">
+                        
+                        <DataGridTextColumn Header="Type" Binding="{Binding EntityType}" Width="120">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
+                        
                         <DataGridTextColumn Header="Détails" Binding="{Binding Details}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
