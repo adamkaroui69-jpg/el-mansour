@@ -110,8 +110,26 @@ public class DocumentsViewModel : ViewModelBase
         set => SetProperty(ref _uploadDescription, value);
     }
 
-    public ObservableCollection<string> Categories { get; } = new ObservableCollection<string> { "Général", "Juridique", "Financier", "Maintenance", "Autre" };
-    public ObservableCollection<string> FilterCategories { get; } = new ObservableCollection<string> { "Tout", "Général", "Juridique", "Financier", "Maintenance", "Autre" };
+    public ObservableCollection<string> Categories { get; } = new ObservableCollection<string> { 
+        "Contrats", 
+        "PV Assemblée", 
+        "Factures", 
+        "Devis", 
+        "Assurances", 
+        "Correspondance",
+        "Autre" 
+    };
+
+    public ObservableCollection<string> FilterCategories { get; } = new ObservableCollection<string> { 
+        "Tout", 
+        "Contrats", 
+        "PV Assemblée", 
+        "Factures", 
+        "Devis", 
+        "Assurances", 
+        "Correspondance",
+        "Autre" 
+    };
 
     public bool IsAdmin => _authService.CurrentUser?.Role == "Admin";
 
@@ -178,7 +196,7 @@ public class DocumentsViewModel : ViewModelBase
     private void ShowUploadForm()
     {
         UploadFilePath = string.Empty;
-        UploadCategory = "Général";
+        UploadCategory = "Autre";
         UploadDescription = string.Empty;
         IsUploadFormVisible = true;
     }
@@ -229,6 +247,14 @@ public class DocumentsViewModel : ViewModelBase
         var docToDelete = document ?? SelectedDocument;
         if (docToDelete == null) return;
         
+        var result = System.Windows.MessageBox.Show(
+            $"Êtes-vous sûr de vouloir supprimer ce document ?\n\nFichier: {docToDelete.FileName}",
+            "Confirmation de suppression",
+            System.Windows.MessageBoxButton.YesNo,
+            System.Windows.MessageBoxImage.Warning);
+
+        if (result != System.Windows.MessageBoxResult.Yes) return;
+
         IsLoading = true;
         try
         {

@@ -2,65 +2,77 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- ============================================ -->
-    <!-- PALETTE DE COULEURS - INSPIRÉE DU LOGO       -->
+    <!-- PALETTE DASHBOARD FINANCIER MODERNE          -->
+    <!-- Style Bancaire/Fintech Professionnel         -->
     <!-- ============================================ -->
     
-    <!-- Couleurs de Base (du logo) -->
-    <Color x:Key="LogoNavyBlue">#1E3A5F</Color>
-    <Color x:Key="LogoDeepNavy">#2C5282</Color>
-    <Color x:Key="LogoGold">#D4AF37</Color>
-    <Color x:Key="LogoLightGold">#F4C430</Color>
+    <!-- Couleurs d'Accent (Vert Émeraude + Bleu Foncé) -->
+    <Color x:Key="PrimaryAccent">#10B981</Color>        <!-- Emerald 500 - Vert principal -->
+    <Color x:Key="PrimaryAccentLight">#34D399</Color>   <!-- Emerald 400 -->
+    <Color x:Key="PrimaryAccentDark">#059669</Color>    <!-- Emerald 600 -->
+    <Color x:Key="SecondaryAccent">#1E3A5F</Color>      <!-- Bleu foncé (cartes) -->
+    <Color x:Key="TertiaryAccent">#3B82F6</Color>       <!-- Blue 500 -->
     
-    <!-- Mode Sombre -->
-    <Color x:Key="DarkBackground">#1A2332</Color>
-    <Color x:Key="DarkSurface">#2C3E50</Color>
-    <Color x:Key="DarkGlassSurface">#CC2C3E50</Color>
-    <Color x:Key="DarkTextPrimary">#FFFFFF</Color>
-    <Color x:Key="DarkTextSecondary">#BDC3C7</Color>
-    <Color x:Key="DarkBorder">#88D4AF37</Color>
+    <!-- Mode Sombre (Élégant - Bleu Foncé) -->
+    <Color x:Key="DarkBackground">#1E3A5F</Color>       <!-- Bleu foncé -->
+    <Color x:Key="DarkSurface">#2C5282</Color>          <!-- Bleu moyen -->
+    <Color x:Key="DarkCard">#2C5282</Color>             <!-- Bleu moyen -->
+    <Color x:Key="DarkCardElevated">#3B6BA8</Color>     <!-- Bleu clair -->
+    <Color x:Key="DarkTextPrimary">#F9FAFB</Color>      <!-- Gray 50 -->
+    <Color x:Key="DarkTextSecondary">#D1D5DB</Color>    <!-- Gray 300 -->
+    <Color x:Key="DarkBorder">#3B6BA8</Color>           <!-- Bleu clair -->
+    <Color x:Key="DarkBorderSubtle">#2C5282</Color>     <!-- Bleu moyen -->
     
-    <!-- Mode Clair -->
-    <Color x:Key="LightBackground">#F8FAFC</Color>
-    <Color x:Key="LightSurface">#FFFFFF</Color>
-    <Color x:Key="LightTextPrimary">#1E293B</Color>
-    <Color x:Key="LightTextSecondary">#64748B</Color>
-    <Color x:Key="LightBorder">#E2E8F0</Color>
+    <!-- Mode Clair (Style Financier - Très Clair) -->
+    <Color x:Key="LightBackground">#F5F7FA</Color>      <!-- Gris très clair -->
+    <Color x:Key="LightSurface">#FFFFFF</Color>         <!-- Blanc pur -->
+    <Color x:Key="LightCard">#FFFFFF</Color>            <!-- Blanc pur -->
+    <Color x:Key="LightCardElevated">#FFFFFF</Color>    <!-- Blanc pur -->
+    <Color x:Key="LightTextPrimary">#1F2937</Color>     <!-- Gray 800 -->
+    <Color x:Key="LightTextSecondary">#6B7280</Color>   <!-- Gray 500 -->
+    <Color x:Key="LightBorder">#E5E7EB</Color>          <!-- Gray 200 -->
+    <Color x:Key="LightBorderSubtle">#F3F4F6</Color>    <!-- Gray 100 -->
     
-    <!-- Couleurs Fonctionnelles -->
-    <Color x:Key="SuccessColor">#10B981</Color>
-    <Color x:Key="WarningColor">#F59E0B</Color>
-    <Color x:Key="ErrorColor">#EF4444</Color>
-    <Color x:Key="InfoColor">#3B82F6</Color>
+    <!-- Couleurs Fonctionnelles (Modernes) -->
+    <Color x:Key="SuccessColor">#10B981</Color>         <!-- Emerald 500 -->
+    <Color x:Key="WarningColor">#F59E0B</Color>         <!-- Amber 500 -->
+    <Color x:Key="ErrorColor">#EF4444</Color>           <!-- Red 500 -->
+    <Color x:Key="InfoColor">#3B82F6</Color>            <!-- Blue 500 -->
     
     <!-- ============================================ -->
-    <!-- BRUSHES - MODE SOMBRE (ACTIF)                -->
+    <!-- BRUSHES DYNAMIQUES                           -->
     <!-- ============================================ -->
     
     <!-- Fonds -->
-    <SolidColorBrush x:Key="AppBackgroundBrush" Color="{StaticResource DarkBackground}"/>
-    <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource DarkSurface}"/>
-    <SolidColorBrush x:Key="GlassSurfaceBrush" Color="{StaticResource DarkGlassSurface}"/>
+    <SolidColorBrush x:Key="AppBackgroundBrush" Color="{StaticResource LightBackground}"/>
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource LightSurface}"/>
+    <SolidColorBrush x:Key="CardBrush" Color="{StaticResource LightCard}"/>
+    <SolidColorBrush x:Key="CardElevatedBrush" Color="{StaticResource LightCardElevated}"/>
+    <SolidColorBrush x:Key="GlassSurfaceBrush" Color="#DDFFFFFF"/>
     
     <!-- Accents -->
-    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource LogoGold}"/>
-    <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource LogoLightGold}"/>
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryAccent}"/>
+    <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource SecondaryAccent}"/>
+    <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource TertiaryAccent}"/>
     
     <!-- Texte -->
-    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource DarkTextPrimary}"/>
-    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource DarkTextSecondary}"/>
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource LightTextPrimary}"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource LightTextSecondary}"/>
     
     <!-- Bordures -->
-    <SolidColorBrush x:Key="GlassBorderBrush" Color="{StaticResource DarkBorder}"/>
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource LightBorder}"/>
+    <SolidColorBrush x:Key="BorderSubtleBrush" Color="{StaticResource LightBorderSubtle}"/>
+    <SolidColorBrush x:Key="GlassBorderBrush" Color="{StaticResource LightBorder}"/>
     
-    <!-- Dégradés -->
+    <!-- Dégradés Modernes -->
     <LinearGradientBrush x:Key="PrimaryGradientBrush" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="{StaticResource LogoGold}" Offset="0"/>
-        <GradientStop Color="{StaticResource LogoLightGold}" Offset="1"/>
+        <GradientStop Color="{StaticResource PrimaryAccent}" Offset="0"/>
+        <GradientStop Color="{StaticResource SecondaryAccent}" Offset="1"/>
     </LinearGradientBrush>
     
-    <LinearGradientBrush x:Key="NavyGradientBrush" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="{StaticResource LogoNavyBlue}" Offset="0"/>
-        <GradientStop Color="{StaticResource LogoDeepNavy}" Offset="1"/>
+    <LinearGradientBrush x:Key="AccentGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource PrimaryAccent}" Offset="0"/>
+        <GradientStop Color="{StaticResource TertiaryAccent}" Offset="1"/>
     </LinearGradientBrush>
     
     <!-- Couleurs Fonctionnelles -->
@@ -70,35 +82,29 @@
     <SolidColorBrush x:Key="InfoBrush" Color="{StaticResource InfoColor}"/>
     
     <!-- ============================================ -->
-    <!-- RESSOURCES DE SECOURS (Fallback Resources)  -->
-    <!-- ============================================ -->
-    
-    <!-- Material Design Fallbacks removed to avoid conflicts -->
-
-    <!-- ============================================ -->
-    <!-- STYLES DE COMPOSANTS                         -->
+    <!-- STYLES MODERNES & PROFESSIONNELS             -->
     <!-- ============================================ -->
 
-    <!-- Style GlassCard (Glassmorphism) -->
+    <!-- Card Moderne avec Ombre Douce (Style Médical) -->
     <Style x:Key="GlassCard" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource GlassSurfaceBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource GlassBorderBrush}"/>
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="CornerRadius" Value="16"/>
-        <Setter Property="Padding" Value="24"/>
+        <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="20"/>
+        <Setter Property="Padding" Value="28"/>
         <Setter Property="Effect">
             <Setter.Value>
-                <DropShadowEffect Color="#D4AF37" BlurRadius="15" ShadowDepth="0" Opacity="0.3"/>
+                <DropShadowEffect Color="#10000000" BlurRadius="30" ShadowDepth="0" Opacity="0.12"/>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <!-- Modern Button -->
+    <!-- Bouton Principal Moderne -->
     <Style x:Key="ModernButton" TargetType="Button">
-        <Setter Property="Background" Value="{StaticResource PrimaryGradientBrush}"/>
-        <Setter Property="Foreground" Value="#1E293B"/>
+        <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="24,12"/>
+        <Setter Property="Padding" Value="20,12"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Cursor" Value="Hand"/>
@@ -109,7 +115,9 @@
                             Background="{TemplateBinding Background}"
                             CornerRadius="10"
                             Padding="{TemplateBinding Padding}">
-                        <!-- Effect removed -->
+                        <Border.Effect>
+                            <DropShadowEffect Color="#30000000" BlurRadius="12" ShadowDepth="0" Opacity="0.15"/>
+                        </Border.Effect>
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -119,19 +127,22 @@
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Opacity" Value="0.8"/>
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <!-- Modern TextBox -->
+    <!-- TextBox Moderne -->
     <Style x:Key="ModernTextBox" TargetType="TextBox">
-        <Setter Property="Background" Value="#1A1E3A5F"/>
-        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource GlassBorderBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Padding" Value="16,12"/>
+        <Setter Property="Padding" Value="14,10"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -149,8 +160,11 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
-                            <!-- Effect removed -->
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                            <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -158,13 +172,13 @@
         </Setter>
     </Style>
 
-    <!-- Modern PasswordBox -->
+    <!-- PasswordBox Moderne -->
     <Style x:Key="ModernPasswordBox" TargetType="PasswordBox">
-        <Setter Property="Background" Value="#1A1E3A5F"/>
-        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource GlassBorderBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource CardBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Padding" Value="16,12"/>
+        <Setter Property="Padding" Value="14,10"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -182,8 +196,11 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
-                            <!-- Effect removed -->
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                            <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

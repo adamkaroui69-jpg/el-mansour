@@ -18,16 +18,14 @@ namespace ElMansourSyndicManager.ViewModels;
 /// <summary>
 /// Main ViewModel for the application shell
 /// </summary>
-/// <summary>
-/// Main ViewModel for the application shell
-/// </summary>
+
 public class MainViewModel : ViewModelBase, IDisposable
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<MainViewModel> _logger;
     private IServiceScope? _currentScope;
     
-    private object _currentView;
+    private object _currentView = new();
     private UserDto? _currentUser;
     private NavigationItem? _selectedNavigationItem;
 
@@ -54,9 +52,88 @@ public class MainViewModel : ViewModelBase, IDisposable
 
         LogoutCommand = new RelayCommand(Logout);
         MarkAllAsReadCommand = new RelayCommand(MarkAllAsRead);
+        ToggleThemeCommand = new RelayCommand(ToggleTheme);
 
         // Set default selection (will trigger NavigateTo)
         SelectedNavigationItem = NavigationItems.FirstOrDefault();
+        
+        // Initialize theme state
+        // Default to light theme
+        _isDarkTheme = false;
+        ApplyTheme(false);
+    }
+
+    private bool _isDarkTheme;
+    public bool IsDarkTheme
+    {
+        get => _isDarkTheme;
+        set
+        {
+            if (SetProperty(ref _isDarkTheme, value))
+            {
+                ApplyTheme(value);
+            }
+        }
+    }
+
+    public ICommand ToggleThemeCommand { get; }
+
+    private void ToggleTheme()
+    {
+        IsDarkTheme = !IsDarkTheme;
+    }
+
+    private void ApplyTheme(bool isDark)
+    {
+        var paletteHelper = new PaletteHelper();
+        var theme = paletteHelper.GetTheme();
+
+        if (isDark)
+        {
+            theme.SetBaseTheme(MaterialDesignThemes.Wpf.Theme.Dark);
+            UpdateCustomResources(true);
+        }
+        else
+        {
+            theme.SetBaseTheme(MaterialDesignThemes.Wpf.Theme.Light);
+            UpdateCustomResources(false);
+        }
+        
+        paletteHelper.SetTheme(theme);
+    }
+
+    private void UpdateCustomResources(bool isDark)
+    {
+        var resources = Application.Current.Resources;
+
+        if (isDark)
+        {
+            // Mode Sombre : Bleu foncé (style dashboard financier)
+            resources["AppBackgroundBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#1E3A5F"));
+            resources["SurfaceBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#2C5282"));
+            resources["CardBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#2C5282"));
+            resources["CardElevatedBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#3B6BA8"));
+            resources["GlassSurfaceBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#DD2C5282"));
+            resources["TextPrimaryBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#F9FAFB"));
+            resources["TextSecondaryBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#D1D5DB"));
+            resources["BorderBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#3B6BA8"));
+            resources["BorderSubtleBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#2C5282"));
+            resources["GlassBorderBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#3B6BA8"));
+        }
+        else
+        {
+            // Mode Clair : Style Financier - Fond gris très clair avec cartes blanches
+            resources["AppBackgroundBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#F5F7FA"));
+            resources["SurfaceBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#FFFFFF"));
+            resources["CardBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#FFFFFF"));
+            resources["CardElevatedBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#FFFFFF"));
+            resources["GlassSurfaceBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#DDFFFFFF"));
+            resources["TextPrimaryBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#1F2937"));
+            resources["TextSecondaryBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#6B7280"));
+            resources["BorderBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#E5E7EB"));
+            resources["BorderSubtleBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#F3F4F6"));
+            resources["GlassBorderBrush"] = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#E5E7EB"));
+        }
     }
 
     public async Task InitializeAsync()

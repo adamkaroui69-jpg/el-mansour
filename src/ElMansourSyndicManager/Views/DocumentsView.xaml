@@ -5,11 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:viewModels="clr-namespace:ElMansourSyndicManager.ViewModels"
+             xmlns:converters="clr-namespace:ElMansourSyndicManager.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="900">
     
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:FileIconConverter x:Key="FileIconConverter"/>
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -73,37 +75,30 @@
                         </Grid>
                         
                         <DataGrid ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}" 
-                                  AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
-                                  HeadersVisibility="Column"
-                                  BorderThickness="0"
-                                  Background="Transparent"
-                                  GridLinesVisibility="None"
-                                  materialDesign:DataGridAssist.CellPadding="16 12 12 12"
-                                  SelectionMode="Single">
+                                  Style="{StaticResource ModernDataGrid}">
+                            <DataGrid.InputBindings>
+                                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding OpenCommand}" CommandParameter="{Binding SelectedDocument}"/>
+                            </DataGrid.InputBindings>
                             <DataGrid.Resources>
-                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                                    <Setter Property="FontWeight" Value="SemiBold"/>
-                                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
-                                    <Setter Property="FontSize" Value="13"/>
-                                    <Setter Property="Padding" Value="16,12,12,12"/>
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                                    <Setter Property="BorderBrush" Value="#20FFFFFF"/>
-                                </Style>
-                                <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
-                                </Style>
-                                <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                                    <Setter Property="BorderBrush" Value="#10FFFFFF"/>
-                                </Style>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource ModernDataGridHeader}"/>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource ModernDataGridRow}"/>
+                                <Style TargetType="DataGridCell" BasedOn="{StaticResource ModernDataGridCell}"/>
                             </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Nom du fichier" Binding="{Binding FileName}" Width="*"/>
-                                <DataGridTextColumn Header="Catégorie" Binding="{Binding Category}" Width="120"/>
+                                <DataGridTemplateColumn Header="Fichier" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="{Binding FileName, Converter={StaticResource FileIconConverter}}" 
+                                                                       Foreground="{StaticResource PrimaryBrush}"
+                                                                       VerticalAlignment="Center"
+                                                                       Margin="0,0,8,0"/>
+                                                <TextBlock Text="{Binding FileName}" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Catégorie" Binding="{Binding Category}" Width="150"/>
                                 <DataGridTextColumn Header="Taille" Binding="{Binding FileSize, StringFormat={}{0:N0} octets}" Width="120"/>
                                 <DataGridTextColumn Header="Ajouté par" Binding="{Binding UploadedBy}" Width="120"/>
                                 <DataGridTextColumn Header="Date" Binding="{Binding CreatedAt, StringFormat={}{0:dd/MM/yyyy}}" Width="120"/>

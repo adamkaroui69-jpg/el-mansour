@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text;
+using ElMansourSyndicManager.Core.Configuration;
 
 namespace ElMansourSyndicManager.Infrastructure.Services;
 
@@ -29,6 +30,7 @@ public class BackupService : IBackupService
     private bool _scheduledBackupsEnabled;
     private TimeSpan _scheduledBackupTime = new TimeSpan(2, 0, 0); // Default: 2 AM
 
+
     public BackupService(
         IBackupRepository backupRepository,
         INotificationService notificationService,
@@ -42,34 +44,25 @@ public class BackupService : IBackupService
         _authService = authService;
         _logger = logger;
 
-        // Setup backup directories
-        _backupsBasePath = Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory,
-            "data",
-            "backups");
+        var config = AppConfiguration.Instance;
 
-        _databasePath = Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory,
-            "data",
-            "local.db");
-
-        _receiptsPath = Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory,
-            "data",
-            "Receipts");
-
-        _documentsPath = Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory,
-            "data",
-            "Documents");
-
-        _reportsPath = Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory,
-            "data",
-            "reports");
+        // Setup backup directories from AppConfiguration
+        _backupsBasePath = config.BackupsDirectory;
+        _databasePath = config.GetDatabasePath();
+        
+        // Construct other paths relative to DataDirectory
+        // Assuming Receipts/Documents/Reports are subfolders of DataDirectory
+        // NOTE: DocumentService uses config.DocumentsDirectory for Documents.
+        
+        _receiptsPath = Path.Combine(config.DataDirectory, "Receipts");
+        _documentsPath = config.DocumentsDirectory;
+        _reportsPath = Path.Combine(config.DataDirectory, "reports");
 
         // Ensure directories exist
         Directory.CreateDirectory(_backupsBasePath);
+        Directory.CreateDirectory(_receiptsPath);
+        Directory.CreateDirectory(_documentsPath);
+        Directory.CreateDirectory(_reportsPath);
     }
 
     /// <summary>

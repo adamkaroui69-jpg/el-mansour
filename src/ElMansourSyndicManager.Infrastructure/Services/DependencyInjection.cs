@@ -1,18 +1,31 @@
 using ElMansourSyndicManager.Core.Domain.Interfaces.Repositories;
 using ElMansourSyndicManager.Core.Domain.Interfaces.Services;
+using ElMansourSyndicManager.Infrastructure.Data.Repositories;
+using ElMansourSyndicManager.Infrastructure.Repositories;
 using ElMansourSyndicManager.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ElMansourSyndicManager.Infrastructure.Services;
 
 /// <summary>
-/// Extension methods for dependency injection
+/// Centralized Dependency Injection for the Infrastructure and Core layers.
 /// </summary>
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
-        // Services
+        // 1. Repositories (Data Access)
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IHouseRepository, HouseRepository>();
+        services.AddScoped<IPaymentRepository, PaymentRepository>();
+        services.AddScoped<IExpenseRepository, ExpenseRepository>();
+        services.AddScoped<IMaintenanceRepository, MaintenanceRepository>();
+        services.AddScoped<IDocumentRepository, DocumentRepository>();
+        services.AddScoped<IReceiptRepository, ReceiptRepository>();
+        services.AddScoped<IAuditLogRepository, AuditLogRepository>();
+        services.AddScoped<INotificationRepository, NotificationRepository>();
+
+        // 2. Domain Services (Business Logic)
         // AuthenticationService must be Singleton to maintain user session across scopes
         services.AddSingleton<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IUserService, UserService>();
@@ -26,10 +39,11 @@ public static class DependencyInjection
         services.AddScoped<IAuditService, AuditService>();
         services.AddScoped<IBackupService, BackupService>();
         
-        // Startup Services
+        // 3. System Services (Startup & Maintenance)
         services.AddScoped<IAppInitializer, AppInitializer>();
         services.AddScoped<IDatabaseMigrator, DatabaseMigrator>();
         services.AddScoped<IDataSeeder, DataSeeder>();
+        services.AddScoped<IUpdateService, UpdateService>();
 
         return services;
     }

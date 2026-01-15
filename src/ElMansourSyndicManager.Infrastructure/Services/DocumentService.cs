@@ -2,6 +2,7 @@ using ElMansourSyndicManager.Core.Domain.DTOs;
 using ElMansourSyndicManager.Core.Domain.Entities;
 using ElMansourSyndicManager.Core.Domain.Interfaces.Repositories;
 using ElMansourSyndicManager.Core.Domain.Interfaces.Services;
+using ElMansourSyndicManager.Core.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -24,11 +25,8 @@ namespace ElMansourSyndicManager.Infrastructure.Services
             _documentRepository = documentRepository;
             _authService = authService;
             _logger = logger;
-            _storagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "documents");
-            if (!Directory.Exists(_storagePath))
-            {
-                Directory.CreateDirectory(_storagePath);
-            }
+            _storagePath = AppConfiguration.Instance.DocumentsDirectory;
+            // Directory is already created by AppConfiguration
         }
 
         public async Task<IEnumerable<DocumentDto>> GetAllDocumentsAsync(CancellationToken cancellationToken = default)

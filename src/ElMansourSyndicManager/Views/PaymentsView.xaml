@@ -60,42 +60,19 @@
 
                         <DataGrid ItemsSource="{Binding Payments}"
                                  SelectedItem="{Binding SelectedPayment}"
-                                 AutoGenerateColumns="False"
-                                 HeadersVisibility="Column"
-                                 CanUserAddRows="False"
-                                 IsReadOnly="True"
-                                 BorderThickness="0"
-                                 Background="Transparent"
-                                 GridLinesVisibility="None"
-                                 materialDesign:DataGridAssist.CellPadding="16 12 12 12">
+                                 Style="{StaticResource ModernDataGrid}">
                             <DataGrid.Resources>
-                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                                    <Setter Property="FontWeight" Value="SemiBold"/>
-                                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
-                                    <Setter Property="FontSize" Value="13"/>
-                                    <Setter Property="Padding" Value="16,12,12,12"/>
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                                    <Setter Property="BorderBrush" Value="#20FFFFFF"/>
-                                </Style>
-                                <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
-                                </Style>
-                                <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                                    <Setter Property="BorderBrush" Value="#10FFFFFF"/>
-                                </Style>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource ModernDataGridHeader}"/>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource ModernDataGridRow}"/>
+                                <Style TargetType="DataGridCell" BasedOn="{StaticResource ModernDataGridCell}"/>
                             </DataGrid.Resources>
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Header="Maison" Width="150">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                                <Border Width="32" Height="32" CornerRadius="10" Background="#20FFFFFF" Margin="0,0,12,0">
-                                                    <TextBlock Text="{Binding HouseCode}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                                                <Border Width="36" Height="36" CornerRadius="8" Background="#E0F2FE" Margin="0,0,12,0">
+                                                    <TextBlock Text="{Binding HouseCode}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="#0369A1"/>
                                                 </Border>
                                                 <TextBlock Text="{Binding HouseCode}" VerticalAlignment="Center" FontWeight="SemiBold"/>
                                             </StackPanel>
@@ -103,14 +80,22 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 
-                                <DataGridTextColumn Header="Montant" Binding="{Binding Amount, StringFormat={}{0:N2} TND}" Width="150" FontWeight="Bold"/>
+                                <DataGridTextColumn Header="Montant" Binding="{Binding Amount, StringFormat={}{0:N2} TND}" Width="150" FontWeight="Bold">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="#059669"/>
+                                            <Setter Property="FontSize" Value="14"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                
                                 <DataGridTextColumn Header="Date" Binding="{Binding PaymentDate, StringFormat={}{0:dd/MM/yyyy}}" Width="150"/>
                                 
                                 <DataGridTemplateColumn Header="Statut" Width="150">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Border Background="#2010B981" CornerRadius="6" Padding="10,4" HorizontalAlignment="Left">
-                                                <TextBlock Text="{Binding Status}" Foreground="#10B981" FontSize="12" FontWeight="SemiBold"/>
+                                            <Border Style="{StaticResource SuccessBadge}">
+                                                <TextBlock Text="{Binding Status}" Foreground="#059669" FontSize="12" FontWeight="SemiBold"/>
                                             </Border>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>

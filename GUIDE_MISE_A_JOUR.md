@@ -1,80 +1,63 @@
-# Guide de Mise à Jour Automatique
+# Guide de Gestion des Mises à Jour Automatiques
 
-Ce guide explique comment configurer et utiliser le système de mise à jour automatique intégré à l'application **ElMansourSyndicManager**.
+Ce guide explique comment configurer et publier des mises à jour pour que l'aapplication les détecte automatiquement.
 
-## 1. Fonctionnement
+## 1. Principe de Fonctionnement
 
-L'application utilise la bibliothèque **AutoUpdater.NET**. Au démarrage, elle vérifie un fichier XML situé à une adresse spécifique (URL ou chemin réseau). Si la version indiquée dans ce fichier est supérieure à la version actuelle de l'application installée, une fenêtre propose à l'utilisateur de faire la mise à jour.
+L'application vérifie régulièrement une URL fixe pour voir si une nouvelle version est disponible :
+- **URL de vérification** : `https://github.com/adamkaroui69-jpg/el-mansour/releases/latest/download/update.xml`
+- **Fichier clé** : `update.xml`
 
-## 2. Configuration Initiale
+Si la version dans `update.xml` est supérieure à la version installée, l'application propose à l'utilisateur de télécharger la mise à jour.
 
-### Étape 1 : Définir l'emplacement du fichier de mise à jour
+## 2. Créer une Nouvelle Mise à Jour
 
-Dans le fichier `src/ElMansourSyndicManager/MainWindow.xaml.cs`, nous avons ajouté la ligne suivante :
+### Étape A : Compiler la nouvelle version
+1. Ouvrez le projet dans votre terminal.
+2. Lancez le script de construction de l'installateur :
+   ```powershell
+   ./build-installer.ps1
+   ```
+   Cela va générer un fichier comme `ElMansourSyndicManager-Setup-v2.1.0.exe`.
 
-```csharp
-AutoUpdater.Start("https://votre-domaine.com/update.xml");
-```
+### Étape B : Préparer le fichier `update.xml`
+Créez un fichier nommé `update.xml` avec le contenu suivant (adaptez le numéro de version) :
 
-Vous devez remplacer `"https://votre-domaine.com/update.xml"` par l'emplacement réel où vous allez héberger ce fichier.
-Cela peut être :
-*   **Un site web** : `https://mon-syndic.com/updates/update.xml`
-*   **Un dossier partagé (Réseau Local)** : `\\SERVEUR\Partage\Updates\update.xml`
-*   **GitHub** : Le lien "Raw" vers un fichier sur GitHub.
-
-### Étape 2 : Préparer le fichier XML
-
-Un modèle `update_template.xml` a été créé à la racine du projet. Copiez-le et renommez-le en `update.xml`.
-
-Contenu du fichier :
 ```xml
-<item>
-    <version>1.0.1.0</version>
-    <url>https://votre-domaine.com/setup.exe</url>
-    <changelog>https://votre-domaine.com/changelog.html</changelog>
-    <mandatory>false</mandatory>
-</item>
+<?xml version="1.0" encoding="utf-8"?>
+<update>
+    <version>2.1.0</version>
+    <url>https://github.com/adamkaroui69-jpg/el-mansour/releases/latest/download/ElMansourSyndicManager-Setup-v2.1.0.exe</url>
+    <critical>false</critical>
+    <notes>
+        - Ajout de la sauvegarde automatique locale.
+        - Correction de bugs d'affichage.
+        - Amélioration des performances.
+    </notes>
+</update>
 ```
 
-*   `<version>` : La nouvelle version de l'application (doit être supérieure à la version actuelle).
-*   `<url>` : Le lien direct pour télécharger le nouvel installateur (`.exe`).
-*   `<changelog>` : (Optionnel) Lien vers une page décrivant les changements.
-*   `<mandatory>` : `true` pour obliger la mise à jour, `false` pour laisser le choix.
+### Étape C : Publier sur GitHub
+1. Allez sur votre dépôt GitHub > **Releases** > **Draft a new release**.
+2. **Tag version** : `v2.1.0` (Doit correspondre à votre version logicielle).
+3. **Titre** : "Version 2.1.0".
+4. **Description** : Copiez les notes de version.
+5. **Joindre les binaires** :
+   - Glissez-déposez l'installateur `.exe` généré.
+   - Glissez-déposez le fichier `update.xml`.
+6. Cliquez sur **Publish release**.
 
-## 3. Procédure Automatisée (Recommandée)
+## 3. Test de la Mise à Jour
 
-Nous avons créé un script qui fait tout pour vous : incrémentation de version, construction, mise à jour du fichier XML et envoi sur GitHub.
+1. Installez une ancienne version de l'application (ex: 2.0.0).
+2. Lancez l'application.
+3. Allez dans **Paramètres**.
+4. Cliquez sur **"Vérifier les mises à jour"**.
+5. Une fenêtre doit apparaître annonçant la version 2.1.0.
+6. Cliquez sur "Oui" pour télécharger et lancer l'installateur.
 
-### Pré-requis
-1.  Avoir un compte GitHub et un dépôt pour ce projet.
-2.  Avoir configuré le dépôt sur votre machine :
-    ```powershell
-    git remote add origin https://github.com/VOTRE_NOM/VOTRE_PROJET.git
-    ```
-    *Note : Le dépôt doit être **Public** pour que les utilisateurs puissent télécharger les mises à jour sans configuration complexe.*
+## 4. Bonnes Pratiques
 
-### Lancer une mise à jour
-Il suffit d'exécuter cette commande dans le terminal :
-
-```powershell
-./publish-update.ps1
-```
-
-Le script va :
-1.  Détecter votre dépôt GitHub.
-2.  Augmenter la version de l'application (ex: 1.0.0 -> 1.0.1).
-3.  Créer le nouvel installateur.
-4.  Mettre à jour `update.xml` avec les bons liens GitHub.
-5.  Configurer l'application pour lire les mises à jour depuis GitHub (la première fois).
-6.  Envoyer le tout sur GitHub.
-
-Une fois terminé, vos utilisateurs recevront la mise à jour automatiquement au prochain lancement !
-
-## 4. Procédure Manuelle (Si besoin)
-
-Si vous ne pouvez pas utiliser le script automatique :
-
-1.  **Augmenter la version** dans `ElMansourSyndicManager.csproj`.
-2.  **Générer l'installateur** avec `build-installer.ps1`.
-3.  **Mettre à jour `update.xml`** manuellement avec la nouvelle version et le lien vers le fichier `setup.exe`.
-4.  **Uploader** le fichier `setup.exe` et `update.xml` sur votre hébergement.
+- **Compatibilité** : L'installateur Inno Setup est configuré pour ne pas écraser les données utilisateur (`local.db`, dossiers `App_Data`).
+- **Sauvegarde** : Toujours conseiller aux utilisateurs de faire une sauvegarde manuelle avant une mise à jour majeure, même si le processus est automatisé.
+- **Notes de version** : Soyez clair dans le fichier `update.xml` sur les changements importants.

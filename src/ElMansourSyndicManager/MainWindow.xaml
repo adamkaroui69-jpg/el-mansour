@@ -13,8 +13,8 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
         Icon="/Assets/logo.png"
-        Background="{StaticResource AppBackgroundBrush}"
-        TextElement.Foreground="{StaticResource TextPrimaryBrush}"
+        Background="{DynamicResource AppBackgroundBrush}"
+        TextElement.Foreground="{DynamicResource TextPrimaryBrush}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="14"
         TextOptions.TextFormattingMode="Ideal"
@@ -33,7 +33,7 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
@@ -52,11 +52,10 @@
                                         Grid.Column="0"
                                         Width="4" Height="24" 
                                         CornerRadius="2"
-                                        Background="{StaticResource PrimaryBrush}"
+                                        Background="{DynamicResource PrimaryBrush}"
                                         HorizontalAlignment="Left"
                                         Margin="-20,0,0,0"
                                         Opacity="0">
-                                    <!-- Effect removed -->
                                 </Border>
                                 
                                 <ContentPresenter Grid.ColumnSpan="2"/>
@@ -68,10 +67,11 @@
                                 <Setter Property="Foreground" Value="White"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#203B82F6"/>
-                                <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+                                <Setter TargetName="Border" Property="Background" Value="#1010B981"/>
+                                <Setter Property="Foreground" Value="#10B981"/>
                                 <Setter Property="FontWeight" Value="SemiBold"/>
                                 <Setter TargetName="SelectionIndicator" Property="Opacity" Value="1"/>
+                                <Setter TargetName="SelectionIndicator" Property="Background" Value="#10B981"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -82,39 +82,16 @@
 
     <!-- Fond Global avec Glows -->
     <Grid>
-        <!-- Éléments décoratifs d'arrière-plan -->
-        <Ellipse Width="800" Height="800" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-400,-200,0" Opacity="0.3">
-            <Ellipse.Fill>
-                <RadialGradientBrush Center="0.5,0.5" GradientOrigin="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
-                    <GradientStop Color="#1E3A8A" Offset="0"/>
-                    <GradientStop Color="Transparent" Offset="1"/>
-                </RadialGradientBrush>
-            </Ellipse.Fill>
-            <Ellipse.Effect>
-                <BlurEffect Radius="100"/>
-            </Ellipse.Effect>
-        </Ellipse>
-        
-        <Ellipse Width="600" Height="600" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="-200,0,0,-200" Opacity="0.2">
-            <Ellipse.Fill>
-                <RadialGradientBrush Center="0.5,0.5" GradientOrigin="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
-                    <GradientStop Color="#4C1D95" Offset="0"/>
-                    <GradientStop Color="Transparent" Offset="1"/>
-                </RadialGradientBrush>
-            </Ellipse.Fill>
-            <Ellipse.Effect>
-                <BlurEffect Radius="100"/>
-            </Ellipse.Effect>
-        </Ellipse>
+
 
         <materialDesign:DrawerHost x:Name="DrawerHost"
                                   IsLeftDrawerOpen="True"
                                   OpenMode="Standard">
             
-            <!-- Menu Latéral (Glassmorphism) -->
+            <!-- Menu Latéral (Solide) -->
             <materialDesign:DrawerHost.LeftDrawerContent>
                 <Grid Width="280">
-                    <Border Background="{StaticResource GlassSurfaceBrush}" BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="0,0,1,0">
+                                    <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderSubtleBrush}" BorderThickness="0,0,1,0">
                         <DockPanel>
                             <!-- En-tête du Menu -->
                             <StackPanel DockPanel.Dock="Top" Margin="30,50,30,40">
@@ -124,10 +101,10 @@
                                         <TextBlock Text="El Mansour" 
                                                  FontSize="20" 
                                                  FontWeight="Bold" 
-                                                 Foreground="White"/>
+                                                 Foreground="{DynamicResource TextPrimaryBrush}"/>
                                         <TextBlock Text="Syndic Manager" 
                                                  FontSize="12" 
-                                                 Foreground="{StaticResource TextSecondaryBrush}"/>
+                                                 Foreground="{DynamicResource TextSecondaryBrush}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
@@ -141,7 +118,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     
-                                    <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="{StaticResource PrimaryGradientBrush}">
+                                    <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="#10B981">
                                         <TextBlock Text="{Binding CurrentUser.Username, Converter={StaticResource StringToInitialsConverter}}" 
                                                  Foreground="White" 
                                                  FontWeight="Bold" 
@@ -150,11 +127,11 @@
                                     </Border>
                                     
                                     <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding CurrentUser.Username}" FontWeight="SemiBold" FontSize="14" Foreground="White"/>
-                                        <TextBlock Text="{Binding CurrentUser.Role}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                        <TextBlock Text="{Binding CurrentUser.Username}" FontWeight="SemiBold" FontSize="14" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                        <TextBlock Text="{Binding CurrentUser.Role}" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
                                     </StackPanel>
                                     
-                                    <materialDesign:PopupBox Grid.Column="2" PlacementMode="TopAndAlignRightEdges" StaysOpen="False" Foreground="{StaticResource TextSecondaryBrush}">
+                                    <materialDesign:PopupBox Grid.Column="2" PlacementMode="TopAndAlignRightEdges" StaysOpen="False" Foreground="{DynamicResource TextSecondaryBrush}">
                                         <StackPanel Width="150">
                                             <Button Command="{Binding LogoutCommand}" Content="Déconnexion" />
                                         </StackPanel>
@@ -210,7 +187,7 @@
                     <ToggleButton Grid.Column="0"
                                  Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                                  IsChecked="{Binding ElementName=DrawerHost, Path=IsLeftDrawerOpen}"
-                                 Foreground="White"
+                                 Foreground="{DynamicResource TextPrimaryBrush}"
                                  Width="24" Height="24"
                                  Margin="0,0,20,0"/>
 
@@ -219,30 +196,183 @@
                               Text="{Binding SelectedNavigationItem.Title}"
                               FontSize="24"
                               FontWeight="Bold"
-                              Foreground="White"
+                              Foreground="{DynamicResource TextPrimaryBrush}"
                               VerticalAlignment="Center">
-                        <!-- Effect removed -->
                     </TextBlock>
 
-                    <!-- Actions (Notifications) -->
+                    <!-- Actions (Theme & Notifications) -->
                     <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <!-- Theme Toggle -->
+                        <Button Command="{Binding ToggleThemeCommand}"
+                                Style="{StaticResource MaterialDesignIconButton}"
+                                ToolTip="Changer le thème"
+                                Foreground="{DynamicResource TextSecondaryBrush}"
+                                Margin="0,0,16,0">
+                            <materialDesign:PackIcon Width="24" Height="24">
+                                <materialDesign:PackIcon.Style>
+                                    <Style TargetType="materialDesign:PackIcon" BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}">
+                                        <Setter Property="Kind" Value="WeatherSunny" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsDarkTheme}" Value="True">
+                                                <Setter Property="Kind" Value="WeatherNight" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </materialDesign:PackIcon.Style>
+                            </materialDesign:PackIcon>
+                        </Button>
+
+
                         <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
                             <materialDesign:PopupBox.ToggleContent>
                                 <Grid Cursor="Hand">
-                                    <Border Background="#10FFFFFF" CornerRadius="12" Width="40" Height="40">
-                                        <materialDesign:PackIcon Kind="BellOutline" Width="20" Height="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Border Background="{DynamicResource BorderSubtleBrush}" CornerRadius="12" Width="40" Height="40">
+                                        <materialDesign:PackIcon Kind="BellOutline" Width="20" Height="20" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                     <Border Background="#EF4444" CornerRadius="6" Width="12" Height="12" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,8,0"
                                             Visibility="{Binding HasNotifications, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                 </Grid>
                             </materialDesign:PopupBox.ToggleContent>
                             
-                            <StackPanel Width="350" Background="#E62C3E50" Margin="10">
-                                <Border Background="#D4AF37" Padding="12" CornerRadius="8,8,0,0">
-                                    <TextBlock Text="Notifications" Foreground="White" FontWeight="Bold" FontSize="16"/>
-                                </Border>
-                                <TextBlock Text="Aucune nouvelle notification" Foreground="#BDC3C7" FontSize="14" HorizontalAlignment="Center" Margin="20"/>
-                            </StackPanel>
+                            <!-- Popup de Notifications Moderne -->
+                            <Border Background="{DynamicResource CardBrush}" 
+                                    CornerRadius="16" 
+                                    Width="380" 
+                                    MaxHeight="500"
+                                    Margin="10">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#30000000" BlurRadius="30" ShadowDepth="0" Opacity="0.15"/>
+                                </Border.Effect>
+                                
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <!-- En-tête Moderne -->
+                                    <Border Grid.Row="0" 
+                                            Background="#10B981" 
+                                            CornerRadius="16,16,0,0" 
+                                            Padding="20,16">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <materialDesign:PackIcon Grid.Column="0" 
+                                                                    Kind="Bell" 
+                                                                    Width="24" 
+                                                                    Height="24" 
+                                                                    Foreground="White" 
+                                                                    VerticalAlignment="Center"
+                                                                    Margin="0,0,12,0"/>
+                                            
+                                            <TextBlock Grid.Column="1" 
+                                                      Text="Notifications" 
+                                                      Foreground="White" 
+                                                      FontWeight="Bold" 
+                                                      FontSize="18"
+                                                      VerticalAlignment="Center"/>
+                                            
+                                            <Border Grid.Column="2" 
+                                                   Background="#20FFFFFF" 
+                                                   CornerRadius="12" 
+                                                   Padding="10,6"
+                                                   Visibility="{Binding HasNotifications, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <TextBlock Text="{Binding NotificationCount}" 
+                                                          Foreground="White" 
+                                                          FontWeight="SemiBold" 
+                                                          FontSize="13"/>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                    
+                                    <!-- Contenu des Notifications -->
+                                    <ScrollViewer Grid.Row="1" 
+                                                 VerticalScrollBarVisibility="Auto" 
+                                                 MaxHeight="400"
+                                                 Padding="0">
+                                        <StackPanel>
+                                            <ItemsControl ItemsSource="{Binding Notifications}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border BorderBrush="{DynamicResource BorderSubtleBrush}" 
+                                                               BorderThickness="0,0,0,1" 
+                                                               Padding="20,16"
+                                                               Background="Transparent">
+                                                            <Border.Style>
+                                                                <Style TargetType="Border">
+                                                                    <Style.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Background" Value="{DynamicResource BorderSubtleBrush}"/>
+                                                                        </Trigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Border.Style>
+                                                            
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                    <ColumnDefinition Width="*"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                
+                                                                <!-- Icône de notification -->
+                                                                <Border Grid.Column="0" 
+                                                                       Width="40" 
+                                                                       Height="40" 
+                                                                       CornerRadius="10" 
+                                                                       Background="#2010B981"
+                                                                       Margin="0,0,12,0">
+                                                                    <materialDesign:PackIcon Kind="{Binding Icon}" 
+                                                                                            Width="20" 
+                                                                                            Height="20" 
+                                                                                            Foreground="#10B981" 
+                                                                                            HorizontalAlignment="Center" 
+                                                                                            VerticalAlignment="Center"/>
+                                                                </Border>
+                                                                
+                                                                <!-- Contenu de la notification -->
+                                                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                                    <TextBlock Text="{Binding Title}" 
+                                                                              FontWeight="SemiBold" 
+                                                                              FontSize="14"
+                                                                              Foreground="{DynamicResource TextPrimaryBrush}"
+                                                                              TextWrapping="Wrap"/>
+                                                                    <TextBlock Text="{Binding Message}" 
+                                                                              FontSize="13" 
+                                                                              Foreground="{DynamicResource TextSecondaryBrush}"
+                                                                              TextWrapping="Wrap"
+                                                                              Margin="0,4,0,0"/>
+                                                                </StackPanel>
+                                                            </Grid>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            
+                                            <!-- Message si aucune notification -->
+                                            <Border Padding="40,60" 
+                                                   Visibility="{Binding HasNotifications, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                                                <StackPanel HorizontalAlignment="Center">
+                                                    <materialDesign:PackIcon Kind="BellOff" 
+                                                                            Width="48" 
+                                                                            Height="48" 
+                                                                            Foreground="{DynamicResource BorderBrush}"
+                                                                            HorizontalAlignment="Center"
+                                                                            Margin="0,0,0,16"/>
+                                                    <TextBlock Text="Aucune nouvelle notification" 
+                                                              Foreground="{DynamicResource TextSecondaryBrush}" 
+                                                              FontSize="14"
+                                                              HorizontalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Border>
                         </materialDesign:PopupBox>
                     </StackPanel>
                 </Grid>

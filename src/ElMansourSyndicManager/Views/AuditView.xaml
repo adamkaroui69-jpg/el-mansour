@@ -23,57 +23,63 @@
         <!-- Header -->
         <Grid Grid.Row="0" Margin="0,0,0,32">
             <StackPanel>
-                <TextBlock Text="Journal d'Audit" FontSize="28" FontWeight="Bold" Foreground="#333"/>
-                <TextBlock Text="Suivi des activités et modifications" FontSize="16" Foreground="#777" Margin="0,4,0,0"/>
+                <TextBlock Text="Journal d'Audit" FontSize="28" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                <TextBlock Text="Suivi des activités et modifications" FontSize="16" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button Command="{Binding LoadCommand}" 
                         Style="{StaticResource MaterialDesignOutlinedButton}" 
+                        Foreground="{StaticResource TextPrimaryBrush}"
+                        BorderBrush="{StaticResource TextSecondaryBrush}"
                         Content="Actualiser" 
                         Margin="0,0,12,0"
                         Height="36"/>
                 <Button Command="{Binding ExportCommand}" 
-                        Style="{StaticResource MaterialDesignRaisedButton}" 
+                        Style="{StaticResource ModernButton}" 
                         Content="Exporter"
                         Height="36"/>
             </StackPanel>
         </Grid>
 
         <!-- Filters Card -->
-        <materialDesign:Card Grid.Row="1" UniformCornerRadius="12" Background="White" Margin="0,0,0,16" Padding="20">
+        <Border Grid.Row="1" Style="{StaticResource GlassCard}" Margin="0,0,0,16" Padding="20">
             <StackPanel Orientation="Horizontal">
                 <DatePicker SelectedDate="{Binding FilterStartDate}" 
                             materialDesign:HintAssist.Hint="Date de début" 
                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                            Foreground="{StaticResource TextPrimaryBrush}"
                             Width="150" 
                             Margin="0,0,16,0"/>
                 <DatePicker SelectedDate="{Binding FilterEndDate}" 
                             materialDesign:HintAssist.Hint="Date de fin" 
                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                            Foreground="{StaticResource TextPrimaryBrush}"
                             Width="150" 
                             Margin="0,0,16,0"/>
                 <TextBox Text="{Binding FilterUserId}" 
                             materialDesign:HintAssist.Hint="ID Utilisateur" 
-                            Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                            Style="{StaticResource ModernTextBox}" 
                             Width="150" 
                             Margin="0,0,16,0"/>
                 <Button Command="{Binding FilterCommand}" 
                         Style="{StaticResource MaterialDesignOutlinedButton}" 
+                        Foreground="{StaticResource TextPrimaryBrush}"
+                        BorderBrush="{StaticResource PrimaryBrush}"
                         Content="Filtrer"
                         Height="36"/>
             </StackPanel>
-        </materialDesign:Card>
+        </Border>
 
         <!-- DataGrid Card -->
-        <materialDesign:Card Grid.Row="2" UniformCornerRadius="12" Background="White">
+        <Border Grid.Row="2" Style="{StaticResource GlassCard}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 
-                <Border Grid.Row="0" BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="20">
-                    <TextBlock Text="Historique des Activités" FontWeight="SemiBold" FontSize="18" Foreground="#333"/>
+                <Border Grid.Row="0" BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="0,0,0,1" Padding="20">
+                    <TextBlock Text="Historique des Activités" FontWeight="SemiBold" FontSize="18" Foreground="{StaticResource TextPrimaryBrush}"/>
                 </Border>
                 
                 <DataGrid Grid.Row="1" 
@@ -83,26 +89,84 @@
                           IsReadOnly="True"
                           HeadersVisibility="Column"
                           BorderThickness="0"
-                          Background="White"
-                          RowBackground="White"
-                          AlternatingRowBackground="#F9FAFB"
-                          GridLinesVisibility="Horizontal"
-                          HorizontalGridLinesBrush="#E5E7EB"
+                          Background="Transparent"
+                          RowBackground="#10FFFFFF"
+                          AlternatingRowBackground="#05FFFFFF"
+                          GridLinesVisibility="None"
                           Padding="0,8"
                           EnableRowVirtualization="True"
                           EnableColumnVirtualization="True"
                           VirtualizingPanel.IsVirtualizing="True"
                           VirtualizingPanel.VirtualizationMode="Recycling">
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Padding" Value="10"/>
+                        </Style>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Padding" Value="10"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <Border Padding="{TemplateBinding Padding}" Background="Transparent">
+                                            <ContentPresenter VerticalAlignment="Center" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Date" Binding="{Binding Timestamp, StringFormat={}{0:dd/MM/yyyy HH:mm:ss}}" Width="160"/>
-                        <DataGridTextColumn Header="Utilisateur" Binding="{Binding UserId}" Width="120"/>
-                        <DataGridTextColumn Header="Action" Binding="{Binding Action}" Width="120"/>
-                        <DataGridTextColumn Header="Type d'entité" Binding="{Binding EntityType}" Width="120"/>
-                        <DataGridTextColumn Header="Détails" Binding="{Binding Details}" Width="*"/>
+                        <DataGridTextColumn Header="Date" Binding="{Binding Timestamp, StringFormat={}{0:dd/MM/yyyy HH:mm:ss}}" Width="180">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Utilisateur" Binding="{Binding UserId}" Width="150">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Action" Binding="{Binding Action}" Width="150">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Type d'entité" Binding="{Binding EntityType}" Width="150">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Détails" Binding="{Binding Details}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
-        </materialDesign:Card>
+        </Border>
 
         <!-- Loading Overlay -->
         <Grid Grid.RowSpan="3" Background="#80000000" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">

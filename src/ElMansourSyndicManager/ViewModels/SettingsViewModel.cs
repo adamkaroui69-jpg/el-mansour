@@ -8,6 +8,9 @@ using System.Diagnostics;
 using System.Windows;
 using MaterialDesignThemes.Wpf;
 
+using MaterialDesignThemes.Wpf;
+using ElMansourSyndicManager.Core.Domain.Interfaces.Services;
+
 namespace ElMansourSyndicManager.ViewModels;
 
 public class SettingsViewModel : ViewModelBase
@@ -41,8 +44,14 @@ public class SettingsViewModel : ViewModelBase
         set => SetProperty(ref _updateStatus, value);
     }
 
-    public SettingsViewModel()
+    private readonly IUpdateService _updateService;
+    private readonly IBackupService _backupService;
+
+    public SettingsViewModel(IUpdateService updateService, IBackupService backupService)
     {
+        _updateService = updateService;
+        _backupService = backupService;
+
         // Load settings (mocked for now or from Properties.Settings)
         SelectedTheme = "Clair";
         SelectedLanguage = "Français";
@@ -53,12 +62,15 @@ public class SettingsViewModel : ViewModelBase
         EnablePaymentReminders = true;
 
         SaveCommand = new RelayCommand(SaveSettings);
-        BackupNowCommand = new RelayCommand(BackupNow);
+        BackupNowCommand = new RelayCommand(async () => await BackupNowAsync());
         CheckForUpdatesCommand = new RelayCommand(async () => await CheckForUpdatesAsync());
         
         // Apply initial theme
         ApplyTheme(SelectedTheme);
     }
+    
+    // Default constructor for design time (if needed) fallback
+    public SettingsViewModel() : this(new DesignTimeUpdateService(), new DesignTimeBackupService()) { }
 
     public string SelectedTheme
     {
@@ -139,13 +151,20 @@ public class SettingsViewModel : ViewModelBase
     private void SaveSettings()
     {
         // Save settings logic here
-        // For example, save to Properties.Settings.Default or a JSON config file
         System.Windows.MessageBox.Show("Paramètres enregistrés avec succès.", "Succès", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
     }
 
-    private void BackupNow()
+    private async Task BackupNowAsync()
     {
-        System.Windows.MessageBox.Show("Sauvegarde effectuée avec succès.", "Succès", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+        try 
+        {
+            await _backupService.RunBackupAsync();
+            System.Windows.MessageBox.Show("Sauvegarde effectuée avec succès.", "Succès", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            System.Windows.MessageBox.Show($"Erreur lors de la sauvegarde : {ex.Message}", "Erreur", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+        }
     }
 
     private async Task CheckForUpdatesAsync()
@@ -153,47 +172,17 @@ public class SettingsViewModel : ViewModelBase
         IsCheckingForUpdates = true;
         UpdateStatus = "Vérification des mises à jour...";
 
-        var releasesUrl = "https://github.com/adamkaroui69-jpg/el-mansour/releases";
-
         try
         {
-            using var httpClient = new HttpClient();
-            httpClient.Timeout = TimeSpan.FromSeconds(10);
-            
-            // GitHub requires a User-Agent header
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "ElMansourSyndicManager");
+            var updateInfo = await _updateService.CheckForUpdatesAsync();
 
-            // Download update.xml from GitHub releases
-            var updateXmlUrl = "https://github.com/adamkaroui69-jpg/el-mansour/releases/latest/download/update.xml";
-            var xmlContent = await httpClient.GetStringAsync(updateXmlUrl);
-
-            // Parse XML
-            var doc = XDocument.Parse(xmlContent);
-            var versionElement = doc.Root?.Element("version");
-            var urlElement = doc.Root?.Element("url");
-
-            if (versionElement == null || urlElement == null)
+            if (updateInfo != null)
             {
-                UpdateStatus = "Format de mise à jour invalide.";
-                OpenReleasesPageFallback(releasesUrl);
-                return;
-            }
-
-            var latestVersion = versionElement.Value;
-            var downloadUrl = urlElement.Value;
-
-            // Compare versions
-            var currentVersion = new Version(AppVersion);
-            var remoteVersion = new Version(latestVersion.TrimEnd('0', '.'));
-
-            if (remoteVersion > currentVersion)
-            {
-                UpdateStatus = $"Nouvelle version disponible : {latestVersion}";
+                UpdateStatus = $"Nouvelle version disponible : {updateInfo.Version}";
                 
                 var result = MessageBox.Show(
-                    $"Une nouvelle version ({latestVersion}) est disponible !\n\n" +
-                    $"Version actuelle : {AppVersion}\n" +
-                    $"Nouvelle version : {latestVersion}\n\n" +
+                    $"Une nouvelle version ({updateInfo.Version}) est disponible !\n\n" +
+                    $"Notes : {updateInfo.ReleaseNotes}\n\n" +
                     "Voulez-vous télécharger la mise à jour maintenant ?",
                     "Mise à jour disponible",
                     MessageBoxButton.YesNo,
@@ -201,10 +190,9 @@ public class SettingsViewModel : ViewModelBase
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    // Open download URL in browser
                     Process.Start(new ProcessStartInfo
                     {
-                        FileName = downloadUrl,
+                        FileName = updateInfo.DownloadUrl,
                         UseShellExecute = true
                     });
                 }
@@ -221,48 +209,31 @@ public class SettingsViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            UpdateStatus = "Impossible de vérifier automatiquement.";
-            
-            // Fallback: Propose to open the releases page manually
-            var result = MessageBox.Show(
-                $"Impossible de vérifier les mises à jour automatiquement (Erreur: {ex.Message}).\n\n" +
-                "Cela arrive souvent si le dépôt est privé.\n\n" +
-                "Voulez-vous ouvrir la page des téléchargements pour vérifier manuellement ?",
-                "Vérification manuelle",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = releasesUrl,
-                    UseShellExecute = true
-                });
-            }
+            UpdateStatus = "Erreur de vérification.";
+            MessageBox.Show($"Impossible de vérifier les mises à jour : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         finally
         {
             IsCheckingForUpdates = false;
         }
     }
+}
 
-    private void OpenReleasesPageFallback(string url)
-    {
-        var result = MessageBox.Show(
-            "Impossible de lire les informations de mise à jour.\n" +
-            "Voulez-vous ouvrir la page des téléchargements ?",
-            "Erreur",
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Question);
+// Dummy classes for design time
+public class DesignTimeUpdateService : IUpdateService
+{
+    public Task<UpdateInfo?> CheckForUpdatesAsync() => Task.FromResult<UpdateInfo?>(null);
+    public string GetCurrentVersion() => "1.0.0";
+}
 
-        if (result == MessageBoxResult.Yes)
-        {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = url,
-                UseShellExecute = true
-            });
-        }
-    }
+public class DesignTimeBackupService : IBackupService
+{
+    public Task<ElMansourSyndicManager.Core.Domain.DTOs.BackupHistoryDTO> RunBackupAsync(bool isAutomatic = false, System.Threading.CancellationToken cancellationToken = default) => Task.FromResult(new ElMansourSyndicManager.Core.Domain.DTOs.BackupHistoryDTO());
+    public Task<List<ElMansourSyndicManager.Core.Domain.DTOs.BackupHistoryDTO>> GetBackupHistoryAsync(System.Threading.CancellationToken cancellationToken = default) => Task.FromResult(new List<ElMansourSyndicManager.Core.Domain.DTOs.BackupHistoryDTO>());
+    public Task DeleteOldBackupsAsync(int keepLastN, System.Threading.CancellationToken cancellationToken = default) => Task.CompletedTask;
+    public Task TriggerScheduledBackupAsync(System.Threading.CancellationToken cancellationToken = default) => Task.CompletedTask;
+    public Task<bool> RestoreBackupAsync(string backupFilePath, System.Threading.CancellationToken cancellationToken = default) => Task.FromResult(true);
+    public Task<bool> DeleteBackupAsync(string backupId, System.Threading.CancellationToken cancellationToken = default) => Task.FromResult(true);
+    public Task<string?> GetBackupFilePathAsync(string backupId, System.Threading.CancellationToken cancellationToken = default) => Task.FromResult<string?>(null);
+    public Task ScheduleBackupsAsync(bool enabled, TimeSpan? time = null, System.Threading.CancellationToken cancellationToken = default) => Task.CompletedTask;
 }

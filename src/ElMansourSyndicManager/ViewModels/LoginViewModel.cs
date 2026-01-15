@@ -29,7 +29,6 @@ public class LoginViewModel : ViewModelBase
         get => _houseCode;
         set
         {
-            Debug.WriteLine($"HouseCode set to: {value}");
             if (SetProperty(ref _houseCode, value))
             {
                 CommandManager.InvalidateRequerySuggested();
@@ -42,7 +41,6 @@ public class LoginViewModel : ViewModelBase
         get => _code;
         set
         {
-            Debug.WriteLine($"Code set to: {value}");
             if (SetProperty(ref _code, value))
             {
                 CommandManager.InvalidateRequerySuggested();
@@ -76,7 +74,6 @@ public class LoginViewModel : ViewModelBase
 
     private async Task LoginAsync()
     {
-        Debug.WriteLine($"LoginAsync called. HouseCode: {HouseCode}, Code: {Code}");
         IsLoading = true;
         ErrorMessage = string.Empty;
 
@@ -109,7 +106,6 @@ public class LoginViewModel : ViewModelBase
                 inner = inner.InnerException;
             }
             ErrorMessage = $"Erreur lors de la connexion: {message}";
-            Debug.WriteLine($"Login error: {ex}");
         }
         finally
         {

@@ -16,6 +16,9 @@
                 
                 <!-- Custom Modern Styles (LAST - to override Material Design) -->
                 <ResourceDictionary Source="/Resources/ModernStyles.xaml" />
+                
+                <!-- Enhanced UI/UX Styles -->
+                <ResourceDictionary Source="/Resources/EnhancedStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ElMansourSyndicManager.Core.Domain.Entities;
+using ElMansourSyndicManager.Core.Configuration;
+using System.IO;
 
 namespace ElMansourSyndicManager.Infrastructure.Data
 {
@@ -7,6 +9,29 @@ namespace ElMansourSyndicManager.Infrastructure.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                var config = AppConfiguration.Instance;
+                var dbPath = config.GetDatabasePath();
+
+                // Ensure directory exists
+                var directory = Path.GetDirectoryName(dbPath);
+                if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                optionsBuilder.UseSqlite($"Data Source={dbPath}");
+
+                #if DEBUG
+                optionsBuilder.EnableSensitiveDataLogging();
+                optionsBuilder.EnableDetailedErrors();
+                #endif
+            }
         }
 
         // Define your DbSets here, for example:

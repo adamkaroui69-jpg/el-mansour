@@ -1,5 +1,5 @@
 ﻿ElMansourSyndicManager
-1.0.35.0
+2.0.0.0
 
 winexe
 C#
@@ -10,11 +10,11 @@ none
 false
 TRACE;RELEASE;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\App.xaml
-15-697057259
+171853966088
 4-285030499
-40507207535
-277-80341351
-MainWindow.xaml;Resources\Converters.xaml;Resources\ModernStyles.xaml;Views\AuditView.xaml;Views\BackupView.xaml;Views\DashboardView.xaml;Views\DocumentsView.xaml;Views\ExpensesView.xaml;Views\LoginWindow.xaml;Views\NotificationsView.xaml;Views\PaymentsView.xaml;Views\ReceiptsView.xaml;Views\ReportsView.xaml;Views\SettingsView.xaml;Views\UsersView.xaml;
+42-1332009482
+261-1755668472
+MainWindow.xaml;Resources\Converters.xaml;Resources\EnhancedStyles.xaml;Resources\ModernStyles.xaml;Views\AuditView.xaml;Views\BackupView.xaml;Views\DashboardView.xaml;Views\DocumentsView.xaml;Views\ExpensesView.xaml;Views\LoginWindow.xaml;Views\MaintenanceView.xaml;Views\NotificationsView.xaml;Views\PaymentsView.xaml;Views\ReceiptsView.xaml;Views\ReportsView.xaml;Views\SettingsView.xaml;Views\UsersView.xaml;
 
 False
 

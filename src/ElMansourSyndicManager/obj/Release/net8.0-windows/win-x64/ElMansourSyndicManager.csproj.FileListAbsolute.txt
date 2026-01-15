@@ -27,8 +27,6 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\ElMansourSyndicManager.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\ElMansourSyndicManager.pdb
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\AutoUpdater.NET.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Azure.Core.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Azure.Identity.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\ControlzEx.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\HarfBuzzSharp.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Humanizer.dll
@@ -44,14 +42,12 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.CodeAnalysis.CSharp.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.CodeAnalysis.Workspaces.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.Data.SqlClient.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.Data.Sqlite.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.EntityFrameworkCore.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.EntityFrameworkCore.Sqlite.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.Extensions.Caching.Abstractions.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.Extensions.Caching.Memory.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.Extensions.Configuration.dll
@@ -73,15 +69,6 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.Extensions.Options.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.Extensions.Primitives.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.Identity.Client.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.Identity.Client.Extensions.Msal.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.IdentityModel.Abstractions.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.IdentityModel.Logging.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.IdentityModel.Protocols.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.IdentityModel.Tokens.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.SqlServer.Server.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.Toolkit.Mvvm.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.Toolkit.Uwp.Notifications.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.Web.WebView2.Core.dll
@@ -103,10 +90,7 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\System.Composition.Hosting.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\System.Composition.Runtime.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\System.Composition.TypedParts.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\System.IO.Pipelines.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\System.Memory.Data.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\System.Runtime.Caching.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\System.Text.Encodings.Web.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\System.Text.Json.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\ar\AutoUpdater.NET.resources.dll
@@ -183,7 +167,6 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\libHarfBuzzSharp.dll
-C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\WebView2Loader.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\QuestPdfSkia.dll
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\bin\Release\net8.0-windows\win-x64\libSkiaSharp.dll
@@ -696,3 +679,6 @@ C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Rel
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\win-x64\ElMansourSyndicManager.pdb
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\win-x64\ElMansourSyndicManager.genruntimeconfig.cache
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\win-x64\ref\ElMansourSyndicManager.dll
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\win-x64\Resources\EnhancedStyles.baml
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\win-x64\Views\MaintenanceView.g.cs
+C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\obj\Release\net8.0-windows\win-x64\Views\MaintenanceView.baml

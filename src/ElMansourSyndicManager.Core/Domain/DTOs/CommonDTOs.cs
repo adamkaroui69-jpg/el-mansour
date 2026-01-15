@@ -285,6 +285,7 @@ public class ReportHistoryDTO
 public class BackupHistoryDTO
 {
     public Guid Id { get; set; }
+    public string FileName { get; set; } = string.Empty;
     public string BackupType { get; set; } = string.Empty; // Full, Database, Documents
     public string FilePath { get; set; } = string.Empty;
     public string? CloudStoragePath { get; set; }

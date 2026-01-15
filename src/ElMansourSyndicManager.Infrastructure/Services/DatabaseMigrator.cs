@@ -26,8 +26,8 @@ public class DatabaseMigrator : IDatabaseMigrator
         }
         catch (Exception ex)
         {
-            // Ignorer l'erreur si la table existe déjà (transition depuis EnsureCreated vers Migrations)
-            _logger.LogWarning(ex, "Migration warning (safe to ignore on existing DB): {Message}", ex.Message);
+            _logger.LogError(ex, "Échec critique de la migration BDD.");
+            throw new Exception("Impossible de mettre à jour la base de données. Contactez le support.", ex);
         }
     }
 }

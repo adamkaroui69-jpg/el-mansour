@@ -43,6 +43,16 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -195,7 +205,7 @@
       }
     },
     "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager\\ElMansourSyndicManager.csproj": {
-      "version": "1.0.35",
+      "version": "2.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager\\ElMansourSyndicManager.csproj",
         "projectName": "ElMansourSyndicManager",
@@ -262,10 +272,6 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.10, )"
-            },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
-              "target": "Package",
-              "version": "[8.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",

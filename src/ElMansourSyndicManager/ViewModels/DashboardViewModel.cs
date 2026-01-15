@@ -4,11 +4,7 @@ using ElMansourSyndicManager.ViewModels.Base;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.IO;
-// Temporarily commented to isolate SkiaSharp issues
-// using LiveChartsCore;
-// using LiveChartsCore.SkiaSharpView;
-// using LiveChartsCore.SkiaSharpView.Painting;
-// using SkiaSharp;
+
 
 namespace ElMansourSyndicManager.ViewModels;
 
@@ -27,7 +23,7 @@ public class DashboardViewModel : ViewModelBase, IInitializable
     private bool _isLoading;
 
     private readonly IAuthenticationService _authService;
-    private string _userName;
+    private string _userName = string.Empty;
 
     public DashboardViewModel(
         IPaymentService paymentService,
@@ -109,24 +105,12 @@ public class DashboardViewModel : ViewModelBase, IInitializable
     public ICommand NavigateToPaymentsCommand { get; }
     public ICommand NavigateToExpensesCommand { get; }
 
-    // Temporarily commented to isolate SkiaSharp issues
-    // public ISeries[] Series { get; set; }
-    // public Axis[] XAxes { get; set; }
+
 
     private async Task LoadDataAsync()
     {
-        // Use relative path for logging
-        var baseDir = AppDomain.CurrentDomain.BaseDirectory;
-        var logDir = Path.Combine(baseDir, "data", "logs");
-        if (!Directory.Exists(logDir))
-        {
-            Directory.CreateDirectory(logDir);
-        }
-        var logPath = Path.Combine(logDir, "dashboard_debug.txt");
-        
         try
         {
-            File.AppendAllText(logPath, $"\n[{DateTime.Now}] DashboardViewModel.LoadDataAsync started.\n");
             IsLoading = true;
 
             var user = await _authService.GetCurrentUserAsync();
@@ -180,64 +164,10 @@ public class DashboardViewModel : ViewModelBase, IInitializable
             TotalCollected = stats.TotalCollected;
             TotalSpent = allExpenses.Sum(e => e.Amount);
             Balance = TotalCollected - TotalSpent;
-
-            /* Temporarily commented to isolate SkiaSharp issues
-            // --- CHART DATA PREPARATION ---
-            var incomeValues = new List<double>();
-            var expenseValues = new List<double>();
-            var labels = new List<string>();
-
-            var now = DateTime.Now;
-            for (int i = 5; i >= 0; i--)
-            {
-                var date = now.AddMonths(-i);
-                var monthStr = date.ToString("yyyy-MM");
-                labels.Add(date.ToString("MMM", System.Globalization.CultureInfo.GetCultureInfo("fr-FR")));
-
-                // Monthly Income
-                var monthPayments = await _paymentService.GetPaymentsByMonthAsync(monthStr);
-                incomeValues.Add((double)monthPayments.Sum(p => p.Amount));
-
-                // Monthly Expenses
-                var monthExpenses = await _expenseService.GetExpensesByMonthAsync(date.Year, date.Month);
-                expenseValues.Add((double)monthExpenses.Sum(e => e.Amount));
-            }
-
-            Series = new ISeries[]
-            {
-                new ColumnSeries<double>
-                {
-                    Name = "Revenus",
-                    Values = incomeValues.ToArray(),
-                    Fill = new SolidColorPaint(SKColors.CornflowerBlue)
-                },
-                new ColumnSeries<double>
-                {
-                    Name = "Dépenses",
-                    Values = expenseValues.ToArray(),
-                    Fill = new SolidColorPaint(SKColors.IndianRed)
-                }
-            };
-
-            XAxes = new Axis[]
-            {
-                new Axis
-                {
-                    Labels = labels.ToArray(),
-                    LabelsPaint = new SolidColorPaint(SKColors.Gray)
-                }
-            };
-
-            OnPropertyChanged(nameof(Series));
-            OnPropertyChanged(nameof(XAxes));
-            */
-
-            File.AppendAllText(logPath, $"[{DateTime.Now}] DashboardViewModel.LoadDataAsync completed successfully.\n");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            System.Diagnostics.Debug.WriteLine($"Error loading dashboard data: {ex.Message}");
-            try { File.AppendAllText(logPath, $"[{DateTime.Now}] ERROR: {ex.Message}\n"); } catch {}
+            // Error loading dashboard data - silently fail
         }
         finally
         {

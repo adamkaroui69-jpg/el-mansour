@@ -16,7 +16,7 @@ Write-Host ""
 # Chemins
 $projectRoot = $PSScriptRoot
 $projectFile = Join-Path $projectRoot "src\ElMansourSyndicManager\ElMansourSyndicManager.csproj"
-$issScript = Join-Path $projectRoot "installer-script.iss"
+$issScript = Join-Path $projectRoot "installer.iss"
 $outputDir = Join-Path $projectRoot "installer-output"
 $innoSetupPath = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
 

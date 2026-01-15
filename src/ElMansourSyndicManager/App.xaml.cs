@@ -1,7 +1,5 @@
-using ElMansourSyndicManager.Core.Domain.Interfaces.Repositories;
-using ElMansourSyndicManager.Core.Domain.Interfaces.Services; // Added using for IMaintenanceService
-using ElMansourSyndicManager.Infrastructure.Data; // Changed from Data.Local
-using ElMansourSyndicManager.Infrastructure.Data.Repositories; // Changed from Data.Local.Repositories
+using ElMansourSyndicManager.Core.Domain.Interfaces.Services;
+using ElMansourSyndicManager.Infrastructure.Data;
 using ElMansourSyndicManager.Infrastructure.Services;
 using ElMansourSyndicManager.Services.Navigation;
 using ElMansourSyndicManager.ViewModels;
@@ -11,8 +9,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Windows;
-using System.Windows.Controls; // Added for TextBlock
+using System.Windows.Controls;
 using System.Windows.Threading;
+using System.IO;
+using ElMansourSyndicManager.Core.Configuration;
 
 namespace ElMansourSyndicManager;
 
@@ -64,42 +64,19 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        Console.WriteLine("Application OnStartup method called.");
 
         // Configure services
         var services = new ServiceCollection();
         
-        // Database Configuration
-        var baseDir = AppDomain.CurrentDomain.BaseDirectory;
-        var builder = new ConfigurationBuilder()
-            .SetBasePath(baseDir)
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-        var configuration = builder.Build();
-
-        // Database Provider
-        var dbProvider = configuration["DatabaseProvider"] ?? "Sqlite";
+        // Use Centralized AppConfiguration
+        var appConfig = AppConfiguration.Instance;
+        var dbPath = appConfig.GetDatabasePath();
+        
+        // Directories are already ensured by AppConfiguration constructor
         
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
-            if (dbProvider.Equals("SqlServer", StringComparison.OrdinalIgnoreCase))
-            {
-                var connectionString = configuration.GetConnectionString("SqlServerConnection");
-                options.UseSqlServer(connectionString, sqlOptions =>
-                {
-                    sqlOptions.EnableRetryOnFailure(
-                        maxRetryCount: 3,
-                        maxRetryDelay: TimeSpan.FromSeconds(5),
-                        errorNumbersToAdd: null);
-                });
-            }
-            else
-            {
-                // Default to Sqlite
-                var dataDir = System.IO.Path.Combine(baseDir, "data");
-                // Directory creation is handled by AppInitializer
-                var dbPath = System.IO.Path.Combine(dataDir, "local.db");
-                options.UseSqlite($"Data Source={dbPath}");
-            }
+            options.UseSqlite($"Data Source={dbPath}");
             
             // Enable detailed logging in debug mode
             #if DEBUG
@@ -149,30 +126,32 @@ public partial class App : Application
 
     private void ConfigureServices(IServiceCollection services)
     {
-        // Repositories (add your implementations here)
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IAuditLogRepository, AuditLogRepository>();
-        services.AddScoped<IPaymentRepository, PaymentRepository>();
-        services.AddScoped<IHouseRepository, HouseRepository>();
-        services.AddScoped<IReceiptRepository, ReceiptRepository>();
-        services.AddScoped<IMaintenanceRepository, MaintenanceRepository>();
-        services.AddScoped<INotificationRepository, ElMansourSyndicManager.Infrastructure.Repositories.NotificationRepository>();
-        services.AddScoped<IExpenseRepository, ExpenseRepository>();
-        services.AddScoped<IDocumentRepository, DocumentRepository>();
-        
-        // Services registered via AddApplicationServices()
-        services.AddApplicationServices();
-
-        // Logging
+        // 1. Logging
         services.AddLogging(builder =>
         {
             builder.AddConsole();
             builder.AddDebug();
         });
 
-        // ViewModels
+        // 2. Infrastructure (Repositories & Domain Services)
+        services.AddInfrastructureServices();
+
+        // 3. Navigation
+        services.AddSingleton<INavigationService, NavigationService>();
+
+        // 4. ViewModels
+        ConfigureViewModels(services);
+
+        // 5. Views
+        ConfigureViews(services);
+    }
+
+    private void ConfigureViewModels(IServiceCollection services)
+    {
         services.AddTransient<LoginViewModel>();
         services.AddTransient<MainViewModel>();
+        
+        // Features
         services.AddTransient<DashboardViewModel>();
         services.AddTransient<PaymentsViewModel>();
         services.AddTransient<ReceiptsViewModel>();
@@ -182,10 +161,16 @@ public partial class App : Application
         services.AddTransient<ReportsViewModel>();
         services.AddTransient<AuditViewModel>();
         services.AddTransient<SettingsViewModel>();
+        services.AddTransient<MaintenanceViewModel>();
+    }
 
-        // Views
+    private void ConfigureViews(IServiceCollection services)
+    {
+        // Windows
         services.AddTransient<LoginWindow>();
         services.AddTransient<MainWindow>();
+        
+        // Pages
         services.AddTransient<DashboardView>();
         services.AddTransient<PaymentsView>();
         services.AddTransient<ReceiptsView>();
@@ -195,13 +180,28 @@ public partial class App : Application
         services.AddTransient<ReportsView>();
         services.AddTransient<AuditView>();
         services.AddTransient<SettingsView>();
-
-        // Navigation service
-        services.AddSingleton<INavigationService, NavigationService>();
+        services.AddTransient<MaintenanceView>();
     }
 
-    protected override void OnExit(ExitEventArgs e)
+    protected override async void OnExit(ExitEventArgs e)
     {
+        try 
+        {
+            if (_serviceProvider != null)
+            {
+                using (var scope = _serviceProvider.CreateScope())
+                {
+                    var backupService = scope.ServiceProvider.GetRequiredService<Core.Domain.Interfaces.Services.IBackupService>();
+                    // Trigger automatic backup on exit
+                    await backupService.RunBackupAsync(isAutomatic: true);
+                }
+            }
+        }
+        catch 
+        {
+            // Ignore backup errors on exit to not crash the shutdown process
+        }
+
         _serviceProvider?.Dispose();
         base.OnExit(e);
     }

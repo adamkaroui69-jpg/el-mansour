@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="El Mansour Syndic Manager - Connexion"
-        Height="700" Width="1000"
+        Height="700" Width="1200"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -12,14 +12,9 @@
         Icon="/Assets/logo.png">
     
     <Window.Resources>
+        <!-- Animation Fade In -->
         <Storyboard x:Key="FadeIn">
             <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.8">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" 
-                             From="50" To="0" Duration="0:0:0.8">
                 <DoubleAnimation.EasingFunction>
                     <CubicEase EasingMode="EaseOut"/>
                 </DoubleAnimation.EasingFunction>
@@ -33,139 +28,180 @@
         </EventTrigger>
     </Window.Triggers>
     
-    <!-- Fond Principal -->
-    <Border CornerRadius="20" Background="{StaticResource AppBackgroundBrush}" ClipToBounds="True">
+    <!-- Container Principal avec Coins Arrondis -->
+    <Border CornerRadius="16" ClipToBounds="True">
+        <Border.Effect>
+            <DropShadowEffect Color="#40000000" BlurRadius="40" ShadowDepth="0" Opacity="0.3"/>
+        </Border.Effect>
+        
         <Grid>
-            <!-- Éléments décoratifs d'arrière-plan (Glows) -->
-            <Ellipse Width="600" Height="600" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-200,-200,0">
-                <Ellipse.Fill>
-                    <RadialGradientBrush Center="0.5,0.5" GradientOrigin="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
-                        <GradientStop Color="#2C5282" Offset="0"/>
-                        <GradientStop Color="#1A2332" Offset="1"/>
-                    </RadialGradientBrush>
-                </Ellipse.Fill>
-                <Ellipse.Effect>
-                    <BlurEffect Radius="100"/>
-                </Ellipse.Effect>
-            </Ellipse>
-            
-            <Ellipse Width="500" Height="500" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="-100,0,0,-100">
-                <Ellipse.Fill>
-                    <RadialGradientBrush Center="0.5,0.5" GradientOrigin="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
-                        <GradientStop Color="#D4AF37" Offset="0"/>
-                        <GradientStop Color="#1A2332" Offset="1"/>
-                    </RadialGradientBrush>
-                </Ellipse.Fill>
-                <Ellipse.Effect>
-                    <BlurEffect Radius="100"/>
-                </Ellipse.Effect>
-            </Ellipse>
+            <Grid.ColumnDefinitions>
+                <!-- Côté Gauche (Bleu) -->
+                <ColumnDefinition Width="*"/>
+                <!-- Côté Droit (Blanc) -->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-            <!-- Bouton Fermer -->
-            <Button Style="{StaticResource MaterialDesignIconButton}"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Margin="20"
-                    Foreground="{StaticResource TextSecondaryBrush}"
-                    Click="CloseButton_Click">
-                <materialDesign:PackIcon Kind="Close" Width="24" Height="24"/>
-            </Button>
+            <!-- ========================================== -->
+            <!-- CÔTÉ GAUCHE - BLEU AVEC BRANDING           -->
+            <!-- ========================================== -->
+            <Grid Grid.Column="0" Background="#4F46E5">
+                <!-- Motif Géométrique Subtil -->
+                <Canvas>
+                    <!-- Rectangles en diagonale pour le motif -->
+                    <Rectangle Width="300" Height="300" Fill="#5B52ED" Opacity="0.3" 
+                               Canvas.Left="100" Canvas.Top="50" RenderTransformOrigin="0.5,0.5">
+                        <Rectangle.RenderTransform>
+                            <RotateTransform Angle="15"/>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                    <Rectangle Width="250" Height="250" Fill="#6B62F5" Opacity="0.2" 
+                               Canvas.Left="150" Canvas.Top="100" RenderTransformOrigin="0.5,0.5">
+                        <Rectangle.RenderTransform>
+                            <RotateTransform Angle="15"/>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                </Canvas>
 
-            <!-- Contenu Central -->
-            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+                <!-- Contenu Centré -->
+                <StackPanel VerticalAlignment="Center" Margin="80,0">
+                    <!-- Logo Astérisque -->
+                    <Viewbox Width="80" Height="80" Margin="0,0,0,40">
+                        <Canvas Width="100" Height="100">
+                            <!-- Astérisque stylisé -->
+                            <Path Fill="White" Data="M50,10 L55,45 L90,45 L62,65 L75,95 L50,75 L25,95 L38,65 L10,45 L45,45 Z"/>
+                        </Canvas>
+                    </Viewbox>
 
-                <!-- Carte de Connexion Glassmorphism -->
-                <Border Grid.Row="1" Style="{StaticResource GlassCard}" Width="420" Padding="40">
-                    <Border.RenderTransform>
-                        <TranslateTransform/>
-                    </Border.RenderTransform>
-                    
-                    <StackPanel>
-                        <!-- Logo et Titre -->
-                        <Image Source="/Assets/logo.png" Width="150" Height="150" Margin="0,0,0,20">
-                            <Image.Effect>
-                                <DropShadowEffect Color="#D4AF37" BlurRadius="30" ShadowDepth="0" Opacity="0.7"/>
-                            </Image.Effect>
-                        </Image>
-                        
-                        <TextBlock Text="Bienvenue"
-                                 FontSize="28"
-                                 FontWeight="Bold"
-                                 Foreground="{StaticResource TextPrimaryBrush}"
-                                 HorizontalAlignment="Center"
-                                 Margin="0,0,0,5"/>
-                        
-                        <TextBlock Text="El Mansour Syndic Manager"
-                                 FontSize="16"
-                                 Foreground="{StaticResource TextSecondaryBrush}"
-                                 HorizontalAlignment="Center"
-                                 Margin="0,0,0,40"/>
+                    <!-- Titre Principal -->
+                    <TextBlock Text="Bienvenue"
+                               FontSize="56" 
+                               FontWeight="Bold" 
+                               Foreground="White" 
+                               TextAlignment="Left" 
+                               Margin="0,0,0,10"/>
 
-                        <!-- Champs de saisie -->
-                        <StackPanel Margin="0,0,0,20">
-                            <TextBlock Text="CODE MAISON" 
-                                     Foreground="{StaticResource TextSecondaryBrush}" 
-                                     FontSize="12" 
-                                     FontWeight="Bold" 
-                                     Margin="0,0,0,8"/>
-                            
-                            <TextBox Style="{StaticResource ModernTextBox}"
-                                     materialDesign:HintAssist.Hint="Ex: A01"
-                                     Text="{Binding HouseCode, UpdateSourceTrigger=PropertyChanged}"/>
+                    <!-- Description -->
+                    <TextBlock Text="Gérez votre résidence en toute simplicité. Automatisez vos tâches et gagnez du temps !"
+                               FontSize="16"
+                               Foreground="#E0E7FF"
+                               TextWrapping="Wrap"
+                               LineHeight="24"
+                               Margin="0,0,0,60"/>
+
+                    <!-- Copyright -->
+                    <TextBlock Text="© 2024 El Mansour Syndic. All rights reserved."
+                               FontSize="13"
+                               Foreground="#A5B4FC"
+                               VerticalAlignment="Bottom"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- ========================================== -->
+            <!-- CÔTÉ DROIT - BLANC AVEC FORMULAIRE         -->
+            <!-- ========================================== -->
+            <Grid Grid.Column="1" Background="White">
+                <!-- Bouton Fermer -->
+                <Button Style="{StaticResource MaterialDesignIconButton}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="20"
+                        Foreground="#6B7280"
+                        Click="CloseButton_Click">
+                    <materialDesign:PackIcon Kind="Close" Width="24" Height="24"/>
+                </Button>
+
+                <!-- Formulaire Centré -->
+                <StackPanel VerticalAlignment="Center" Margin="80,0" MaxWidth="400">
+                    <!-- Titre de l'App -->
+                    <TextBlock Text="El Mansour Syndic"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="#1F2937"
+                               Margin="0,0,0,40"/>
+
+
+
+                    <!-- Champ Email/Code Maison -->
+                    <TextBox x:Name="HouseCodeTextBox"
+                             Text="{Binding HouseCode, UpdateSourceTrigger=PropertyChanged}"
+                             FontSize="14"
+                             Padding="12"
+                             Margin="0,0,0,20"
+                             BorderBrush="#E5E7EB"
+                             BorderThickness="0,0,0,1"
+                             Background="Transparent"
+                             Foreground="#1F2937"
+                             materialDesign:HintAssist.Hint="Code Maison (Ex: A01)"
+                             materialDesign:HintAssist.Foreground="#9CA3AF"/>
+
+                    <!-- Champ Password -->
+                    <PasswordBox x:Name="PasswordBox"
+                                 FontSize="14"
+                                 Padding="12"
+                                 Margin="0,0,0,30"
+                                 BorderBrush="#E5E7EB"
+                                 BorderThickness="0,0,0,1"
+                                 Background="Transparent"
+                                 Foreground="#1F2937"
+                                 materialDesign:HintAssist.Hint="Code PIN"
+                                 materialDesign:HintAssist.Foreground="#9CA3AF"
+                                 PasswordChanged="PasswordBox_PasswordChanged"/>
+
+                    <!-- Bouton Login (Violet) -->
+                    <Button Command="{Binding LoginCommand}"
+                            Background="#4F46E5"
+                            Foreground="White"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Padding="0,18"
+                            Margin="0,10,0,16"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Height="56">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                        CornerRadius="10"
+                                        Padding="{TemplateBinding Padding}">
+                                    <TextBlock Text="SE CONNECTER" 
+                                               Foreground="White"
+                                               FontSize="18"
+                                               FontWeight="Bold"
+                                               HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+
+
+                    <!-- Message d'erreur -->
+                    <Border Background="#FEE2E2" 
+                            CornerRadius="8" 
+                            Padding="12"
+                            Margin="0,20,0,0"
+                            Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="AlertCircle" 
+                                                    Foreground="#DC2626"
+                                                    VerticalAlignment="Center"
+                                                    Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding ErrorMessage}"
+                                      Foreground="#DC2626"
+                                      TextWrapping="Wrap"
+                                      VerticalAlignment="Center"/>
                         </StackPanel>
+                    </Border>
 
-                        <StackPanel Margin="0,0,0,30">
-                            <TextBlock Text="CODE PIN" 
-                                     Foreground="{StaticResource TextSecondaryBrush}" 
-                                     FontSize="12" 
-                                     FontWeight="Bold" 
-                                     Margin="0,0,0,8"/>
-                            
-                            <PasswordBox x:Name="PasswordBox"
-                                       Style="{StaticResource ModernPasswordBox}"
-                                       materialDesign:HintAssist.Hint="••••••"
-                                       PasswordChanged="PasswordBox_PasswordChanged"/>
-                        </StackPanel>
-
-                        <!-- Bouton Connexion -->
-                        <Button Style="{StaticResource ModernButton}"
-                                Command="{Binding LoginCommand}"
-                                Content="SE CONNECTER"
-                                Margin="0,0,0,20">
-                            <Button.Effect>
-                                <DropShadowEffect Color="#3B82F6" BlurRadius="20" ShadowDepth="0" Opacity="0.4"/>
-                            </Button.Effect>
-                        </Button>
-
-                        <!-- Message d'erreur -->
-                        <Border Background="#20EF4444" 
-                                CornerRadius="8" 
-                                Padding="12"
-                                Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <materialDesign:PackIcon Kind="AlertCircle" 
-                                                       Foreground="#EF4444"
-                                                       VerticalAlignment="Center"
-                                                       Margin="0,0,8,0"/>
-                                <TextBlock Text="{Binding ErrorMessage}"
-                                         Foreground="#EF4444"
-                                         TextWrapping="Wrap"
-                                         VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Loading -->
-                        <ProgressBar IsIndeterminate="True"
-                                   Height="4"
-                                   Margin="0,20,0,0"
-                                   Foreground="{StaticResource PrimaryBrush}"
-                                   Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                    </StackPanel>
-                </Border>
+                    <!-- Loading -->
+                    <ProgressBar IsIndeterminate="True"
+                                Height="3"
+                                Margin="0,20,0,0"
+                                Foreground="#4F46E5"
+                                Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </StackPanel>
             </Grid>
         </Grid>
     </Border>

@@ -36,14 +36,6 @@
                 <StackPanel>
                     <TextBlock Text="Apparence" FontWeight="SemiBold" FontSize="20" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,24"/>
                     <StackPanel>
-                        <TextBlock Text="Thème" FontSize="14" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
-                        <ComboBox ItemsSource="{Binding Themes}" 
-                                  SelectedItem="{Binding SelectedTheme}" 
-                                  materialDesign:HintAssist.Hint="Sélectionner un thème" 
-                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                                  Foreground="{StaticResource TextPrimaryBrush}"
-                                  Margin="0,0,0,24"/>
-                        
                         <TextBlock Text="Langue" FontSize="14" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
                         <ComboBox ItemsSource="{Binding Languages}" 
                                   SelectedItem="{Binding SelectedLanguage}" 
@@ -77,19 +69,31 @@
             <!-- Backup Settings -->
             <Border Style="{StaticResource GlassCard}" Margin="0,0,0,24">
                 <StackPanel>
-                    <TextBlock Text="Sauvegarde Cloud" FontWeight="SemiBold" FontSize="20" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,24"/>
+                    <TextBlock Text="Sauvegardes &amp; Restauration" FontWeight="SemiBold" FontSize="20" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,24"/>
                     <StackPanel>
+                        <CheckBox IsChecked="{Binding AutoBackupEnabled}" 
+                                  Content="Activer les sauvegardes automatiques" 
+                                  Foreground="{StaticResource TextPrimaryBrush}"
+                                  Margin="0,0,0,16"/>
+                        
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
-                            <materialDesign:PackIcon Kind="CloudCheck" Width="24" Height="24" Foreground="{StaticResource SuccessBrush}" Margin="0,0,12,0"/>
-                            <TextBlock Text="Vos données sont synchronisées et sauvegardées automatiquement sur le Cloud (Somee.com)." 
-                                     TextWrapping="Wrap" 
-                                     VerticalAlignment="Center"
-                                     Foreground="{StaticResource TextPrimaryBrush}"
-                                     FontSize="14"/>
+                            <TextBlock Text="Fréquence :" VerticalAlignment="Center" Margin="0,0,16,0" Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <ComboBox ItemsSource="{Binding BackupFrequencies}" 
+                                      SelectedItem="{Binding BackupFrequency}"
+                                      Width="150"
+                                      IsEnabled="{Binding AutoBackupEnabled}"/>
                         </StackPanel>
-                        <TextBlock Text="Pour restaurer une sauvegarde, veuillez accéder à votre panneau de contrôle Somee." 
-                                 Foreground="{StaticResource TextSecondaryBrush}" 
-                                 FontStyle="Italic"/>
+
+                        <Button Command="{Binding BackupNowCommand}" 
+                                Style="{StaticResource ModernButton}" 
+                                Content="Créer une sauvegarde maintenant"
+                                HorizontalAlignment="Left"
+                                Margin="0,8,0,0"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                             <materialDesign:PackIcon Kind="Information" Width="16" Height="16" Foreground="{StaticResource InfoBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                             <TextBlock Text="Les sauvegardes sont stockées dans le dossier 'data/backups'." Foreground="{StaticResource TextSecondaryBrush}" FontStyle="Italic"/>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </Border>

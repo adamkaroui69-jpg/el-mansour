@@ -13,9 +13,8 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid>
-            <!-- Main Content -->
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="0">
                 <!-- Header -->
                 <Grid Margin="0,0,0,32">
@@ -115,64 +114,64 @@
                     </StackPanel>
                 </Border>
             </StackPanel>
+        </ScrollViewer>
 
-            <!-- Loading Overlay -->
-            <Grid Background="#80000000" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Value="0" IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource PrimaryBrush}"/>
-            </Grid>
-
-            <!-- Form Overlay -->
-            <Grid Background="#B0000000" Visibility="{Binding IsFormVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Border Style="{StaticResource GlassCard}" Width="500" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="32">
-                    <StackPanel>
-                        <TextBlock Text="{Binding FormTitle}" FontSize="24" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,32"/>
-
-                        <TextBox Text="{Binding FormDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                 materialDesign:HintAssist.Hint="Description" 
-                                 Style="{StaticResource ModernTextBox}" 
-                                 Margin="0,0,0,24"/>
-                        
-                        <ComboBox ItemsSource="{Binding Categories}" 
-                                  SelectedItem="{Binding FormCategory, Mode=TwoWay}" 
-                                  materialDesign:HintAssist.Hint="Catégorie" 
-                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                                  Foreground="{StaticResource TextPrimaryBrush}"
-                                  Margin="0,0,0,24"/>
-                        
-                        <TextBox Text="{Binding FormAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                 materialDesign:HintAssist.Hint="Montant (TND)" 
-                                 Style="{StaticResource ModernTextBox}" 
-                                 Margin="0,0,0,24"/>
-                        
-                        <DatePicker SelectedDate="{Binding FormExpenseDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                    materialDesign:HintAssist.Hint="Date" 
-                                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
-                                    Foreground="{StaticResource TextPrimaryBrush}"
-                                    Margin="0,0,0,24"/>
-
-                        <TextBox Text="{Binding FormNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                 materialDesign:HintAssist.Hint="Notes" 
-                                 Style="{StaticResource ModernTextBox}" 
-                                 Margin="0,0,0,24" 
-                                 TextWrapping="Wrap" 
-                                 Height="80"/>
-
-                        <TextBlock Text="{Binding ErrorMessage}" Foreground="#EF4444" TextWrapping="Wrap" Margin="0,0,0,24"/>
-
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
-                            <Button Command="{Binding CancelCommand}" 
-                                    Style="{StaticResource MaterialDesignFlatButton}" 
-                                    Content="Annuler" 
-                                    Foreground="{StaticResource TextSecondaryBrush}"
-                                    Margin="0,0,16,0"/>
-                            <Button Command="{Binding SaveCommand}" 
-                                    Style="{StaticResource ModernButton}" 
-                                    Content="Enregistrer"
-                                    Width="140"/>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-            </Grid>
+        <!-- Loading Overlay -->
+        <Grid Background="#80000000" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Value="0" IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource PrimaryBrush}"/>
         </Grid>
-    </ScrollViewer>
+
+        <!-- Form Overlay -->
+        <Grid Background="#B0000000" Visibility="{Binding IsFormVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border Style="{StaticResource GlassCard}" Width="500" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="32">
+                <StackPanel>
+                    <TextBlock Text="{Binding FormTitle}" FontSize="24" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,32"/>
+
+                    <TextBox Text="{Binding FormDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             materialDesign:HintAssist.Hint="Description" 
+                             Style="{StaticResource ModernTextBox}" 
+                             Margin="0,0,0,24"/>
+                    
+                    <ComboBox ItemsSource="{Binding Categories}" 
+                              SelectedItem="{Binding FormCategory, Mode=TwoWay}" 
+                              materialDesign:HintAssist.Hint="Catégorie" 
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                              Foreground="{StaticResource TextPrimaryBrush}"
+                              Margin="0,0,0,24"/>
+                    
+                    <TextBox Text="{Binding FormAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             materialDesign:HintAssist.Hint="Montant (TND)" 
+                             Style="{StaticResource ModernTextBox}" 
+                             Margin="0,0,0,24"/>
+                    
+                    <DatePicker SelectedDate="{Binding FormExpenseDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                materialDesign:HintAssist.Hint="Date" 
+                                Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                Margin="0,0,0,24"/>
+
+                    <TextBox Text="{Binding FormNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             materialDesign:HintAssist.Hint="Notes" 
+                             Style="{StaticResource ModernTextBox}" 
+                             Margin="0,0,0,24" 
+                             TextWrapping="Wrap" 
+                             Height="80"/>
+
+                    <TextBlock Text="{Binding ErrorMessage}" Foreground="#EF4444" TextWrapping="Wrap" Margin="0,0,0,24"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                        <Button Command="{Binding CancelCommand}" 
+                                Style="{StaticResource MaterialDesignFlatButton}" 
+                                Content="Annuler" 
+                                Foreground="{StaticResource TextSecondaryBrush}"
+                                Margin="0,0,16,0"/>
+                        <Button Command="{Binding SaveCommand}" 
+                                Style="{StaticResource ModernButton}" 
+                                Content="Enregistrer"
+                                Width="140"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
 </UserControl>

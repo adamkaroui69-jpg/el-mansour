@@ -114,29 +114,7 @@ public class PriorityColorConverter : IValueConverter
     }
 }
 
-/// <summary>
-/// Converts boolean to inverse visibility
-/// </summary>
-public class InverseBooleanToVisibilityConverter : IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (value is bool boolValue)
-        {
-            return boolValue ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
-        }
-        return System.Windows.Visibility.Collapsed;
-    }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (value is System.Windows.Visibility visibility)
-        {
-            return visibility != System.Windows.Visibility.Visible;
-        }
-        return false;
-    }
-}
 
 /// <summary>
 /// Converts boolean IsRead to background color
