@@ -561,9 +561,16 @@ public class ReceiptService : IReceiptService
     /// </summary>
     private string CreateLocalFilePath(string houseCode, string month, string traceId)
     {
-        // Format: Receipts/HouseCode/YYYY-MM/Receipt_HouseCode_YYYY-MM_TraceId.pdf
-        var fileName = $"Receipt_{houseCode}_{month}_{traceId}.pdf";
-        return Path.Combine(_receiptsBasePath, houseCode, month, fileName);
+        // Parse month to get readable format
+        var monthName = FormatMonth(month); // "Janvier 2026"
+        var parts = monthName.Split(' ');
+        var monthPart = parts.Length > 0 ? parts[0] : month; // "Janvier"
+        var yearPart = parts.Length > 1 ? parts[1] : DateTime.Now.Year.ToString(); // "2026"
+        
+        // Format: Receipts/HouseCode/HouseCode_Mois_Année.pdf
+        // Example: Receipts/D05/D05_Janvier_2026.pdf
+        var fileName = $"{houseCode}_{monthPart}_{yearPart}.pdf";
+        return Path.Combine(_receiptsBasePath, houseCode, fileName);
     }
 
     /// <summary>

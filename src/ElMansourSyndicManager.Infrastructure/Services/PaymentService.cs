@@ -504,5 +504,59 @@ public class PaymentService : IPaymentService
         }
     }
 
+
+    /// <summary>
+    /// Génère un rapport mensuel avec les paiements du mois
+    /// </summary>
+    public async Task<MonthlyReportDto> GetMonthlyReportAsync(
+        string month, 
+        CancellationToken cancellationToken = default)
+    {
+        ValidateMonthFormat(month);
+
+        // Parse month
+        var monthDate = DateTime.ParseExact($"{month}-01", "yyyy-MM-dd", null);
+        var monthStart = new DateTime(monthDate.Year, monthDate.Month, 1);
+        var monthEnd = monthStart.AddMonths(1).AddDays(-1);
+
+        // Get all payments for this month
+        var monthPayments = await _paymentRepository.GetByMonthAsync(month, cancellationToken);
+        var paidPayments = monthPayments.Where(p => IsPaid(p.Status)).ToList();
+
+        // Get unpaid houses
+        var unpaidHouses = await GetUnpaidHousesAsync(month, cancellationToken);
+
+        // Calculate totals for the month (payments made between 1st and last day)
+        var allPaymentsInMonth = await _paymentRepository.GetAllAsync(cancellationToken);
+        var paymentsInDateRange = allPaymentsInMonth
+            .Where(p => IsPaid(p.Status) && 
+                       p.PaymentDate >= monthStart && 
+                       p.PaymentDate <= monthEnd)
+            .ToList();
+
+        var totalCollected = paymentsInDateRange.Sum(p => p.Amount);
+
+        return new MonthlyReportDto
+        {
+            Id = Guid.NewGuid(),
+            Month = monthDate,
+            TotalCollected = totalCollected,
+            TotalSpent = 0m, // Will be filled by caller with expense data
+            Balance = totalCollected,
+            PaidHousesCount = paidPayments.Count,
+            UnpaidHousesCount = unpaidHouses.Count,
+            TotalHousesCount = paidPayments.Count + unpaidHouses.Count,
+            CollectionRate = (paidPayments.Count + unpaidHouses.Count) > 0 
+                ? (decimal)paidPayments.Count / (paidPayments.Count + unpaidHouses.Count) * 100 
+                : 0,
+            AveragePaymentDelay = 0,
+            Payments = paidPayments.Select(MapToDto).ToList(),
+            Expenses = new List<ExpenseDto>(),
+            UnpaidHouses = unpaidHouses,
+            GeneratedAt = DateTime.UtcNow,
+            GeneratedBy = _authService.CurrentUser?.Username ?? "System"
+        };
+    }
+
     #endregion
 }
