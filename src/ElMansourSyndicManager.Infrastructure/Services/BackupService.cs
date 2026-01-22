@@ -105,15 +105,15 @@ public class BackupService : IBackupService
             var metadataPath = Path.Combine(backupFolderPath, "metadata.json");
             await CreateMetadataFileAsync(metadataPath, backup, cancellationToken);
 
-            // 4. Create encrypted archive
+            // 4. Create archive (Standard ZIP)
             var archivePath = Path.Combine(_backupsBasePath, $"{backupFolderName}.zip");
-            await CreateEncryptedArchiveAsync(backupFolderPath, archivePath, cancellationToken);
+            await CreateArchiveAsync(backupFolderPath, archivePath, cancellationToken);
 
             // 5. Calculate file size
             var fileInfo = new FileInfo(archivePath);
             backup.FileSize = fileInfo.Length;
             backup.FilePath = archivePath;
-            backup.CloudStoragePath = null; // Cloud storage upload is not supported as IDocumentService was removed.
+            backup.CloudStoragePath = null;
             _logger.LogInformation("Cloud storage upload skipped as IDocumentService was removed.");
 
             // 7. Save backup record
@@ -125,7 +125,7 @@ public class BackupService : IBackupService
                 UserId = _authService.CurrentUser?.Id.ToString(),
                 Action = "Create",
                 EntityType = "Backup",
-                EntityId = savedBackup.Id.ToString(), // Convertir Guid en string
+                EntityId = savedBackup.Id.ToString(), 
                 Details = $"{{\"type\":\"{backup.BackupType}\",\"size\":{backup.FileSize},\"automatic\":{isAutomatic}}}"
             }, cancellationToken);
 
@@ -142,6 +142,7 @@ public class BackupService : IBackupService
             _logger.LogInformation("Backup {BackupId} completed successfully. Size: {Size} bytes", backupId, backup.FileSize);
 
             return MapToDto(savedBackup);
+
         }
         catch (Exception ex)
         {
@@ -282,7 +283,7 @@ public class BackupService : IBackupService
 
             try
             {
-                await ExtractEncryptedArchiveAsync(backupFilePath, tempExtractPath, cancellationToken);
+                await ExtractArchiveAsync(backupFilePath, tempExtractPath, cancellationToken);
 
                 // Restore database
                 var dbBackupPath = Path.Combine(tempExtractPath, "database.db");
@@ -540,132 +541,34 @@ public class BackupService : IBackupService
     }
 
     /// <summary>
-    /// Creates encrypted ZIP archive
+    /// Creates standard ZIP archive
     /// </summary>
-    private async Task CreateEncryptedArchiveAsync(
+    private async Task CreateArchiveAsync(
         string sourceFolder, 
         string archivePath, 
         CancellationToken cancellationToken)
     {
         await Task.Run(() =>
         {
-            using var archive = ZipFile.Open(archivePath, ZipArchiveMode.Create);
-            
-            foreach (var file in Directory.GetFiles(sourceFolder, "*", SearchOption.AllDirectories))
-            {
-                var relativePath = Path.GetRelativePath(sourceFolder, file);
-                archive.CreateEntryFromFile(file, relativePath);
-            }
-        }, cancellationToken);
-
-        // Encrypt the archive
-        await EncryptFileAsync(archivePath, cancellationToken);
-    }
-
-    /// <summary>
-    /// Encrypts a file using AES
-    /// </summary>
-    private async Task EncryptFileAsync(string filePath, CancellationToken cancellationToken)
-    {
-        // Get encryption key from settings or generate one
-        var key = GetEncryptionKey();
-        
-        await Task.Run(() =>
-        {
-            var encryptedPath = filePath + ".encrypted";
-            
-            using (var inputFile = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-            using (var outputFile = new FileStream(encryptedPath, FileMode.Create, FileAccess.Write))
-            using (var aes = Aes.Create())
-            {
-                aes.Key = key;
-                aes.GenerateIV();
-
-                // Write IV to beginning of file
-                outputFile.Write(aes.IV, 0, aes.IV.Length);
-
-                using (var cryptoStream = new CryptoStream(outputFile, aes.CreateEncryptor(), CryptoStreamMode.Write))
-                {
-                    inputFile.CopyTo(cryptoStream);
-                }
-            }
-
-            // Replace original with encrypted
-            File.Delete(filePath);
-            File.Move(encryptedPath, filePath);
+            if (File.Exists(archivePath)) File.Delete(archivePath);
+            ZipFile.CreateFromDirectory(sourceFolder, archivePath);
         }, cancellationToken);
     }
 
     /// <summary>
-    /// Extracts encrypted archive
+    /// Extracts standard ZIP archive
     /// </summary>
-    private async Task ExtractEncryptedArchiveAsync(
+    private async Task ExtractArchiveAsync(
         string archivePath, 
         string extractPath, 
         CancellationToken cancellationToken)
     {
-        // Decrypt first
-        var decryptedPath = archivePath + ".decrypted";
-        await DecryptFileAsync(archivePath, decryptedPath, cancellationToken);
-
-        try
-        {
-            await Task.Run(() =>
-            {
-                ZipFile.ExtractToDirectory(decryptedPath, extractPath);
-            }, cancellationToken);
-        }
-        finally
-        {
-            // Cleanup decrypted file
-            if (File.Exists(decryptedPath))
-            {
-                File.Delete(decryptedPath);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Decrypts a file using AES
-    /// </summary>
-    private async Task DecryptFileAsync(
-        string encryptedPath, 
-        string decryptedPath, 
-        CancellationToken cancellationToken)
-    {
-        var key = GetEncryptionKey();
-        
         await Task.Run(() =>
         {
-            using (var inputFile = new FileStream(encryptedPath, FileMode.Open, FileAccess.Read))
-            using (var outputFile = new FileStream(decryptedPath, FileMode.Create, FileAccess.Write))
-            using (var aes = Aes.Create())
-            {
-                aes.Key = key;
-
-                // Read IV from beginning of file
-                var iv = new byte[aes.IV.Length];
-                inputFile.Read(iv, 0, iv.Length);
-                aes.IV = iv;
-
-                using (var cryptoStream = new CryptoStream(inputFile, aes.CreateDecryptor(), CryptoStreamMode.Read))
-                {
-                    cryptoStream.CopyTo(outputFile);
-                }
-            }
+            ZipFile.ExtractToDirectory(archivePath, extractPath);
         }, cancellationToken);
     }
 
-    /// <summary>
-    /// Gets encryption key (from settings or generates one)
-    /// </summary>
-    private byte[] GetEncryptionKey()
-    {
-        // In production, get from secure settings
-        // For now, use a fixed key (should be stored securely)
-        var keyString = "ElMansourSyndicManager2024BackupKey!";
-        return SHA256.HashData(Encoding.UTF8.GetBytes(keyString));
-    }
 
     /// <summary>
     /// Copies directory recursively
