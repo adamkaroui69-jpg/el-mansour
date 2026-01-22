@@ -51,6 +51,8 @@ Source: "bin\Publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs c
 Source: "GUIDE_INSTALLATION_UTILISATEUR.md"; DestDir: "{app}\Docs"; Flags: ignoreversion
 Source: "GUIDE_CONFIGURATION.md"; DestDir: "{app}\Docs"; Flags: ignoreversion
 Source: "GUIDE_DEPLOIEMENT.md"; DestDir: "{app}\Docs"; Flags: ignoreversion
+Source: "GUIDE_CLOUD_SYNC.md"; DestDir: "{app}\Docs"; Flags: ignoreversion
+Source: "GUIDE_SYNCHRONISATION_RESEAU.md"; DestDir: "{app}\Docs"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

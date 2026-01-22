@@ -16,16 +16,24 @@ namespace ElMansourSyndicManager.Infrastructure.Data
             if (!optionsBuilder.IsConfigured)
             {
                 var config = AppConfiguration.Instance;
-                var dbPath = config.GetDatabasePath();
 
-                // Ensure directory exists
-                var directory = Path.GetDirectoryName(dbPath);
-                if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+                if (string.Equals(config.DatabaseProvider, "SqlServer", StringComparison.OrdinalIgnoreCase))
                 {
-                    Directory.CreateDirectory(directory);
+                    optionsBuilder.UseSqlServer(config.ConnectionString);
                 }
+                else
+                {
+                    var dbPath = config.GetDatabasePath();
 
-                optionsBuilder.UseSqlite($"Data Source={dbPath}");
+                    // Ensure directory exists for SQLite
+                    var directory = Path.GetDirectoryName(dbPath);
+                    if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+
+                    optionsBuilder.UseSqlite($"Data Source={dbPath}");
+                }
 
                 #if DEBUG
                 optionsBuilder.EnableSensitiveDataLogging();
