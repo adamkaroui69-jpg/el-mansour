@@ -77,7 +77,20 @@ public class ReportingService : IReportingService
             var allHouses = await _houseRepository.GetAllActiveAsync(cancellationToken);
             var housesList = allHouses.ToList();
 
-            var totalCollected = paidPayments.Sum(p => p.Amount);
+            // Calculate total collected based on PAYMENT DATE (when money was received)
+            // not based on the month the payment covers
+            var monthStart = new DateTime(month.Year, month.Month, 1);
+            var monthEnd = monthStart.AddMonths(1).AddDays(-1);
+            
+            var allPayments = await _paymentService.GetAllPaymentsAsync(cancellationToken);
+            var paymentsReceivedInMonth = allPayments
+                .Where(p => p.Status == "Paid" && 
+                           p.PaymentDate.HasValue &&
+                           p.PaymentDate.Value >= monthStart && 
+                           p.PaymentDate.Value <= monthEnd)
+                .ToList();
+            
+            var totalCollected = paymentsReceivedInMonth.Sum(p => p.Amount);
             var totalSpent = expensesList.Sum(e => e.Amount);
             var balance = totalCollected - totalSpent;
 
@@ -106,7 +119,7 @@ public class ReportingService : IReportingService
                 TotalHousesCount = totalHousesCount,
                 CollectionRate = collectionRate,
                 AveragePaymentDelay = averagePaymentDelay,
-                Payments = paidPayments,
+                Payments = paymentsReceivedInMonth, // Show payments RECEIVED in this month
                 Expenses = expensesList,
                 UnpaidHouses = unpaidHouses.ToList(),
                 BuildingBreakdown = buildingBreakdown,
@@ -441,10 +454,11 @@ public class ReportingService : IReportingService
                                     {
                                         table.ColumnsDefinition(columns =>
                                         {
-                                            columns.ConstantColumn(80);
-                                            columns.ConstantColumn(60);
-                                            columns.RelativeColumn();
-                                            columns.ConstantColumn(80);
+                                            columns.ConstantColumn(70); // Date
+                                            columns.ConstantColumn(50); // Maison
+                                            columns.RelativeColumn();   // Statut
+                                            columns.RelativeColumn();   // Mois concerné
+                                            columns.ConstantColumn(70); // Montant
                                         });
                                         
                                         table.Header(header =>
@@ -452,6 +466,7 @@ public class ReportingService : IReportingService
                                             header.Cell().Element(CellStyle).Text("Date");
                                             header.Cell().Element(CellStyle).Text("Maison");
                                             header.Cell().Element(CellStyle).Text("Statut");
+                                            header.Cell().Element(CellStyle).Text("Mois concerné");
                                             header.Cell().Element(CellStyle).Text("Montant").AlignRight();
                                             
                                             static IContainer CellStyle(IContainer container)
@@ -466,6 +481,7 @@ public class ReportingService : IReportingService
                                             table.Cell().Element(CellStyle).Text($"{payment.PaymentDate:dd/MM/yyyy}");
                                             table.Cell().Element(CellStyle).Text(payment.HouseCode);
                                             table.Cell().Element(CellStyle).Text(payment.Status);
+                                            table.Cell().Element(CellStyle).Text(FormatMonth(payment.Month));
                                             table.Cell().Element(CellStyle).Text($"{payment.Amount:N2}").AlignRight();
                                             
                                             static IContainer CellStyle(IContainer container)

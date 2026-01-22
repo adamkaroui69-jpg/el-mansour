@@ -122,6 +122,20 @@ public class ReceiptsViewModel : ViewModelBase, IInitializable
             IsLoading = true;
             try
             {
+                // Clean up orphaned receipts first (receipts whose payments no longer exist)
+                try
+                {
+                    var cleanedCount = await _receiptService.CleanOrphanedReceiptsAsync();
+                    if (cleanedCount > 0)
+                    {
+                        _logger.LogInformation("Cleaned up {Count} orphaned receipt(s)", cleanedCount);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Failed to clean orphaned receipts, continuing anyway");
+                }
+
                 List<ReceiptDto> receipts;
                 if (string.IsNullOrWhiteSpace(SelectedHouseCode))
                 {
@@ -132,8 +146,9 @@ public class ReceiptsViewModel : ViewModelBase, IInitializable
                     receipts = await _receiptService.GetReceiptHistoryAsync(SelectedHouseCode);
                 }
 
-                // Filter by payment month (not receipt generation date)
-                receipts = receipts.Where(r => !string.IsNullOrEmpty(r.PaymentMonth) && r.PaymentMonth == SelectedMonth).ToList();
+
+                // REMOVED: Filter by payment month - now shows ALL receipts for the house
+                // receipts = receipts.Where(r => !string.IsNullOrEmpty(r.PaymentMonth) && r.PaymentMonth == SelectedMonth).ToList();
 
                 Receipts.Clear();
                 foreach (var receipt in receipts)

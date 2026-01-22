@@ -51,5 +51,10 @@ public interface IReceiptService
     /// Deletes all receipts associated with a payment (cascade delete)
     /// </summary>
     Task DeleteReceiptsByPaymentIdAsync(Guid paymentId, CancellationToken cancellationToken = default);
+    
+    /// <summary>
+    /// Cleans up orphaned receipts (receipts whose payments no longer exist)
+    /// </summary>
+    Task<int> CleanOrphanedReceiptsAsync(CancellationToken cancellationToken = default);
 }
 

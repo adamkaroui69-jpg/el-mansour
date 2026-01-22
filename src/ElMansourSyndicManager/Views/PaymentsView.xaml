@@ -30,13 +30,23 @@
                 <Border Style="{StaticResource GlassCard}" Margin="0,0,0,24" Padding="24">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Mois sélectionné:" FontSize="14" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,16,0"/>
-                        <DatePicker SelectedDate="{Binding SelectedMonthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Width="200"
-                                    materialDesign:HintAssist.Hint="Choisir le mois"
-                                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                                    Foreground="{StaticResource TextPrimaryBrush}"
-                                    VerticalAlignment="Center"
-                                    Margin="0,0,24,0"/>
+                        <ComboBox ItemsSource="{Binding TargetMonths}"
+                                  SelectedIndex="{Binding SelectedFilterMonthIndex, Mode=TwoWay}"
+                                  Width="150"
+                                  materialDesign:HintAssist.Hint="Mois"
+                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                  Foreground="{StaticResource TextPrimaryBrush}"
+                                  VerticalAlignment="Center"
+                                  Margin="0,0,16,0"/>
+
+                        <ComboBox ItemsSource="{Binding TargetYears}"
+                                  SelectedItem="{Binding SelectedFilterYear, Mode=TwoWay}"
+                                  Width="100"
+                                  materialDesign:HintAssist.Hint="Année"
+                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                  Foreground="{StaticResource TextPrimaryBrush}"
+                                  VerticalAlignment="Center"
+                                  Margin="0,0,24,0"/>
                         <Button Command="{Binding RefreshCommand}" 
                                 Style="{StaticResource MaterialDesignOutlinedButton}" 
                                 Content="Actualiser"
@@ -160,11 +170,26 @@
                              Style="{StaticResource ModernTextBox}" 
                              Margin="0,0,0,24"/>
                     
-                    <DatePicker SelectedDate="{Binding TargetMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                materialDesign:HintAssist.Hint="Mois concerné" 
-                                Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
-                                Foreground="{StaticResource TextPrimaryBrush}"
-                                Margin="0,0,0,24"/>
+                    <Grid Margin="0,0,0,24">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ComboBox ItemsSource="{Binding TargetMonths}"
+                                  SelectedIndex="{Binding SelectedTargetMonthIndex, Mode=TwoWay}"
+                                  materialDesign:HintAssist.Hint="Mois"
+                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                  Foreground="{StaticResource TextPrimaryBrush}"/>
+
+                        <ComboBox Grid.Column="2"
+                                  ItemsSource="{Binding TargetYears}"
+                                  SelectedItem="{Binding SelectedTargetYear, Mode=TwoWay}"
+                                  materialDesign:HintAssist.Hint="Année"
+                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                  Foreground="{StaticResource TextPrimaryBrush}"/>
+                    </Grid>
 
                     <DatePicker SelectedDate="{Binding PaymentDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                 materialDesign:HintAssist.Hint="Date de paiement" 

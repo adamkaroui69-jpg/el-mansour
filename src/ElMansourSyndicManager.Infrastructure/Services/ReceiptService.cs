@@ -567,9 +567,10 @@ public class ReceiptService : IReceiptService
         var monthPart = parts.Length > 0 ? parts[0] : month; // "Janvier"
         var yearPart = parts.Length > 1 ? parts[1] : DateTime.Now.Year.ToString(); // "2026"
         
-        // Format: Receipts/HouseCode/HouseCode_Mois_Année.pdf
-        // Example: Receipts/D05/D05_Janvier_2026.pdf
-        var fileName = $"{houseCode}_{monthPart}_{yearPart}.pdf";
+        // Format: Receipts/HouseCode/HouseCode_Mois_Année_YYYY-MM.pdf
+        // Example: Receipts/A01/A01_Janvier_2026.pdf devient A01_Janvier_2026_2026-01.pdf
+        // Cela évite les collisions si plusieurs mois de Janvier sont payés
+        var fileName = $"{houseCode}_{monthPart}_{yearPart}_{month}.pdf";
         return Path.Combine(_receiptsBasePath, houseCode, fileName);
     }
 
@@ -686,6 +687,65 @@ public class ReceiptService : IReceiptService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error deleting receipts for payment {PaymentId}", paymentId);
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Cleans up orphaned receipts (receipts whose payments no longer exist)
+    /// </summary>
+    public async Task<int> CleanOrphanedReceiptsAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            _logger.LogInformation("Starting orphaned receipts cleanup...");
+
+            // Get all receipts
+            var allReceipts = await _receiptRepository.GetAllAsync(cancellationToken);
+            
+            // Get all payment IDs
+            var allPayments = await _paymentRepository.GetAllAsync(cancellationToken);
+            var validPaymentIds = allPayments.Select(p => p.Id).ToHashSet();
+
+            // Find orphaned receipts
+            var orphanedReceipts = allReceipts
+                .Where(r => !validPaymentIds.Contains(r.PaymentId))
+                .ToList();
+
+            if (!orphanedReceipts.Any())
+            {
+                _logger.LogInformation("No orphaned receipts found");
+                return 0;
+            }
+
+            _logger.LogWarning("Found {Count} orphaned receipt(s)", orphanedReceipts.Count);
+
+            foreach (var receipt in orphanedReceipts)
+            {
+                // Delete physical file
+                if (File.Exists(receipt.FilePath))
+                {
+                    try
+                    {
+                        File.Delete(receipt.FilePath);
+                        _logger.LogInformation("Deleted orphaned receipt file: {FilePath}", receipt.FilePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Failed to delete orphaned receipt file: {FilePath}", receipt.FilePath);
+                    }
+                }
+
+                // Delete from database
+                await _receiptRepository.DeleteAsync(receipt, cancellationToken);
+            }
+
+            _logger.LogInformation("Cleaned up {Count} orphaned receipt(s)", orphanedReceipts.Count);
+            return orphanedReceipts.Count;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error cleaning orphaned receipts");
             throw;
         }
     }

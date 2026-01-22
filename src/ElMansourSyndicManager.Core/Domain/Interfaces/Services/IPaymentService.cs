@@ -53,6 +53,11 @@ public interface IPaymentService
     Task<PaymentStatisticsDto> GetPaymentStatisticsAsync(DateTime from, DateTime to, CancellationToken cancellationToken = default);
     
     /// <summary>
+    /// Gets all payments
+    /// </summary>
+    Task<List<PaymentDto>> GetAllPaymentsAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Deletes a payment (soft delete, admin only)
     /// </summary>
     Task<bool> DeletePaymentAsync(Guid id, CancellationToken cancellationToken = default);

@@ -113,12 +113,18 @@ public class PaymentService : IPaymentService
             // Generate receipt automatically
             try
             {
+                _logger.LogInformation("Attempting to generate receipt for payment {PaymentId}, Month: {Month}, HouseCode: {HouseCode}", 
+                    savedPayment.Id, monthString, payment.HouseCode);
+                    
                 await _receiptService.GenerateReceiptAsync(savedPayment.Id, cancellationToken);
-                _logger.LogInformation("Receipt generated for payment {PaymentId} (month {Month})", savedPayment.Id, monthString);
+                
+                _logger.LogInformation("✅ Receipt generated successfully for payment {PaymentId} (month {Month})", savedPayment.Id, monthString);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to generate receipt for payment {PaymentId}", savedPayment.Id);
+                _logger.LogError(ex, "❌ Failed to generate receipt for payment {PaymentId}, Month: {Month}. Error: {ErrorMessage}", 
+                    savedPayment.Id, monthString, ex.Message);
+                // Don't stop the process, continue with next payment
             }
 
             // Log activity
@@ -161,6 +167,12 @@ public class PaymentService : IPaymentService
     {
         ValidateMonthFormat(month);
         var payments = await _paymentRepository.GetByMonthAsync(month, cancellationToken);
+        return payments.Select(MapToDto).ToList();
+    }
+
+    public async Task<List<PaymentDto>> GetAllPaymentsAsync(CancellationToken cancellationToken = default)
+    {
+        var payments = await _paymentRepository.GetAllAsync(cancellationToken);
         return payments.Select(MapToDto).ToList();
     }
 
@@ -550,7 +562,7 @@ public class PaymentService : IPaymentService
                 ? (decimal)paidPayments.Count / (paidPayments.Count + unpaidHouses.Count) * 100 
                 : 0,
             AveragePaymentDelay = 0,
-            Payments = paidPayments.Select(MapToDto).ToList(),
+            Payments = paymentsInDateRange.Select(MapToDto).ToList(), // Show all payments received in this month
             Expenses = new List<ExpenseDto>(),
             UnpaidHouses = unpaidHouses,
             GeneratedAt = DateTime.UtcNow,

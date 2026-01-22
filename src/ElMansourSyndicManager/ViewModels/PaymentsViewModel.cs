@@ -53,6 +53,19 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
         DeletePaymentCommand = new RelayCommand<PaymentDto>(async p => await DeletePaymentAsync(p), p => p != null && _isAdmin);
         RefreshCommand = new RelayCommand(async () => await LoadPaymentsAsync());
 
+        // Initialize TargetYears from 2026 to 2035 (or more)
+        for (int i = 2026; i <= 2035; i++)
+        {
+            TargetYears.Add(i);
+        }
+        
+        SelectedTargetMonthIndex = DateTime.Now.Month - 1;
+        SelectedTargetYear = 2026; // Start from 2026 as requested
+        UpdateTargetMonth();
+
+        SelectedFilterMonthIndex = DateTime.Now.Month - 1;
+        SelectedFilterYear = 2026;
+        UpdateFilterMonth();
     }
 
     public async Task InitializeAsync()
@@ -110,6 +123,85 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
         }
     }
 
+    // Available Months and Years for Target Month
+    public ObservableCollection<string> TargetMonths { get; } = new ObservableCollection<string>
+    {
+        "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", 
+        "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+    };
+
+    public ObservableCollection<int> TargetYears { get; } = new ObservableCollection<int>();
+
+    private int _selectedTargetMonthIndex = DateTime.Now.Month - 1;
+    public int SelectedTargetMonthIndex
+    {
+        get => _selectedTargetMonthIndex;
+        set
+        {
+            if (SetProperty(ref _selectedTargetMonthIndex, value))
+            {
+                UpdateTargetMonth();
+            }
+        }
+    }
+
+    private int _selectedTargetYear = DateTime.Now.Year < 2026 ? 2026 : DateTime.Now.Year;
+    public int SelectedTargetYear
+    {
+        get => _selectedTargetYear;
+        set
+        {
+            if (SetProperty(ref _selectedTargetYear, value))
+            {
+                UpdateTargetMonth();
+            }
+        }
+    }
+
+    private void UpdateTargetMonth()
+    {
+        try
+        {
+            TargetMonth = new DateTime(SelectedTargetYear, SelectedTargetMonthIndex + 1, 1);
+        }
+        catch { }
+    }
+
+    private int _selectedFilterMonthIndex = DateTime.Now.Month - 1;
+    public int SelectedFilterMonthIndex
+    {
+        get => _selectedFilterMonthIndex;
+        set
+        {
+            if (SetProperty(ref _selectedFilterMonthIndex, value))
+            {
+                UpdateFilterMonth();
+            }
+        }
+    }
+
+    private int _selectedFilterYear = DateTime.Now.Year < 2026 ? 2026 : DateTime.Now.Year;
+    public int SelectedFilterYear
+    {
+        get => _selectedFilterYear;
+        set
+        {
+            if (SetProperty(ref _selectedFilterYear, value))
+            {
+                UpdateFilterMonth();
+            }
+        }
+    }
+
+    private void UpdateFilterMonth()
+    {
+        try
+        {
+            SelectedMonthDate = new DateTime(SelectedFilterYear, SelectedFilterMonthIndex + 1, 1);
+        }
+        catch { }
+    }
+
     public bool IsLoading
     {
         get => _isLoading;
@@ -145,11 +237,8 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
         {
             if (SetProperty(ref _selectedHouseCode, value))
             {
-                var selectedHouse = Houses.FirstOrDefault(h => h.Code == value);
-                if (selectedHouse != null)
-                {
-                    PaymentAmount = selectedHouse.MonthlyAmount;
-                }
+                // Removed automatic amount assignment to default to 0 DT
+                PaymentAmount = 0;
             }
         }
     }
@@ -244,7 +333,20 @@ public class PaymentsViewModel : ViewModelBase, IInitializable
         SelectedHouseCode = string.Empty;
         PaymentAmount = 0;
         PaymentDate = DateTime.Now;
-        TargetMonth = DateTime.Now;
+        
+        // Reset month selection to current if possible, else start of 2026
+        var now = DateTime.Now;
+        if (now.Year >= 2026)
+        {
+            SelectedTargetYear = now.Year;
+        }
+        else
+        {
+            SelectedTargetYear = 2026;
+        }
+        SelectedTargetMonthIndex = now.Month - 1;
+        
+        UpdateTargetMonth();
         IsFormVisible = true;
     }
 

@@ -138,9 +138,12 @@ public class DashboardViewModel : ViewModelBase, IInitializable
                 return int.TryParse(numberPart, out var num) ? num : 0;
             });
             
+            
             UnpaidHouses.Clear();
             foreach (var house in sortedUnpaidHouses)
             {
+                // Force le montant mensuel à 30 TND
+                house.MonthlyAmount = 30m;
                 UnpaidHouses.Add(house);
             }
             UnpaidHousesCount = unpaidHouses.Count();
