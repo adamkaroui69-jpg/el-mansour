@@ -57,7 +57,7 @@ namespace ElMansourSyndicManager.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/ElMansourSyndicManager;V2.0.0.0;component/views/notificationsview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/ElMansourSyndicManager;V3.2.0.0;component/views/notificationsview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\Views\NotificationsView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

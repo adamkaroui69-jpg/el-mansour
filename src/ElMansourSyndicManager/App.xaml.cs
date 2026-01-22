@@ -23,6 +23,7 @@ public partial class App : Application
 
     public App()
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         // Initialiser le logger global dès le démarrage
         ConfigureGlobalLogging();
         
@@ -96,6 +97,8 @@ public partial class App : Application
         var appConfig = AppConfiguration.Instance;
         var dbPath = appConfig.GetDatabasePath();
         
+        Log.Information("Configuration de la base de données. Provider: {Provider}, DB Path: {DbPath}", appConfig.DatabaseProvider, dbPath);
+        
         // logging with Serilog
         services.AddLogging(loggingBuilder =>
         {
@@ -104,7 +107,19 @@ public partial class App : Application
 
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
-            options.UseSqlite($"Data Source={dbPath}");
+            var provider = appConfig.DatabaseProvider;
+            var connectionString = appConfig.ConnectionString;
+
+            if (provider == "PostgreSQL")
+            {
+                Log.Information("Initialisation de PostgreSQL...");
+                options.UseNpgsql(connectionString, b => b.MigrationsAssembly("ElMansourSyndicManager.Infrastructure"));
+            }
+            else
+            {
+                Log.Information("Initialisation de SQLite sur: {Path}", appConfig.GetDatabasePath());
+                options.UseSqlite($"Data Source={appConfig.GetDatabasePath()}", b => b.MigrationsAssembly("ElMansourSyndicManager.Infrastructure"));
+            }
             
             #if DEBUG
             options.EnableSensitiveDataLogging();
@@ -139,8 +154,11 @@ public partial class App : Application
             }
             catch (Exception ex)
             {
+                var fullMsg = ex.Message;
+                if (ex.InnerException != null) fullMsg += "\n\nDetail: " + ex.InnerException.Message;
+
                 Log.Fatal(ex, "Erreur fatale lors de l'initialisation de l'application");
-                MessageBox.Show($"Une erreur critique est survenue au démarrage : {ex.Message}", "Erreur Fatale", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{fullMsg}", "Erreur Fatale", MessageBoxButton.OK, MessageBoxImage.Error);
                 Shutdown();
                 return;
             }
