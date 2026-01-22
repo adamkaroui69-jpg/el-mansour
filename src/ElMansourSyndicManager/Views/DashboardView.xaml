@@ -18,7 +18,7 @@
 
             <!-- KPI Cards (Style Financier) -->
             <UniformGrid Columns="4" Margin="0,0,0,40">
-                <!-- Card 1: Total Dû -->
+                <!-- Card 1: Caisse -->
                 <Border Style="{DynamicResource GlassCard}" Margin="0,0,20,0" Padding="24">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -30,7 +30,7 @@
                             <Border Width="48" Height="48" CornerRadius="12" Background="#20EF4444">
                                 <materialDesign:PackIcon Kind="AlertCircle" Width="24" Height="24" Foreground="#EF4444" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Border>
-                            <TextBlock Text="Total Dû" FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="16,0,0,0"/>
+                            <TextBlock Text="Caisse" FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="16,0,0,0"/>
                         </StackPanel>
                         
                         <TextBlock Grid.Row="1" Text="{Binding TotalDue, StringFormat='{}{0:N0} TND'}" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,20,0,0"/>

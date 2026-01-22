@@ -59,53 +59,84 @@ public class PaymentService : IPaymentService
         if (!house.IsActive)
             throw new BusinessRuleException($"House {payment.HouseCode} is not active");
 
-        // Validate amount matches house monthly amount
-        // if (payment.Amount != house.MonthlyAmount)
-        //    throw new BusinessRuleException($"Payment amount {payment.Amount} does not match house monthly amount {house.MonthlyAmount}");
-
-        // Check for duplicate payment (same house, same month)
-        var existingPayment = await _paymentRepository.GetByHouseAndMonthAsync(
-            payment.HouseCode, 
-            payment.Month, 
-            cancellationToken);
+        // Calculate number of months based on amount (30 DT per month)
+        const decimal monthlyRate = 30m;
+        int numberOfMonths = (int)(payment.Amount / monthlyRate);
         
-        if (existingPayment != null)
-            throw new BusinessRuleException($"Payment for house {payment.HouseCode} in month {payment.Month} already exists");
+        if (payment.Amount % monthlyRate != 0)
+            throw new BusinessRuleException($"Le montant doit être un multiple de {monthlyRate} DT (cotisation mensuelle)");
 
-        // Create payment entity
-        var paymentEntity = new Payment
+        if (numberOfMonths < 1)
+            throw new BusinessRuleException("Le montant doit couvrir au moins un mois");
+
+        // Parse the starting month from payment.Month (format: "YYYY-MM")
+        if (!DateTime.TryParseExact(payment.Month, "yyyy-MM", null, System.Globalization.DateTimeStyles.None, out DateTime startMonth))
+            throw new BusinessRuleException($"Format de mois invalide: {payment.Month}. Utilisez YYYY-MM");
+
+        // Create multiple payments (one per month) and generate receipts
+        Payment? firstPayment = null;
+
+        for (int i = 0; i < numberOfMonths; i++)
         {
-            Id = Guid.NewGuid(),
-            HouseCode = payment.HouseCode,
-            Amount = payment.Amount,
-            PaymentDate = payment.PaymentDate,
-            Month = payment.Month,
-            Status = "Pending", // Default status is Pending until validated by Admin
-            ReferenceNumber = payment.ReferenceNumber,
-            GeneratedBy = currentUser.Id.ToString(), // Creator
-            RecordedBy = string.Empty, // Validator (empty initially)
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
+            var currentMonth = startMonth.AddMonths(i);
+            var monthString = currentMonth.ToString("yyyy-MM");
 
-        // Save payment
-        var savedPayment = await _paymentRepository.CreateAsync(paymentEntity, cancellationToken);
+            // Check for duplicate
+            var existingPayment = await _paymentRepository.GetByHouseAndMonthAsync(
+                payment.HouseCode, 
+                monthString, 
+                cancellationToken);
+            
+            if (existingPayment != null)
+                throw new BusinessRuleException($"Paiement pour {payment.HouseCode} du mois {monthString} existe déjà");
 
-        // Note: Receipt is NOT generated here. It will be generated when Admin validates the payment.
+            // Create payment entity (automatically marked as Paid since money is received)
+            var paymentEntity = new Payment
+            {
+                Id = Guid.NewGuid(),
+                HouseCode = payment.HouseCode,
+                Amount = monthlyRate, // Each payment is for one month
+                PaymentDate = payment.PaymentDate, // Same payment date for all
+                Month = monthString,
+                Status = "Paid", // Automatically validated
+                ReferenceNumber = $"{payment.ReferenceNumber}-{i + 1}/{numberOfMonths}",
+                GeneratedBy = currentUser.Id.ToString(),
+                RecordedBy = currentUser.Id.ToString(), // Auto-validated
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
 
-        // Log activity
-        await _auditService.LogActivityAsync(new AuditLogDto
-        {
-            UserId = currentUser.Id.ToString(),
-            Action = "Create",
-            EntityType = "Payment",
-            EntityId = savedPayment.Id.ToString(),
-            Details = $"{{\"houseCode\":\"{payment.HouseCode}\",\"amount\":{payment.Amount},\"month\":\"{payment.Month}\"}}"
-        }, cancellationToken);
+            var savedPayment = await _paymentRepository.CreateAsync(paymentEntity, cancellationToken);
 
-        _logger.LogInformation("Payment {PaymentId} created for house {HouseCode}", savedPayment.Id, payment.HouseCode);
+            if (i == 0) firstPayment = savedPayment;
 
-        return MapToDto(savedPayment);
+            // Generate receipt automatically
+            try
+            {
+                await _receiptService.GenerateReceiptAsync(savedPayment.Id, cancellationToken);
+                _logger.LogInformation("Receipt generated for payment {PaymentId} (month {Month})", savedPayment.Id, monthString);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to generate receipt for payment {PaymentId}", savedPayment.Id);
+            }
+
+            // Log activity
+            await _auditService.LogActivityAsync(new AuditLogDto
+            {
+                UserId = currentUser.Id.ToString(),
+                Action = "Create",
+                EntityType = "Payment",
+                EntityId = savedPayment.Id.ToString(),
+                Details = $"{{\"houseCode\":\"{payment.HouseCode}\",\"amount\":{monthlyRate},\"month\":\"{monthString}\",\"autoGenerated\":true}}"
+            }, cancellationToken);
+        }
+
+        _logger.LogInformation("Created {Count} payments for house {HouseCode} (total: {TotalAmount} DT)", 
+            numberOfMonths, payment.HouseCode, payment.Amount);
+
+        // Return the first payment as representative
+        return MapToDto(firstPayment!);
     }
 
     public async Task<PaymentDto?> GetPaymentByIdAsync(Guid id, CancellationToken cancellationToken = default)

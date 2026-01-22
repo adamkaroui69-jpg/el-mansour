@@ -117,8 +117,11 @@ public class DashboardViewModel : ViewModelBase, IInitializable
             UserName = user?.Username ?? "Utilisateur";
 
             var currentMonth = DateTime.Now.ToString("yyyy-MM");
+            var currentYear = DateTime.Now.Year;
+            var yearStart = new DateTime(currentYear, 1, 1);
+            var yearEnd = new DateTime(currentYear, 12, 31);
             
-            // Load unpaid houses
+            // Load unpaid houses for CURRENT MONTH
             var unpaidHouses = await _paymentService.GetUnpaidHousesAsync(currentMonth);
             
             // Tri alphabétique puis numérique
@@ -140,10 +143,9 @@ public class DashboardViewModel : ViewModelBase, IInitializable
             {
                 UnpaidHouses.Add(house);
             }
-            UnpaidHousesCount = unpaidHouses.Count;
-            TotalDue = unpaidHouses.Sum(h => h.MonthlyAmount);
+            UnpaidHousesCount = unpaidHouses.Count();
 
-            // Load recent payments
+            // Load recent payments (current month)
             var payments = await _paymentService.GetPaymentsByMonthAsync(currentMonth);
             RecentPayments.Clear();
             foreach (var payment in payments.OrderByDescending(p => p.PaymentDate).Take(10))
@@ -151,19 +153,28 @@ public class DashboardViewModel : ViewModelBase, IInitializable
                 RecentPayments.Add(payment);
             }
 
-            // Load recent expenses
+            // Load recent expenses (current month for display)
             var allExpenses = await _expenseService.GetAllExpensesAsync();
+            var currentMonthExpenses = allExpenses.Where(e => e.ExpenseDate.Year == currentYear && e.ExpenseDate.Month == DateTime.Now.Month);
             RecentExpenses.Clear();
-            foreach (var expense in allExpenses.OrderByDescending(e => e.ExpenseDate).Take(5))
+            foreach (var expense in currentMonthExpenses.OrderByDescending(e => e.ExpenseDate).Take(5))
             {
                 RecentExpenses.Add(expense);
             }
 
-            // Calculate totals
-            var stats = await _paymentService.GetPaymentStatisticsAsync(DateTime.MinValue, DateTime.MaxValue);
+            // Calculate totals for FULL YEAR
+            var stats = await _paymentService.GetPaymentStatisticsAsync(yearStart, yearEnd);
             TotalCollected = stats.TotalCollected;
-            TotalSpent = allExpenses.Sum(e => e.Amount);
+            
+            // Total expenses for the year
+            var yearExpenses = allExpenses.Where(e => e.ExpenseDate.Year == currentYear);
+            TotalSpent = yearExpenses.Sum(e => e.Amount);
+            
+            // Caisse (Balance) = Collected - Spent for the year
             Balance = TotalCollected - TotalSpent;
+            
+            // TotalDue is now "Caisse" (same as Balance)
+            TotalDue = Balance;
         }
         catch (Exception)
         {
