@@ -3,7 +3,7 @@
 ; Créé le 2026-01-15
 
 #define MyAppName "El Mansour Syndic Manager"
-#define MyAppVersion "2.1.0"
+#define MyAppVersion "2.1.1"
 #define MyAppPublisher "El Mansour Syndic"
 #define MyAppURL "https://www.elmansour-syndic.tn"
 #define MyAppExeName "ElMansourSyndicManager.exe"

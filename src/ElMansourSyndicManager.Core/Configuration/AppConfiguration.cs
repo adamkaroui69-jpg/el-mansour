@@ -63,15 +63,20 @@ public class AppConfiguration
     public string CompanyPhone => _configuration["CompanyInfo:Phone"] ?? "";
     public string CompanyEmail => _configuration["CompanyInfo:Email"] ?? "";
 
+
     /// <summary>
-    /// Convertit un chemin relatif en chemin absolu
+    /// Convertit un chemin relatif en chemin absolu (utilise AppData par défaut pour éviter les erreurs de droits)
     /// </summary>
     private string GetAbsolutePath(string relativePath)
     {
         if (Path.IsPathRooted(relativePath))
             return relativePath;
 
-        return Path.Combine(BaseDirectory, relativePath);
+        // Utiliser AppData\Roaming\ElMansourSyndic par défaut
+        var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        var appFolder = Path.Combine(appDataPath, "ElMansourSyndic");
+        
+        return Path.Combine(appFolder, relativePath);
     }
 
     /// <summary>

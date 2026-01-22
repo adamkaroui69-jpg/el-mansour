@@ -122,6 +122,26 @@
                 </StackPanel>
             </Border>
 
+            <!-- Database Configuration -->
+            <Border Style="{StaticResource GlassCard}" Margin="0,0,0,24">
+                <StackPanel>
+                    <TextBlock Text="Base de données (Synchronisation)" FontWeight="SemiBold" FontSize="20" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,24"/>
+                    <StackPanel>
+                        <TextBlock Text="Emplacement actuel :" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
+                        <TextBox Text="{Binding DatabasePath, Mode=OneWay}" 
+                                 IsReadOnly="True" 
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                 Foreground="{StaticResource TextPrimaryBrush}"
+                                 Margin="0,0,0,8"/>
+                        <TextBlock Text="Pour permettre la synchronisation entre plusieurs postes :" 
+                                   Foreground="{StaticResource TextPrimaryBrush}" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="1. Placez le fichier de base de données sur un dossier partagé réseau." Foreground="{StaticResource TextSecondaryBrush}" FontSize="12"/>
+                        <TextBlock Text="2. Modifiez le fichier 'appsettings.json' dans le dossier d'installation." Foreground="{StaticResource TextSecondaryBrush}" FontSize="12"/>
+                        <TextBlock Text="3. Changez 'Data Source' pour pointer vers le chemin réseau (ex: Z:\Syndic\data.db)." Foreground="{StaticResource TextSecondaryBrush}" FontSize="12"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
             <!-- About Section -->
             <Border Style="{StaticResource GlassCard}">
                 <StackPanel>

@@ -32,6 +32,8 @@ public class SettingsViewModel : ViewModelBase
         }
     }
 
+    public string DatabasePath => ElMansourSyndicManager.Core.Configuration.AppConfiguration.Instance.GetDatabasePath();
+
     public bool IsCheckingForUpdates
     {
         get => _isCheckingForUpdates;
