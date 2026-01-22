@@ -1,56 +1,46 @@
-# ☁️ Guide de Synchronisation Cloud (Internet)
+# ☁️ Guide de Synchronisation Cloud avec SUPABASE (PostgreSQL)
 
-Pour synchroniser vos données automatiquement via Internet entre plusieurs utilisateurs, vous devez passer d'une base de données locale (SQLite) à une **base de données centralisée (SQL Server)**.
+Pour synchroniser vos données gratuitement et en temps réel, nous recommandons **Supabase** (PostgreSQL).
 
-L'application supporte désormais nativement SQL Server.
+## Étape 1 : Créer le Projet Supabase
+1. Allez sur [database.new](https://database.new) (Connectez-vous avec GitHub).
+2. Créez un nouveau projet (New Project).
+   - **Name** : ElMansourSyndic
+   - **Password** : Choisissez un mot de passe fort et NOTEZ-LE (vous en aurez besoin).
+   - **Region** : Choisissez le plus proche (ex: Frankfurt ou Paris).
+3. Attendez ~2 minutes que le projet soit vert ("Active").
 
-## Étape 1 : Obtenir une Base de Données SQL Server
-Vous avez besoin d'un hébergement pour votre base de données. Voici quelques options :
+## Étape 2 : Récupérer la Chaîne de Connexion
+1. Dans votre tableau de bord Supabase, allez dans **Project Settings** (roue dentée en bas à gauche) > **Database**.
+2. Cherchez la section **Connection String**.
+3. Cliquez sur l'onglet **.NET** (ou URI) et copiez la valeur.
+4. **Remplacez `[YOUR-PASSWORD]` par le mot de passe créé à l'étape 1.**
 
-### Option A : Azure SQL (Recommandé)
-- **Coût** : ~5€/mois (Basic DTU) ou Gratuit pendant 12 mois.
-- **Fiabilité** : Maximale (Microsoft).
-1. Créez un compte sur [Azure Portal](https://portal.azure.com).
-2. Créez une ressource "SQL Database".
-3. Configurez le serveur et notez la **Chaîne de connexion (Connection String)**.
+Elle doit ressembler à ceci :
+`User Id=postgres.xxxx;Password=MonMotDePasse;Server=aws-0-eu-central-1.pooler.supabase.com;Port=5432;Database=postgres;`
 
-### Option B : Hébergement Web Standard (ex: Plesk/cPanel)
-Si vous avez déjà un site web, votre hébergeur propose peut-être des bases de données MS SQL.
-1. Créez une base MSSQL dans votre panel.
-2. Notez l'adresse du serveur, le nom de la base, l'utilisateur et le mot de passe.
+## Étape 3 : Configurer l'Application
 
----
+1. Allez dans le dossier d'installation de l'application.
+2. Ouvrez le fichier `appsettings.json` avec le Bloc-notes (Admin).
+3. Modifiez comme suit :
 
-## Étape 2 : Configurer l'Application
-
-Une fois que vous avez votre chaîne de connexion (qui ressemble à ceci : `Server=tcp:monserveur.database.windows.net;Database=mabase;User ID=monuser;Password=monpassword;Encrypt=true;`), vous devez configurer chaque PC.
-
-1. Allez dans le dossier d'installation de l'application (ex: `C:\Program Files\ElMansourSyndicManager`).
-2. Ouvrez le fichier `appsettings.json` avec le Bloc-notes (en administrateur).
-3. Modifiez deux lignes :
-   - Changez `DatabaseProvider` de `"Sqlite"` à `"SqlServer"`.
-   - Remplacez `DefaultConnection` par votre chaîne de connexion Cloud.
-
-**Exemple de fichier configuré :**
 ```json
 {
-  "DatabaseProvider": "SqlServer",
+  "DatabaseProvider": "PostgreSQL",
   "ConnectionStrings": {
-    "DefaultConnection": "Server=tcp:monserveur-syndic.database.windows.net,1433;Initial Catalog=ElMansourDB;Persist Security Info=False;User ID=admin-syndic;Password=MotDePasseComplexe123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    "DefaultConnection": "User Id=postgres.votre_id;Password=votre_mot_de_passe;Server=votre_serveur.pooler.supabase.com;Port=5432;Database=postgres;"
   },
   ...
 }
 ```
 
-## Étape 3 : Premier Lancement
-Au premier lancement avec la nouvelle configuration, l'application va automatiquement créer les tables dans votre base de données Cloud vide.
+## Étape 4 : Lancement
+Lancez l'application. Elle va se connecter à Supabase et y créer les tables. C'est prêt !
 
-⚠️ **Important : Migration des Données**
-Si vous avez déjà des données en local (SQLite) que vous voulez envoyer sur le Cloud, cette opération n'est pas automatique.
-Vous devrez resaisir les données ou contacter le développeur pour un script de migration.
+## ⚠️ Migration des anciennes données
+Si vous avez un fichier `local.db` (SQLite) avec des données importantes :
+1. L'application ne transfère PAS automatiquement les données locales vers le Cloud.
+2. Vous démarrez avec une base vide sur le Cloud.
 
-## Résultat
-Une fois configuré sur tous les PC :
-- Quand l'utilisateur A ajoute un paiement, l'utilisateur B le voit instantanément (après rafraîchissement).
-- Plus de conflits de fichiers.
-- Vos données sont sécurisées dans le Cloud.
+Si vous avez besoin de récupérer vos anciennes données, contactez le support pour une migration manuelle.

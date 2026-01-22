@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QvvlHXPOSXQ=",
+  "dgSpecHash": "rdfrTCPJ87U=",
   "success": true,
   "projectFilePath": "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager\\ElMansourSyndicManager.csproj",
   "expectedPackageFiles": [
@@ -80,6 +80,8 @@
     "C:\\Users\\adamk\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\adamk\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.39\\microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512",
     "C:\\Users\\adamk\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\adamk\\.nuget\\packages\\npgsql\\8.0.0\\npgsql.8.0.0.nupkg.sha512",
+    "C:\\Users\\adamk\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\8.0.0\\npgsql.entityframeworkcore.postgresql.8.0.0.nupkg.sha512",
     "C:\\Users\\adamk\\.nuget\\packages\\qrcoder\\1.6.0\\qrcoder.1.6.0.nupkg.sha512",
     "C:\\Users\\adamk\\.nuget\\packages\\questpdf\\2024.6.0\\questpdf.2024.6.0.nupkg.sha512",
     "C:\\Users\\adamk\\.nuget\\packages\\rbush.signed\\4.0.0\\rbush.signed.4.0.0.nupkg.sha512",

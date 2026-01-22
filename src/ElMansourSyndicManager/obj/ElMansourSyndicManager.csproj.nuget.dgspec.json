@@ -145,6 +145,10 @@
               "target": "Package",
               "version": "[7.1.2, )"
             },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "QRCoder": {
               "target": "Package",
               "version": "[1.6.0, )"
@@ -175,7 +179,7 @@
       }
     },
     "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager\\ElMansourSyndicManager.csproj": {
-      "version": "2.1.1",
+      "version": "2.1.2",
       "restore": {
         "projectUniqueName": "C:\\Users\\adamk\\Desktop\\raisidance application\\src\\ElMansourSyndicManager\\ElMansourSyndicManager.csproj",
         "projectName": "ElMansourSyndicManager",

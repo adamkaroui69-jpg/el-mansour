@@ -21,6 +21,11 @@ namespace ElMansourSyndicManager.Infrastructure.Data
                 {
                     optionsBuilder.UseSqlServer(config.ConnectionString);
                 }
+                else if (string.Equals(config.DatabaseProvider, "PostgreSQL", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Utiliser PostgreSQL (Supabase, Neon, etc.)
+                    optionsBuilder.UseNpgsql(config.ConnectionString);
+                }
                 else
                 {
                     var dbPath = config.GetDatabasePath();
