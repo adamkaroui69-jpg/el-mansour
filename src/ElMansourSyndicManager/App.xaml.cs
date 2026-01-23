@@ -78,10 +78,14 @@ public partial class App : Application
     {
         Log.Fatal(ex, "Une erreur critique est survenue: {Context}", context);
 
+        string details = ex.Message;
+        if (ex.InnerException != null) 
+            details += "\n\nInterne: " + ex.InnerException.Message;
+
         string userMessage = "Une erreur inattendue est survenue.\n\n" +
                              "L'application a généré un rapport d'erreur dans le dossier 'logs'.\n" +
                              "Veuillez contacter le support si le problème persiste.\n\n" +
-                             $"Détails: {ex.Message}";
+                             $"Détails: {details}";
 
         MessageBox.Show(userMessage, "Erreur de l'Application", MessageBoxButton.OK, MessageBoxImage.Error);
     }

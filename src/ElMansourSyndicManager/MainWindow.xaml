@@ -12,7 +12,7 @@
         Height="800" Width="1400"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
-        Icon="/Assets/logo.png"
+        Icon="pack://application:,,,/ElMansourSyndicManager;component/Assets/logo.png"
         Background="{DynamicResource AppBackgroundBrush}"
         TextElement.Foreground="{DynamicResource TextPrimaryBrush}"
         TextElement.FontWeight="Regular"
@@ -97,7 +97,7 @@
                             <!-- En-tête du Menu -->
                             <StackPanel DockPanel.Dock="Top" Margin="30,50,30,40">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                    <Image Source="/Assets/logo.png" Width="40" Height="40" Margin="0,0,15,0"/>
+                                    <Image Source="pack://application:,,,/ElMansourSyndicManager;component/Assets/logo.png" Width="40" Height="40" Margin="0,0,15,0"/>
                                     <StackPanel VerticalAlignment="Center">
                                         <TextBlock Text="El Mansour" 
                                                  FontSize="20" 

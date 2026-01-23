@@ -8,9 +8,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>ElMansourSyndicManager</AssemblyName>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
-    <Version>3.2.0</Version>
-    <AssemblyVersion>3.2.0.0</AssemblyVersion>
-    <FileVersion>3.2.0.0</FileVersion>
+    <Version>3.2.3</Version>
+    <AssemblyVersion>3.2.3.0</AssemblyVersion>
+    <FileVersion>3.2.3.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -71,14 +71,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="Assets\logo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="Assets\logo.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
+    <Resource Include="Assets\logo.png" />
+    <Resource Include="Assets\logo.ico" />
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -1,5 +1,5 @@
 ﻿ElMansourSyndicManager
-3.2.0.0
+3.2.3.0
 
 winexe
 C#
@@ -11,7 +11,7 @@ false
 TRACE;RELEASE;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 C:\Users\adamk\Desktop\raisidance application\src\ElMansourSyndicManager\App.xaml
 21-1722203225
-4-285030499
+21248907912
 48-366185909
 2901426260039
 MainWindow.xaml;Resources\Converters.xaml;Resources\DesignSystem.xaml;Resources\EnhancedStyles.xaml;Resources\ModernStyles.xaml;Resources\ProfessionalStyles.xaml;Views\AuditView.xaml;Views\BackupView.xaml;Views\DashboardView.xaml;Views\DocumentsView.xaml;Views\ExpensesView.xaml;Views\FinancialReportsView.xaml;Views\LoginWindow.xaml;Views\MaintenanceView.xaml;Views\NotificationsView.xaml;Views\PaymentsView.xaml;Views\ReceiptsView.xaml;Views\ReportsView.xaml;Views\RolesView.xaml;Views\SettingsView.xaml;Views\UsersView.xaml;

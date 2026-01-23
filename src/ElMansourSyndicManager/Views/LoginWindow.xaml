@@ -9,7 +9,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         KeyDown="Window_KeyDown"
-        Icon="/Assets/logo.png">
+        Icon="pack://application:,,,/ElMansourSyndicManager;component/Assets/logo.png">
     
     <Window.Resources>
         <!-- Animation Fade In -->
